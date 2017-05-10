@@ -5,5 +5,9 @@
   ],
   "plugins": [
     "prettier"
-  ]
+  ],
+  "rules": {
+    "import/extensions": "always",
+    "react/jsx-filename-extension": "never"
+  }
 }
