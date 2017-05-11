@@ -1,11 +1,8 @@
 /* global window */
-import { applyMiddleware, compose, createStore } from 'redux'
+import { applyMiddleware, createStore } from 'redux'
+import { composeWithDevTools } from 'redux-devtools-extension'
 
 import rootReducer from './reducers/rootReducer'
-
-/* eslint-disable no-underscore-dangle */
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
-/* eslint-enable */
 
 const logger = store => next => action => {
   if (window.reduxLogger === true) {
@@ -20,5 +17,5 @@ const logger = store => next => action => {
 
 export default createStore(
   rootReducer,
-  composeEnhancers(applyMiddleware(logger))
+  composeWithDevTools(applyMiddleware(logger))
 )
