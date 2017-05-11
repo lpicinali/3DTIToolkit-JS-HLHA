@@ -8,6 +8,8 @@ import HearingLossSimulatorContainer
   from 'src/containers/HearingLossSimulatorContainer.js'
 import MaskingSelectorContainer
   from 'src/containers/MaskingSelectorContainer.js'
+import PositionControllerContainer
+  from 'src/containers/PositionControllerContainer.js'
 import TargetSelectorContainer from 'src/containers/TargetSelectorContainer.js'
 
 export default function App() {
@@ -16,6 +18,7 @@ export default function App() {
       <div>
         <TargetSelectorContainer />
         <MaskingSelectorContainer />
+        <PositionControllerContainer />
         <HearingAidSimulatorContainer />
         <HearingLossSimulatorContainer />
       </div>
