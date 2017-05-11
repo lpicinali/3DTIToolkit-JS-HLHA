@@ -4,6 +4,11 @@ export const ActionType = {
 
   SET_TARGET: 'SET_TARGET',
   SET_MASK: 'SET_MASK',
+
+  SET_TARGET_POSITION: 'SET_TARGET_POSITION',
+  SET_TARGET_VOLUME: 'SET_TARGET_VOLUME',
+  SET_MASK_VOLUME: 'SET_MASK_VOLUME',
+  SET_PLAYBACK_STATE: 'SET_PLAYBACK_STATE',
 }
 
 export const HearingLossGrade = {
@@ -11,4 +16,9 @@ export const HearingLossGrade = {
   MILD: 'MILD',
   MODERATE: 'MODERATE',
   SEVERE: 'SEVERE',
+}
+
+export const PlaybackState = {
+  PAUSED: 'PAUSED',
+  PLAYING: 'PLAYING',
 }

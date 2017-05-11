@@ -33,6 +33,7 @@
     "webpack-dev-server": "^2.4.5"
   },
   "dependencies": {
+    "core-decorators": "^0.18.0",
     "lodash": "^4.17.4",
     "prop-types": "^15.5.9",
     "react": "^15.5.4",
