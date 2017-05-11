@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { map } from 'lodash'
 
-import { setTarget } from '../actions/target.actions.js'
-import ButtonGroup from '../components/ButtonGroup.js'
+import { setTarget } from 'src/actions/target.actions.js'
+import ButtonGroup from 'src/components/ButtonGroup.js'
 
 /**
  * Target Selector Container

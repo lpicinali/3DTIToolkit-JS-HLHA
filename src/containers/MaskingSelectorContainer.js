@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { map } from 'lodash'
 
-import { setMask } from '../actions/masking.actions.js'
-import ButtonGroup from '../components/ButtonGroup.js'
+import { setMask } from 'src/actions/masking.actions.js'
+import ButtonGroup from 'src/components/ButtonGroup.js'
 
 /**
  * Mask Selector Container

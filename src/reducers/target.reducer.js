@@ -1,4 +1,4 @@
-import { ActionType } from '../constants.js'
+import { ActionType } from 'src/constants.js'
 
 const initialState = {
   targets: {

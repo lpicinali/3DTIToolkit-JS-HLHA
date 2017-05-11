@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { map } from 'lodash'
 
-import Button from './Button.js'
+import Button from 'src/components/Button.js'
 
 /**
  * Button Group

@@ -1,4 +1,4 @@
-import { ActionType } from '../constants.js'
+import { ActionType } from 'src/constants.js'
 
 export const setHaGrade = grade => ({
   type: ActionType.SET_HA_GRADE,

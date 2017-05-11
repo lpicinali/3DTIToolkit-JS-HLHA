@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import * as CustomPropTypes from '../prop-types.js'
-import { HearingLossGrade } from '../constants.js'
-import ButtonGroup from './ButtonGroup.js'
+import * as CustomPropTypes from 'src/prop-types.js'
+import { HearingLossGrade } from 'src/constants.js'
+import ButtonGroup from 'src/components/ButtonGroup.js'
 
 /**
  * Hearing Loss Grade Selector

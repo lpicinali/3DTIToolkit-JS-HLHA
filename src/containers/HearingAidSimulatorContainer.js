@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
-import * as CustomPropTypes from '../prop-types.js'
-import { setHaGrade } from '../actions/ha.actions.js'
-import HearingLossGradeSelector from '../components/HearingLossGradeSelector.js'
+import * as CustomPropTypes from 'src/prop-types.js'
+import { setHaGrade } from 'src/actions/ha.actions.js'
+import HearingLossGradeSelector
+  from 'src/components/HearingLossGradeSelector.js'
 
 /**
  * Hearing Aid Simulator Container

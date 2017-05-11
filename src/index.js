@@ -3,7 +3,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
 
-import App from './containers/App.js'
+import App from 'src/containers/App.js'
 
 const render = Component => {
   ReactDOM.render(

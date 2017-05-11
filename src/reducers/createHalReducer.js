@@ -1,4 +1,4 @@
-import { HearingLossGrade } from '../constants.js'
+import { HearingLossGrade } from 'src/constants.js'
 
 export default function createHalReducer(reducer) {
   const initialState = {

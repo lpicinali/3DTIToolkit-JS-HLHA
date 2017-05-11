@@ -1,11 +1,14 @@
 import React from 'react'
 import { Provider } from 'react-redux'
 
-import store from '../store.js'
-import HearingAidSimulatorContainer from './HearingAidSimulatorContainer.js'
-import HearingLossSimulatorContainer from './HearingLossSimulatorContainer.js'
-import MaskingSelectorContainer from './MaskingSelectorContainer.js'
-import TargetSelectorContainer from './TargetSelectorContainer.js'
+import store from 'src/store.js'
+import HearingAidSimulatorContainer
+  from 'src/containers/HearingAidSimulatorContainer.js'
+import HearingLossSimulatorContainer
+  from 'src/containers/HearingLossSimulatorContainer.js'
+import MaskingSelectorContainer
+  from 'src/containers/MaskingSelectorContainer.js'
+import TargetSelectorContainer from 'src/containers/TargetSelectorContainer.js'
 
 export default function App() {
   return (
