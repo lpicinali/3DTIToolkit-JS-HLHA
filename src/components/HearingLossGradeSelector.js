@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import * as CustomPropTypes from '../prop-types.js'
 import { HearingLossGrade } from '../constants.js'
-import Button from './Button.js'
+import ButtonGroup from './ButtonGroup.js'
 
 /**
  * Hearing Loss Grade Selector
@@ -14,36 +14,22 @@ class HearingLossGradeSelector extends Component {
     onSelect: PropTypes.func.isRequired,
   }
 
+  static gradeOptions = {
+    NONE: 'None',
+    MILD: 'Mild',
+    MODERATE: 'Moderate',
+    SEVERE: 'Severe',
+  }
+
   render() {
     const { grade, onSelect } = this.props
 
     return (
-      <div>
-        <Button
-          isActive={grade === HearingLossGrade.NONE}
-          onClick={() => onSelect(HearingLossGrade.NONE)}
-        >
-          None
-        </Button>
-        <Button
-          isActive={grade === HearingLossGrade.MILD}
-          onClick={() => onSelect(HearingLossGrade.MILD)}
-        >
-          Mild
-        </Button>
-        <Button
-          isActive={grade === HearingLossGrade.MODERATE}
-          onClick={() => onSelect(HearingLossGrade.MODERATE)}
-        >
-          Moderate
-        </Button>
-        <Button
-          isActive={grade === HearingLossGrade.SEVERE}
-          onClick={() => onSelect(HearingLossGrade.SEVERE)}
-        >
-          Severe
-        </Button>
-      </div>
+      <ButtonGroup
+        options={HearingLossGradeSelector.gradeOptions}
+        value={grade}
+        onSelect={onSelect}
+      />
     )
   }
 }
