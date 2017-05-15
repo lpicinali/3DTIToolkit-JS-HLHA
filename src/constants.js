@@ -18,6 +18,16 @@ export const HearingLossGrade = {
   SEVERE: 'SEVERE',
 }
 
+export const SimulatorType = {
+  AID: 'AID',
+  LOSS: 'LOSS',
+}
+
+export const SonicComponent = {
+  TARGET: 'TARGET',
+  MASK: 'MASK',
+}
+
 export const PlaybackState = {
   PAUSED: 'PAUSED',
   PLAYING: 'PLAYING',
