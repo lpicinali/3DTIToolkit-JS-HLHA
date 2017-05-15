@@ -35,8 +35,12 @@
     "webpack-dev-server": "^2.4.5"
   },
   "dependencies": {
+    "audio-context": "^1.0.0",
+    "audio-decode": "^1.2.5",
     "babel-polyfill": "^6.23.0",
+    "buffer-to-arraybuffer": "0.0.4",
     "core-decorators": "^0.18.0",
+    "got": "^6.7.1",
     "lodash": "^4.17.4",
     "prop-types": "^15.5.9",
     "react": "^15.5.4",

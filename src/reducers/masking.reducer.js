@@ -1,11 +1,14 @@
-import { ActionType } from 'src/constants.js'
+import { ActionType, SonicComponent } from 'src/constants.js'
+import audioFiles from 'src/audio/audio-files.js'
 
 const initialState = {
-  masks: {
-    speech: 'Speech',
-    traffic: 'Traffic',
-    restaurant: 'Restaurant',
-  },
+  masks: audioFiles[SonicComponent.MASK].reduce(
+    (aggr, filename) => ({
+      ...aggr,
+      [filename]: filename,
+    }),
+    {}
+  ),
   selected: null,
 }
 

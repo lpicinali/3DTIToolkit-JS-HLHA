@@ -1,6 +1,7 @@
-import { take } from 'redux-saga/effects'
+import { call, select, take } from 'redux-saga/effects'
 
 import { ActionType, PlaybackState, SonicComponent } from 'src/constants.js'
+import { getFileUrl } from 'src/audio/audio-files.js'
 import * as engine from 'src/audio/engine.js'
 
 function* applyPlayPause() {
@@ -11,6 +12,35 @@ function* applyPlayPause() {
       engine.play()
     } else if (state === PlaybackState.PAUSED) {
       engine.pause()
+    }
+  }
+}
+
+function* applyComponentSource() {
+  while (true) {
+    const { type, payload } = yield take([
+      ActionType.SET_TARGET,
+      ActionType.SET_MASK,
+    ])
+
+    if (type === ActionType.SET_TARGET) {
+      yield call(
+        engine.setComponentSource,
+        SonicComponent.TARGET,
+        getFileUrl(payload.target)
+      )
+    } else if (type === ActionType.SET_MASK) {
+      yield call(
+        engine.setComponentSource,
+        SonicComponent.MASK,
+        getFileUrl(payload.mask)
+      )
+    }
+
+    const playbackState = yield select(state => state.controls.playbackState)
+
+    if (playbackState === PlaybackState.PLAYING) {
+      yield call(engine.play)
     }
   }
 }
@@ -57,6 +87,7 @@ function* applyTargetPosition() {
 export default function* rootSaga() {
   yield [
     applyPlayPause(),
+    applyComponentSource(),
     applyComponentVolume(),
     applySimulatorPresets(),
     applyTargetPosition(),

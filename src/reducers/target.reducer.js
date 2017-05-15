@@ -1,10 +1,14 @@
-import { ActionType } from 'src/constants.js'
+import { ActionType, SonicComponent } from 'src/constants.js'
+import audioFiles from 'src/audio/audio-files.js'
 
 const initialState = {
-  targets: {
-    speech: 'Speech',
-    music: 'Music',
-  },
+  targets: audioFiles[SonicComponent.TARGET].reduce(
+    (aggr, filename) => ({
+      ...aggr,
+      [filename]: filename,
+    }),
+    {}
+  ),
   selected: null,
 }
 
