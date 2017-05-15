@@ -3011,7 +3011,14 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.0.0, prop-types@^15.5.4, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@^15.5.9, prop-types@~15.5.7:
+prop-types@^15.0.0, prop-types@^15.5.10, prop-types@^15.5.4:
+  version "15.5.10"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.10.tgz#2797dfc3126182e3a95e3dfbb2e893ddd7456154"
+  dependencies:
+    fbjs "^0.8.9"
+    loose-envify "^1.3.1"
+
+prop-types@^15.5.7, prop-types@^15.5.8, prop-types@^15.5.9, prop-types@~15.5.7:
   version "15.5.9"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.9.tgz#d478eef0e761396942f70c78e772f76e8be747c9"
   dependencies:
@@ -3123,14 +3130,15 @@ react-hot-loader@next:
     redbox-react "^1.3.6"
     source-map "^0.4.4"
 
-react-player-controls@^0.5.10:
-  version "0.5.10"
-  resolved "https://registry.yarnpkg.com/react-player-controls/-/react-player-controls-0.5.10.tgz#eb2db76a66809396ec26869f20d70b9103982024"
+react-player-controls@^0.5.11:
+  version "0.5.11"
+  resolved "https://registry.yarnpkg.com/react-player-controls/-/react-player-controls-0.5.11.tgz#4a59e73b5c01d2590ee76196d39b8ec836ff570a"
   dependencies:
     autobind-decorator "^1.3.3"
     classnames "^2.2.5"
     lodash.curry "^4.1.1"
     lodash.flowright "^3.5.0"
+    prop-types "^15.5.10"
 
 react-proxy@^3.0.0-alpha.0:
   version "3.0.0-alpha.1"
