@@ -17,13 +17,44 @@ import TargetSelectorContainer from 'src/containers/TargetSelectorContainer.js'
 export default function App() {
   return (
     <Provider store={store}>
-      <div>
+      <div style={{ display: 'flex' }}>
         <PlaybackControlsContainer />
-        <TargetSelectorContainer />
-        <MaskingSelectorContainer />
-        <PositionControllerContainer />
-        <HearingAidSimulatorContainer />
-        <HearingLossSimulatorContainer />
+
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            flex: '0 1',
+            padding: 10,
+          }}
+        >
+          <TargetSelectorContainer />
+
+          <h2>Target position (radius of 30 meters)</h2>
+          <PositionControllerContainer />
+        </div>
+
+        <div style={{ flex: '1 0', padding: 10 }}>
+          <MaskingSelectorContainer />
+        </div>
+
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            flex: '1 0',
+            padding: 10,
+          }}
+        >
+          <HearingLossSimulatorContainer />
+          <HearingAidSimulatorContainer />
+
+          <p style={{ color: 'red' }}>
+            <strong>Be aware!</strong>
+            {' '}
+            Don't put the aid simulator's preset to anything higher than the loss simulator. It'll go loud!
+          </p>
+        </div>
       </div>
     </Provider>
   )

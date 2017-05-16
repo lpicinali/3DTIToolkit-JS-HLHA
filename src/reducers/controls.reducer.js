@@ -3,8 +3,8 @@ import { ActionType, PlaybackState } from 'src/constants.js'
 const initialState = {
   playbackState: PlaybackState.PAUSED,
   targetPosition: {
-    azimuth: Math.PI * 0.75,
-    distance: 1,
+    azimuth: Math.PI * 0.5,
+    distance: 20,
   },
   targetVolume: 0.5,
   maskVolume: 0.5,

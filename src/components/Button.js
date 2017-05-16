@@ -25,7 +25,10 @@ class Button extends Component {
         disabled={isEnabled === false}
         className="Button"
         onClick={onClick}
-        style={{ backgroundColor: isActive ? 'blue' : 'silver' }}
+        style={{
+          backgroundColor: isActive ? 'blue' : 'silver',
+          color: isActive ? 'white' : 'black',
+        }}
       >
         {children}
       </button>
