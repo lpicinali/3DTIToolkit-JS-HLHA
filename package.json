@@ -6,7 +6,8 @@
   "scripts": {
     "format": "prettier --single-quote --trailing-comma es5 --no-semi --write 'src/**/*.js'",
     "lint": "eslint src",
-    "dev": "webpack-dev-server --inline"
+    "dev": "webpack-dev-server --inline",
+    "start": "webpack-dev-server"
   },
   "keywords": [],
   "author": "Alexander Wallin <office@alexanderwallin.com> (http://alexanderwallin.com)",
