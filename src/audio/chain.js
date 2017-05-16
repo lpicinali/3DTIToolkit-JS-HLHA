@@ -1,4 +1,11 @@
+import toolkit, { CHearingLossSim } from '3dti-toolkit'
+
+console.log({ toolkit, CHearingLossSim })
+window.toolkit = toolkit || { nope: false }
+
 import context from 'src/audio/context.js'
+import hearingAidProcessor from 'src/audio/hearingAidProcessor.js'
+import hearingLossProcessor from 'src/audio/hearingLossProcessor.js'
 
 let targetNode
 const targetInput = context.createGain()
@@ -9,6 +16,7 @@ const maskInput = context.createGain()
 const maskVolume = context.createGain()
 
 const input = context.createGain()
+
 const volume = context.createGain()
 volume.gain.value = 0.3
 
@@ -16,7 +24,9 @@ targetInput.connect(targetVolume)
 targetVolume.connect(input)
 maskInput.connect(maskVolume)
 maskVolume.connect(input)
-input.connect(volume)
+input.connect(hearingLossProcessor)
+hearingLossProcessor.connect(hearingAidProcessor)
+hearingAidProcessor.connect(volume)
 volume.connect(context.destination)
 
 export const createNode = audioBuffer => {

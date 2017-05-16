@@ -25,8 +25,8 @@ module.exports = {
   },
   resolve: {
     alias: {
-      '3dti-toolkit': path.resolve(__dirname, 'lib/3dti-toolkit'),
       src: path.resolve('./src'),
+      fs: path.resolve('./src/shims/fs.js'),
     },
     extensions: ['.js', '.json'],
   },

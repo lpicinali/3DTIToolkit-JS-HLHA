@@ -2,7 +2,11 @@ import decode from 'audio-decode'
 import bufferToArrayBuffer from 'buffer-to-arraybuffer'
 import got from 'got'
 
-import { SimulatorType, SonicComponent } from 'src/constants.js'
+import {
+  HearingLossGrade,
+  SimulatorType,
+  SonicComponent,
+} from 'src/constants.js'
 import {
   createNode,
   setTargetNode,
@@ -13,6 +17,13 @@ import {
   stopNodes,
 } from 'src/audio/chain.js'
 import context from 'src/audio/context.js'
+import {
+  setEnabled as setHearingAidEnabled,
+  setGains as setHearingAidGains,
+} from 'src/audio/hearingAidProcessor.js'
+import {
+  setGains as setHearingLossGains,
+} from 'src/audio/hearingLossProcessor.js'
 import presets from 'src/audio/presets.js'
 
 export const play = () => {
@@ -59,11 +70,16 @@ export const setComponentPosition = (id, { azimuth, distance }) => {
 }
 
 export const setHearingLossPreset = presetName => {
-  const values = presets[SimulatorType.LOSS][presetName]
-  console.log('setHearingLossPreset', presetName, values)
+  const gains = presets[SimulatorType.LOSS][presetName]
+  console.log('setHearingLossPreset', presetName, gains)
+
+  setHearingLossGains(gains)
 }
 
 export const setHearingAidPreset = presetName => {
-  const values = presets[SimulatorType.AID][presetName]
-  console.log('setHearingAidPreset', presetName, values)
+  const gains = presets[SimulatorType.AID][presetName]
+  console.log('setHearingAidPreset', presetName, gains)
+
+  setHearingAidEnabled(presetName !== HearingLossGrade.NONE)
+  setHearingAidGains(gains)
 }
