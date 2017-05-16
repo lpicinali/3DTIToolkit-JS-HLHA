@@ -71,7 +71,9 @@ class PositionController extends Component {
         (constrainedMouseY - (rect.top + rect.height / 2)) / (rect.height / 2)
 
       const azimuth = Math.atan(-newZ / newX) + (newX < 0 ? Math.PI : 0)
-      const distance = Math.max(1, size * Math.sqrt(newX ** 2 + newZ ** 2))
+      let distance = size * Math.sqrt(newX ** 2 + newZ ** 2)
+      distance = Math.max(1, distance)
+      distance = Math.min(distance, size)
 
       const newPos = { azimuth, distance }
 
@@ -104,6 +106,7 @@ class PositionController extends Component {
           position: 'relative',
           width: bounds.width,
           height: bounds.height,
+          borderRadius: '100%',
         }}
       >
         {objects.map(object => (
@@ -116,6 +119,10 @@ class PositionController extends Component {
               width: 10,
               height: 10,
               background: 'red',
+              borderRadius: 10,
+              textIndent: -9999,
+              overflow: 'hidden',
+              cursor: 'pointer',
               transform: 'translate3d(-50%, -50%, 0)',
             }}
             onMouseDown={() => this.handlePress(object.id)}
