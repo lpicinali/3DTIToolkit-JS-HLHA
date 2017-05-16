@@ -1,11 +1,13 @@
 import toolkit, { CHearingLossSim } from '3dti-toolkit'
 
-console.log({ toolkit, CHearingLossSim })
-window.toolkit = toolkit || { nope: false }
-
 import context from 'src/audio/context.js'
+import {
+  getInstance as getBinauralSpatializer,
+} from 'src/audio/binauralSpatializer.js'
 import hearingAidProcessor from 'src/audio/hearingAidProcessor.js'
 import hearingLossProcessor from 'src/audio/hearingLossProcessor.js'
+
+window.toolkit = toolkit || { nope: false }
 
 let targetNode
 const targetInput = context.createGain()
@@ -20,14 +22,17 @@ const input = context.createGain()
 const volume = context.createGain()
 volume.gain.value = 0.3
 
-targetInput.connect(targetVolume)
-targetVolume.connect(input)
-maskInput.connect(maskVolume)
-maskVolume.connect(input)
-input.connect(hearingLossProcessor)
-hearingLossProcessor.connect(hearingAidProcessor)
-hearingAidProcessor.connect(volume)
-volume.connect(context.destination)
+getBinauralSpatializer().then(spatializer => {
+  targetInput.connect(targetVolume)
+  targetVolume.connect(spatializer.processor)
+  spatializer.processor.connect(input)
+  maskInput.connect(maskVolume)
+  maskVolume.connect(input)
+  input.connect(hearingLossProcessor)
+  hearingLossProcessor.connect(hearingAidProcessor)
+  hearingAidProcessor.connect(volume)
+  volume.connect(context.destination)
+})
 
 export const createNode = audioBuffer => {
   const node = context.createBufferSource()

@@ -12,6 +12,7 @@ import * as CustomPropTypes from 'src/prop-types.js'
 class PositionController extends Component {
   static propTypes = {
     bounds: CustomPropTypes.rect.isRequired,
+    size: PropTypes.number,
     objects: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string.isRequired,
@@ -21,6 +22,10 @@ class PositionController extends Component {
       })
     ).isRequired,
     onPositionChange: PropTypes.func.isRequired,
+  }
+
+  static defaultProps = {
+    size: 30,
   }
 
   state = {
@@ -43,7 +48,7 @@ class PositionController extends Component {
   }
 
   @autobind handleDrag(evt) {
-    const { bounds, onPositionChange } = this.props
+    const { bounds, size, onPositionChange } = this.props
     const { isDragging, currentObjectId, position } = this.state
 
     if (isDragging) {
@@ -66,7 +71,7 @@ class PositionController extends Component {
         (constrainedMouseY - (rect.top + rect.height / 2)) / (rect.height / 2)
 
       const azimuth = Math.atan(-newZ / newX) + (newX < 0 ? Math.PI : 0)
-      const distance = Math.min(1, Math.sqrt(newX ** 2 + newZ ** 2))
+      const distance = Math.max(1, size * Math.sqrt(newX ** 2 + newZ ** 2))
 
       const newPos = { azimuth, distance }
 
@@ -91,7 +96,7 @@ class PositionController extends Component {
   }
 
   render() {
-    const { bounds, objects } = this.props
+    const { bounds, size, objects } = this.props
 
     return (
       <div
@@ -106,8 +111,8 @@ class PositionController extends Component {
             key={object.id}
             style={{
               position: 'absolute',
-              top: `${50 - 50 * (Math.sin(object.azimuth) * object.distance)}%`,
-              left: `${50 + 50 * (Math.cos(object.azimuth) * object.distance)}%`,
+              top: `${50 - 50 * (Math.sin(object.azimuth) * object.distance / size)}%`,
+              left: `${50 + 50 * (Math.cos(object.azimuth) * object.distance / size)}%`,
               width: 10,
               height: 10,
               background: 'red',

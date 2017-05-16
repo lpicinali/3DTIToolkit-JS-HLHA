@@ -7,6 +7,7 @@ import {
   SimulatorType,
   SonicComponent,
 } from 'src/constants.js'
+import { getInstance } from 'src/audio/binauralSpatializer.js'
 import {
   createNode,
   setTargetNode,
@@ -67,6 +68,12 @@ export const setComponentVolume = (id, volume) => {
 
 export const setComponentPosition = (id, { azimuth, distance }) => {
   console.log('setComponentPosition', id, { azimuth, distance })
+
+  if (id === SonicComponent.TARGET) {
+    getInstance().then(spatializer => {
+      spatializer.setSourcePosition(azimuth, distance)
+    })
+  }
 }
 
 export const setHearingLossPreset = presetName => {
