@@ -5,9 +5,11 @@
     "prettier"
   ],
   "plugins": [
-    "eslint-import-resolver-webpack",
     "prettier"
   ],
+  "settings": {
+    "import/resolver": "webpack"
+  },
   "rules": {
     "import/extensions": 0,
     "react/jsx-filename-extension": 0
