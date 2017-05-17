@@ -1,3 +1,2 @@
-import getContext from 'audio-context'
-
-export default getContext()
+/* global AudioContext */
+export default new AudioContxet()
