@@ -2,15 +2,9 @@ const path = require('path')
 const webpack = require('webpack')
 
 module.exports = {
-  entry: [
-    'babel-polyfill',
-    'react-hot-loader/patch',
-    'webpack-dev-server/client?http://localhost:8261',
-    'webpack/hot/only-dev-server',
-    path.resolve('./src/index.js'),
-  ],
+  entry: ['babel-polyfill', path.resolve('./src/index.js')],
   output: {
-    path: path.resolve(__dirname, 'dist/assets/js'),
+    path: path.resolve(__dirname, 'public/assets/js'),
     publicPath: '/assets/js',
     filename: 'app.js',
     sourceMapFilename: '[file].map',
@@ -36,13 +30,4 @@ module.exports = {
     new webpack.NamedModulesPlugin(),
   ],
   devtool: 'source-map',
-  devServer: {
-    contentBase: path.join(__dirname, 'public'),
-    compress: true,
-    port: 8261,
-    hot: true,
-    historyApiFallback: {
-      index: 'index.html',
-    },
-  },
 }

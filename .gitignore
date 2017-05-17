@@ -35,3 +35,5 @@ node_modules
 
 # Project
 dist
+public/assets/js/app.js
+public/assets/js/app.js.map
