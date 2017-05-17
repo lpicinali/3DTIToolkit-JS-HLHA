@@ -1,2 +1,2 @@
 /* global AudioContext */
-export default new AudioContxet()
+export default new AudioContext()
