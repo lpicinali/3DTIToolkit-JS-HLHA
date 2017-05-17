@@ -46,6 +46,7 @@ class TargetSelectorContainer extends Component {
         <H3>Source</H3>
         <ButtonGroup
           options={options}
+          enabledOptions={Object.keys(options)}
           value={target}
           isVertical
           onSelect={onSelect}

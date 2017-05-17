@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { values } from 'lodash'
 
 import * as CustomPropTypes from 'src/prop-types.js'
 import { HearingLossGrade } from 'src/constants.js'
@@ -11,7 +12,12 @@ import ButtonGroup from 'src/components/ButtonGroup.js'
 class HearingLossGradeSelector extends Component {
   static propTypes = {
     grade: CustomPropTypes.grade.isRequired,
+    enabledGrades: PropTypes.arrayOf(CustomPropTypes.grade),
     onSelect: PropTypes.func.isRequired,
+  }
+
+  static defaultProps = {
+    enabledGrades: values(HearingLossGrade),
   }
 
   static gradeOptions = {
@@ -22,11 +28,14 @@ class HearingLossGradeSelector extends Component {
   }
 
   render() {
-    const { grade, onSelect } = this.props
+    const { grade, enabledGrades, onSelect } = this.props
+
+    console.log({ enabledGrades })
 
     return (
       <ButtonGroup
         options={HearingLossGradeSelector.gradeOptions}
+        enabledOptions={enabledGrades}
         value={grade}
         onSelect={onSelect}
       />

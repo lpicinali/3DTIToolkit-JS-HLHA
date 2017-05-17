@@ -1,6 +1,13 @@
-import { call, select, take } from 'redux-saga/effects'
+import { call, put, select, take } from 'redux-saga/effects'
+import { values } from 'lodash'
 
-import { ActionType, PlaybackState, SonicComponent } from 'src/constants.js'
+import {
+  ActionType,
+  HearingLossGrade,
+  PlaybackState,
+  SonicComponent,
+} from 'src/constants.js'
+import { setHaGrade } from 'src/actions/ha.actions.js'
 import { getFileUrl } from 'src/audio/audio-files.js'
 import * as engine from 'src/audio/engine.js'
 
@@ -84,6 +91,18 @@ function* applyTargetPosition() {
   }
 }
 
+function* makeAidFollowLoss() {
+  while (true) {
+    const { payload: { grade } } = yield take(ActionType.SET_HL_GRADE)
+
+    const allGrades = values(HearingLossGrade)
+    const currentAidPreset = yield select(state => state.ha.grade)
+    if (allGrades.indexOf(grade) < allGrades.indexOf(currentAidPreset)) {
+      yield put(setHaGrade(grade))
+    }
+  }
+}
+
 export default function* rootSaga() {
   yield [
     applyPlayPause(),
@@ -91,5 +110,6 @@ export default function* rootSaga() {
     applyComponentVolume(),
     applySimulatorPresets(),
     applyTargetPosition(),
+    makeAidFollowLoss(),
   ]
 }

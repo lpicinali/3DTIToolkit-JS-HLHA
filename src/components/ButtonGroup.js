@@ -18,6 +18,7 @@ const StyledButtonGroup = styled.div`
 class ButtonGroup extends Component {
   static propTypes = {
     options: PropTypes.object.isRequired,
+    enabledOptions: PropTypes.array.isRequired,
     value: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number,
@@ -33,13 +34,14 @@ class ButtonGroup extends Component {
   }
 
   render() {
-    const { options, value, isVertical, onSelect } = this.props
+    const { options, enabledOptions, value, isVertical, onSelect } = this.props
 
     return (
       <StyledButtonGroup isVertical={isVertical}>
         {map(options, (optionLabel, optionValue) => (
           <Button
             key={optionValue}
+            isEnabled={enabledOptions.indexOf(optionValue) >= 0}
             isActive={optionValue === value}
             onClick={() => onSelect(optionValue)}
           >

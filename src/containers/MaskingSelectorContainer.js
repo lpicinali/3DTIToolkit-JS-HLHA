@@ -46,6 +46,7 @@ class MaskSelectorContainer extends Component {
         <H3>Source</H3>
         <ButtonGroup
           options={options}
+          enabledOptions={Object.keys(options)}
           value={mask}
           isVertical
           onSelect={onSelect}

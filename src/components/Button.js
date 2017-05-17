@@ -24,6 +24,12 @@ const StyledButton = styled.button`
     background-color: ${TURQOISE};
     color: ${WHITE};
   ` : ``)}
+
+  ${props => (props.disabled ? `
+    border-color: gray;
+    color: gray;
+    pointer-events: none;
+  ` : ``)}
 `
 
 /**
