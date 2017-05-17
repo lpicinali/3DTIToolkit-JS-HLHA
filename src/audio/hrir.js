@@ -34,7 +34,13 @@ const fetchWavFile = url => {
  * an ArrayBuffer.
  */
 const decodeBuffer = (buffer, audioCtx) => {
-  return audioCtx.decodeAudioData(buffer)
+  return new Promise((resolve, reject) => {
+    audioCtx.decodeAudioData(
+      buffer,
+      audioBuffer => resolve(audioBuffer),
+      err => reject(err)
+    )
+  })
 }
 
 /**

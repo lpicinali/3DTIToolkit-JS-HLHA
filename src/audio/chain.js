@@ -68,21 +68,21 @@ export const setMaskVolume = volume => {
 
 export const startNodes = () => {
   if (targetNode) {
-    targetNode.start()
+    targetNode.start(0)
   }
   if (maskNode) {
-    maskNode.start()
+    maskNode.start(0)
   }
 }
 
 export const stopNodes = () => {
   if (targetNode) {
-    targetNode.stop()
+    targetNode.stop(0)
     targetNode = createNode(targetNode.buffer)
     setTargetNode(targetNode)
   }
   if (maskNode) {
-    maskNode.stop()
+    maskNode.stop(0)
     maskNode = createNode(maskNode.buffer)
     setMaskNode(maskNode)
   }
