@@ -17,10 +17,19 @@ const StyledPositionController = styled.div`
   border-radius: 100%;
 `
 
+const HeadCircle = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: ${props => props.size};
+  height: ${props => props.size};
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 100%;
+  transform: translate3d(-50%, -50%, 0);
+`
+
 const SourceHandle = styled.div`
   position: absolute;
-  top: ${props => props.top};
-  left: ${props => props.left};
   width: 16px;
   height: 16px;
   background: ${TURQOISE};
@@ -50,7 +59,7 @@ class PositionController extends Component {
   }
 
   static defaultProps = {
-    size: 30,
+    size: 10,
   }
 
   state = {
@@ -74,7 +83,7 @@ class PositionController extends Component {
 
   @autobind handleDrag(evt) {
     const { bounds, size, onPositionChange } = this.props
-    const { isDragging, currentObjectId, position } = this.state
+    const { isDragging, currentObjectId } = this.state
 
     if (isDragging) {
       const rect = bounds
@@ -97,7 +106,7 @@ class PositionController extends Component {
 
       const azimuth = Math.atan(-newZ / newX) + (newX < 0 ? Math.PI : 0)
       let distance = size * Math.sqrt(newX ** 2 + newZ ** 2)
-      distance = Math.max(1, distance)
+      distance = Math.max(0.3, distance)
       distance = Math.min(distance, size)
 
       const newPos = { azimuth, distance }
@@ -127,11 +136,15 @@ class PositionController extends Component {
 
     return (
       <StyledPositionController width={bounds.width} height={bounds.height}>
+        <HeadCircle size={`calc(${100 * 0.3 / size}% + 8px)`} />
+
         {objects.map(object => (
           <SourceHandle
             key={object.id}
-            top={`${50 - 50 * (Math.sin(object.azimuth) * object.distance / size)}%`}
-            left={`${50 + 50 * (Math.cos(object.azimuth) * object.distance / size)}%`}
+            style={{
+              top: `${50 - 50 * (Math.sin(object.azimuth) * object.distance / size)}%`,
+              left: `${50 + 50 * (Math.cos(object.azimuth) * object.distance / size)}%`,
+            }}
             onMouseDown={() => this.handlePress(object.id)}
           >
             <span>{object.label}</span>

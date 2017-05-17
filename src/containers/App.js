@@ -80,7 +80,7 @@ export default function App() {
           >
             <TargetSelectorContainer />
 
-            <H3>Position (radius of 30 meters)</H3>
+            <H3>Position (radius of 5 meters)</H3>
             <PositionControllerContainer />
           </div>
 
@@ -90,19 +90,14 @@ export default function App() {
 
           <div
             style={{
-              display: 'flex',
-              flexWrap: 'wrap',
               flex: '1 0 33.333%',
             }}
           >
             <HearingLossSimulatorContainer />
-            <HearingAidSimulatorContainer />
 
-            <p style={{ color: 'red' }}>
-              <strong>Be aware!</strong>
-              {' '}
-              Don't put the aid simulator's preset to anything higher than the loss simulator. It'll go loud!
-            </p>
+            <div style={{ marginTop: 40 }}>
+              <HearingAidSimulatorContainer />
+            </div>
           </div>
         </AppContent>
       </div>
