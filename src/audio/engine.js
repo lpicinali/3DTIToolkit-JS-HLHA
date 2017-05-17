@@ -1,4 +1,4 @@
-import decode from 'audio-decode'
+// import decode from 'audio-decode'
 import bufferToArrayBuffer from 'buffer-to-arraybuffer'
 import got from 'got'
 
@@ -18,6 +18,7 @@ import {
   stopNodes,
 } from 'src/audio/chain.js'
 import context from 'src/audio/context.js'
+import decode from 'src/audio/decode.js'
 import {
   setEnabled as setHearingAidEnabled,
   setGains as setHearingAidGains,
@@ -34,7 +35,13 @@ export const play = () => {
 
 export const pause = () => {
   console.log('pause')
-  stopNodes()
+
+  try {
+    stopNodes()
+  } catch (err) {
+    console.log('could not stop nodes:')
+    console.error(err)
+  }
 }
 
 export const setComponentSource = (id, url) => {
@@ -44,7 +51,7 @@ export const setComponentSource = (id, url) => {
 
   return got(url, { encoding: null })
     .then(response => bufferToArrayBuffer(response.body))
-    .then(arrayBuffer => decode(arrayBuffer, { context }))
+    .then(arrayBuffer => decode(arrayBuffer, context))
     .then(audioBuffer => {
       const node = createNode(audioBuffer)
       if (id === SonicComponent.TARGET) {

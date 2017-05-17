@@ -77,12 +77,14 @@ export const startNodes = () => {
 
 export const stopNodes = () => {
   if (targetNode) {
-    targetNode.stop(0)
+    // Use disconnect instead of stop, because Safari
+    targetNode.disconnect()
     targetNode = createNode(targetNode.buffer)
     setTargetNode(targetNode)
   }
   if (maskNode) {
-    maskNode.stop(0)
+    // Use disconnect instead of stop, because Safari
+    maskNode.disconnect()
     maskNode = createNode(maskNode.buffer)
     setMaskNode(maskNode)
   }
