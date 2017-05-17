@@ -6,6 +6,7 @@ import * as CustomPropTypes from 'src/prop-types.js'
 import { setHaGrade } from 'src/actions/ha.actions.js'
 import HearingLossGradeSelector
   from 'src/components/HearingLossGradeSelector.js'
+import { H2 } from 'src/styles/elements.js'
 
 /**
  * Hearing Aid Simulator Container
@@ -22,7 +23,7 @@ class HearingAidSimulatorContainer extends Component {
 
     return (
       <div>
-        <h2>Hearing Aid Simulator</h2>
+        <H2>Hearing Aid Simulator</H2>
         <HearingLossGradeSelector grade={grade} onSelect={onGradeChange} />
       </div>
     )

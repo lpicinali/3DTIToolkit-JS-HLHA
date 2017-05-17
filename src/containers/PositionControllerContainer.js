@@ -25,7 +25,6 @@ class PositionControllerContainer extends Component {
           position: 'relative',
           width: 200,
           height: 200,
-          backgroundColor: 'gray',
         }}
       >
         <ContainerDimensions>

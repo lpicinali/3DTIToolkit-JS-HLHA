@@ -3,8 +3,33 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { clamp } from 'lodash'
 import { autobind } from 'core-decorators'
+import styled from 'styled-components'
 
 import * as CustomPropTypes from 'src/prop-types.js'
+import { BLUE, TURQOISE, WHITESMOKE } from 'src/styles/colors.js'
+
+const StyledPositionController = styled.div`
+  position: relative;
+  width: ${props => props.width}px;
+  height: ${props => props.height}px;
+  background-color: ${WHITESMOKE};
+  border: 1px solid ${BLUE};
+  border-radius: 100%;
+`
+
+const SourceHandle = styled.div`
+  position: absolute;
+  top: ${props => props.top};
+  left: ${props => props.left};
+  width: 16px;
+  height: 16px;
+  background: ${TURQOISE};
+  border-radius: 10px;
+  text-indent: -9999px;
+  overflow: hidden;
+  cursor: pointer;
+  transform: translate3d(-50%, -50%, 0);
+`
 
 /**
  * Position Controller
@@ -101,36 +126,18 @@ class PositionController extends Component {
     const { bounds, size, objects } = this.props
 
     return (
-      <div
-        style={{
-          position: 'relative',
-          width: bounds.width,
-          height: bounds.height,
-          borderRadius: '100%',
-        }}
-      >
+      <StyledPositionController width={bounds.width} height={bounds.height}>
         {objects.map(object => (
-          <div
+          <SourceHandle
             key={object.id}
-            style={{
-              position: 'absolute',
-              top: `${50 - 50 * (Math.sin(object.azimuth) * object.distance / size)}%`,
-              left: `${50 + 50 * (Math.cos(object.azimuth) * object.distance / size)}%`,
-              width: 10,
-              height: 10,
-              background: 'red',
-              borderRadius: 10,
-              textIndent: -9999,
-              overflow: 'hidden',
-              cursor: 'pointer',
-              transform: 'translate3d(-50%, -50%, 0)',
-            }}
+            top={`${50 - 50 * (Math.sin(object.azimuth) * object.distance / size)}%`}
+            left={`${50 + 50 * (Math.cos(object.azimuth) * object.distance / size)}%`}
             onMouseDown={() => this.handlePress(object.id)}
           >
             <span>{object.label}</span>
-          </div>
+          </SourceHandle>
         ))}
-      </div>
+      </StyledPositionController>
     )
   }
 }

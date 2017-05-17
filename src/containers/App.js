@@ -1,5 +1,6 @@
 import React from 'react'
 import { Provider } from 'react-redux'
+import styled, { injectGlobal } from 'styled-components'
 
 import store from 'src/store.js'
 import HearingAidSimulatorContainer
@@ -13,48 +14,97 @@ import PlaybackControlsContainer
 import PositionControllerContainer
   from 'src/containers/PositionControllerContainer.js'
 import TargetSelectorContainer from 'src/containers/TargetSelectorContainer.js'
+import { BLUE } from 'src/styles/colors.js'
+import { H3 } from 'src/styles/elements.js'
+import { MAX_WIDTH } from 'src/styles/layout.js'
+
+injectGlobal`
+  @import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
+
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Roboto', sans-serif;
+  }
+`
+
+const Header = styled.header`
+  padding: 32px 16px 16px;
+  background: ${BLUE};
+  color: #fefefe;
+`
+
+const HeaderContent = styled.div`
+  width: 100%;
+  max-width: ${MAX_WIDTH}px;
+  margin: 0 auto;
+`
+
+const Heading = styled.h1`
+  margin: 0;
+  font-size: 24px;
+  line-height: 32px;
+`
+
+const AppContent = styled.div`
+  display: flex;
+  width: 100%;
+  max-width: ${MAX_WIDTH}px;
+  margin: 0 auto;
+  padding: 24px 16px;
+`
 
 export default function App() {
   return (
     <Provider store={store}>
-      <div style={{ display: 'flex' }}>
-        <PlaybackControlsContainer />
+      <div>
+        <Header>
+          <HeaderContent>
+            <div>3D Tune-In Toolkit Demo</div>
+            <Heading>Hearing Loss & Hearing Aid</Heading>
+          </HeaderContent>
+        </Header>
 
-        <div
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            flex: '0 1',
-            padding: 10,
-          }}
-        >
-          <TargetSelectorContainer />
+        <AppContent>
+          <PlaybackControlsContainer />
 
-          <h2>Target position (radius of 30 meters)</h2>
-          <PositionControllerContainer />
-        </div>
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              flex: '0 1 33.333%',
+            }}
+          >
+            <TargetSelectorContainer />
 
-        <div style={{ flex: '1 0', padding: 10 }}>
-          <MaskingSelectorContainer />
-        </div>
+            <H3>Position (radius of 30 meters)</H3>
+            <PositionControllerContainer />
+          </div>
 
-        <div
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            flex: '1 0',
-            padding: 10,
-          }}
-        >
-          <HearingLossSimulatorContainer />
-          <HearingAidSimulatorContainer />
+          <div style={{ flex: '1 0 33.333%' }}>
+            <MaskingSelectorContainer />
+          </div>
 
-          <p style={{ color: 'red' }}>
-            <strong>Be aware!</strong>
-            {' '}
-            Don't put the aid simulator's preset to anything higher than the loss simulator. It'll go loud!
-          </p>
-        </div>
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              flex: '1 0 33.333%',
+            }}
+          >
+            <HearingLossSimulatorContainer />
+            <HearingAidSimulatorContainer />
+
+            <p style={{ color: 'red' }}>
+              <strong>Be aware!</strong>
+              {' '}
+              Don't put the aid simulator's preset to anything higher than the loss simulator. It'll go loud!
+            </p>
+          </div>
+        </AppContent>
       </div>
     </Provider>
   )

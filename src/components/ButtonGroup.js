@@ -1,8 +1,16 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { map } from 'lodash'
+import styled from 'styled-components'
 
 import Button from 'src/components/Button.js'
+
+const StyledButtonGroup = styled.div`
+  button {
+    display: ${props => (props.isVertical ? 'block' : 'inline-block')};
+    margin: 0 8px 8px 0;
+  }
+`
 
 /**
  * Button Group
@@ -15,18 +23,20 @@ class ButtonGroup extends Component {
       PropTypes.number,
       PropTypes.bool,
     ]),
+    isVertical: PropTypes.bool,
     onSelect: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     value: null,
+    isVertical: false,
   }
 
   render() {
-    const { options, value, onSelect } = this.props
+    const { options, value, isVertical, onSelect } = this.props
 
     return (
-      <div className="ButtonGroup">
+      <StyledButtonGroup isVertical={isVertical}>
         {map(options, (optionLabel, optionValue) => (
           <Button
             key={optionValue}
@@ -36,7 +46,7 @@ class ButtonGroup extends Component {
             {optionLabel}
           </Button>
         ))}
-      </div>
+      </StyledButtonGroup>
     )
   }
 }

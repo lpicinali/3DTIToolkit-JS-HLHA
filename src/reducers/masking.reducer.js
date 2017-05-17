@@ -3,9 +3,9 @@ import audioFiles from 'src/audio/audio-files.js'
 
 const initialState = {
   masks: audioFiles[SonicComponent.MASK].reduce(
-    (aggr, filename) => ({
+    (aggr, file) => ({
       ...aggr,
-      [filename]: filename,
+      [file.filename]: file,
     }),
     {}
   ),
