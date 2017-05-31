@@ -8,6 +8,10 @@
     "transform-class-properties",
     "transform-decorators-legacy",
     "transform-exponentiation-operator",
-    "react-hot-loader/babel"
-  ]
+  ],
+  "env": {
+    "development": {
+      "plugins": ["react-hot-loader/babel"]
+    }
+  }
 }

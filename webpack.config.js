@@ -1,5 +1,4 @@
 const path = require('path')
-const webpack = require('webpack')
 
 module.exports = {
   entry: ['babel-polyfill', path.resolve('./src/index.js')],
@@ -25,9 +24,5 @@ module.exports = {
     },
     extensions: ['.js', '.json'],
   },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin(),
-  ],
-  devtool: 'source-map',
+  plugins: [],
 }
