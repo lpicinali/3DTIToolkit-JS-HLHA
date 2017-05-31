@@ -7,7 +7,7 @@
     "format": "prettier --single-quote --trailing-comma es5 --no-semi --write 'src/**/*.js'",
     "lint": "eslint src",
     "dev": "webpack-dev-server --inline --config webpack.config.dev.js",
-    "prestart": "webpack",
+    "prestart": "webpack -p",
     "start": "node server.js"
   },
   "keywords": [],
