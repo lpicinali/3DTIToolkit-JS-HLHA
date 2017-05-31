@@ -2,6 +2,10 @@
   "name": "hahl-web",
   "version": "1.0.0",
   "description": "",
+  "engines": {
+    "node": ">= 6.0.0",
+    "npm": ">= 4.0.0"
+  },
   "main": "src/index.js",
   "scripts": {
     "format": "prettier --single-quote --trailing-comma es5 --no-semi --write 'src/**/*.js'",
