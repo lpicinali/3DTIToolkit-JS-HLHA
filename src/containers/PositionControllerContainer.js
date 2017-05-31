@@ -5,7 +5,11 @@ import ContainerDimensions from 'react-container-dimensions'
 
 import * as CustomPropTypes from 'src/prop-types.js'
 import { setTargetPosition } from 'src/actions/controls.actions.js'
+import ContainerDimensionsWithScrollUpdates
+  from 'src/components/ContainerDimensionsWithScrollUpdates.js'
 import PositionController from 'src/components/PositionController.js'
+
+const BoundsRelay = rect => {}
 
 /**
  * Position Controller Container
@@ -27,21 +31,24 @@ class PositionControllerContainer extends Component {
           height: 200,
         }}
       >
-        <ContainerDimensions>
-          {rect => (
-            <PositionController
-              bounds={rect}
-              objects={[
-                {
-                  id: 'target',
-                  label: 'Target',
-                  azimuth: targetPosition.azimuth,
-                  distance: targetPosition.distance,
-                },
-              ]}
-              onPositionChange={(id, position) => onTargetMove(position)}
-            />
-          )}
+        <ContainerDimensions scrollTargets={[window]}>
+          {rect => {
+            console.log('container dimensions child')
+            return (
+              <PositionController
+                bounds={rect}
+                objects={[
+                  {
+                    id: 'target',
+                    label: 'Target',
+                    azimuth: targetPosition.azimuth,
+                    distance: targetPosition.distance,
+                  },
+                ]}
+                onPositionChange={(id, position) => onTargetMove(position)}
+              />
+            )
+          }}
         </ContainerDimensions>
       </div>
     )

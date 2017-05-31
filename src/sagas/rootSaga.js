@@ -91,6 +91,16 @@ function* applyTargetPosition() {
   }
 }
 
+function* applyAidNoiseBits() {
+  while (true) {
+    const { payload: { numBits } } = yield take(
+      ActionType.SET_HA_NUM_NOISE_BITS
+    )
+
+    yield call(engine.setHearingAidNumNoiseBits, numBits)
+  }
+}
+
 function* makeAidFollowLoss() {
   while (true) {
     const { payload: { grade } } = yield take(ActionType.SET_HL_GRADE)
@@ -110,6 +120,7 @@ export default function* rootSaga() {
     applyComponentVolume(),
     applySimulatorPresets(),
     applyTargetPosition(),
+    applyAidNoiseBits(),
     makeAidFollowLoss(),
   ]
 }

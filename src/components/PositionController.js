@@ -100,9 +100,11 @@ class PositionController extends Component {
       )
 
       let newX =
-        (constrainedMouseX - (rect.left + rect.width / 2)) / (rect.width / 2)
+        (constrainedMouseX - (window.scrollX + rect.left + rect.width / 2)) /
+        (rect.width / 2)
       let newZ =
-        (constrainedMouseY - (rect.top + rect.height / 2)) / (rect.height / 2)
+        (constrainedMouseY - (window.scrollY + rect.top + rect.height / 2)) /
+        (rect.height / 2)
 
       const azimuth = Math.atan(-newZ / newX) + (newX < 0 ? Math.PI : 0)
       let distance = size * Math.sqrt(newX ** 2 + newZ ** 2)
@@ -133,6 +135,8 @@ class PositionController extends Component {
 
   render() {
     const { bounds, size, objects } = this.props
+
+    console.log('PositionController.render()', bounds.top)
 
     return (
       <StyledPositionController width={bounds.width} height={bounds.height}>

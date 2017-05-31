@@ -1,10 +1,18 @@
-import { ActionType } from 'src/constants.js'
-import createHalReducer from 'src/reducers/createHalReducer.js'
+import { ActionType, HearingLossGrade } from 'src/constants.js'
 
-export default createHalReducer((state, { type, payload }) => {
+const initialState = {
+  isEnabled: false,
+  grade: HearingLossGrade.NONE,
+  numNoiseBits: 8,
+}
+
+export default (state = initialState, { type, payload }) => {
   if (type === ActionType.SET_HA_GRADE) {
     return { ...state, grade: payload.grade }
   }
+  if (type === ActionType.SET_HA_NUM_NOISE_BITS) {
+    return { ...state, numNoiseBits: payload.numBits }
+  }
 
   return state
-})
+}

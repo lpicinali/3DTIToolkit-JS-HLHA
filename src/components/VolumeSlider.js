@@ -11,12 +11,14 @@ class VolumeSlider extends Component {
     volume: PropTypes.number.isRequired,
     min: PropTypes.number,
     max: PropTypes.number,
+    step: PropTypes.number,
     onChange: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     min: 0,
     max: 10,
+    step: null,
   }
 
   @autobind handleChange(evt) {
@@ -31,7 +33,7 @@ class VolumeSlider extends Component {
   }
 
   render() {
-    const { volume, min, max, onChange } = this.props
+    const { volume, min, max, step } = this.props
 
     return (
       <div className="VolumeSlider">
@@ -40,7 +42,7 @@ class VolumeSlider extends Component {
           min={min}
           max={max}
           value={volume}
-          step={(max - min) / 100}
+          step={step !== null ? step : (max - min) / 100}
           onInput={this.handleChange}
           onChange={noop}
         />

@@ -22,6 +22,7 @@ import decode from 'src/audio/decode.js'
 import {
   setEnabled as setHearingAidEnabled,
   setGains as setHearingAidGains,
+  setNumNoiseBits,
 } from 'src/audio/hearingAidProcessor.js'
 import {
   setGains as setHearingLossGains,
@@ -96,4 +97,8 @@ export const setHearingAidPreset = presetName => {
 
   setHearingAidEnabled(presetName !== HearingLossGrade.NONE)
   setHearingAidGains(gains)
+}
+
+export const setHearingAidNumNoiseBits = numBits => {
+  setNumNoiseBits(numBits)
 }

@@ -17,6 +17,11 @@ has.Setup(
   0.7 // HPF Q
 )
 
+// Add noise
+has.addNoiseBefore = true
+has.addNoiseAfter = true
+has.noiseNumBits = 8
+
 let isEnabled = false
 
 // Buffers
@@ -67,6 +72,11 @@ const setGains = gains => {
   has.SetGains_dB(gainVector, false)
 }
 
+// Set number of noise bits
+const setNumNoiseBits = numBits => {
+  has.noiseNumBits = numBits
+}
+
 export default hearingAidProcessor
 
-export { hearingAidProcessor, setEnabled, setGains }
+export { hearingAidProcessor, setEnabled, setGains, setNumNoiseBits }
