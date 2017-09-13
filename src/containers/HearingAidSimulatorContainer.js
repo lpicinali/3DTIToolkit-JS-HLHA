@@ -40,8 +40,6 @@ class HearingAidSimulatorContainer extends Component {
       allGrades.indexOf(hearingLossGrade) + 1
     )
 
-    console.log({ allGrades, enabledGrades })
-
     return (
       <div>
         <H2>Hearing Aid Simulator</H2>
@@ -53,7 +51,7 @@ class HearingAidSimulatorContainer extends Component {
           onSelect={onGradeChange}
         />
 
-        <H3>Number of noise bits</H3>
+        <H3>Hearing Aid Quantisation - bits</H3>
         <NoiseBitSlider
           value={hearingAidNumNoiseBits}
           onChange={onNumNoiseBitsChange}
