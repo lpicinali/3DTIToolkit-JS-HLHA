@@ -26,6 +26,5 @@ export default {
   ],
 }
 
-export const getFileUrl = filename => {
-  return `${location.origin}/assets/audio/${filename}`
-}
+export const getFileUrl = filename =>
+  `${location.origin}/assets/audio/${filename}`

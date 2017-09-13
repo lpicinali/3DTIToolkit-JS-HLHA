@@ -1,3 +1,4 @@
+/* eslint import/prefer-default-export: 0 */
 import {
   BinauralAPI,
   CMonoBuffer,
@@ -17,17 +18,21 @@ let instancePromise = null
 let listener
 let source
 
-export function getInstance() {
-  if (instancePromise !== null) {
-    return instancePromise
-  }
-
-  instancePromise = createInstance()
-  return instancePromise
-}
-
 function createInstance() {
   return fetchHrirsVector(hrirUrls, context).then(hrirsVector => {
+    function setSourcePosition(azimuth, distance) {
+      const transform = new CTransform()
+
+      const x = Math.cos(azimuth) * distance
+      const z = -Math.sin(azimuth) * distance
+      const position = new CVector3(x, 0, z)
+
+      transform.SetPosition(position)
+      source.SetSourceTransform(transform)
+
+      transform.delete()
+    }
+
     listener = binauralApi.CreateListener(hrirsVector, 0.0875)
     listener.SetListenerTransform(new CTransform())
 
@@ -63,19 +68,6 @@ function createInstance() {
       }
     }
 
-    function setSourcePosition(azimuth, distance) {
-      const transform = new CTransform()
-
-      const x = Math.cos(azimuth) * distance
-      const z = -Math.sin(azimuth) * distance
-      const position = new CVector3(x, 0, z)
-
-      transform.SetPosition(position)
-      source.SetSourceTransform(transform)
-
-      transform.delete()
-    }
-
     return {
       listener,
       source,
@@ -83,4 +75,13 @@ function createInstance() {
       setSourcePosition,
     }
   })
+}
+
+export function getInstance() {
+  if (instancePromise !== null) {
+    return instancePromise
+  }
+
+  instancePromise = createInstance()
+  return instancePromise
 }

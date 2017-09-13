@@ -1,4 +1,5 @@
-import toolkit, { CHearingLossSim } from '3dti-toolkit'
+/* global window */
+import toolkit from '3dti-toolkit'
 
 import context from 'src/audio/context.js'
 import {

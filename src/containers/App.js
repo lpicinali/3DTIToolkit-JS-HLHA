@@ -1,3 +1,4 @@
+/* eslint no-unused-expressions: 0 */
 import React from 'react'
 import { Provider } from 'react-redux'
 import styled, { injectGlobal } from 'styled-components'
