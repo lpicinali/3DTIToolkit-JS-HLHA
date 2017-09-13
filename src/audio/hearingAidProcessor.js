@@ -1,6 +1,10 @@
 import { CHearingAidSim, CStereoBuffer, FloatVector } from '3dti-toolkit'
 
+import { HearingLossGrade, SimulatorType } from 'src/constants.js'
 import context from 'src/audio/context.js'
+import presets from 'src/audio/presets.js'
+
+const numBands = presets[SimulatorType.AID][HearingLossGrade.NONE].length
 
 // Hearing loss simulation instance
 const has = new CHearingAidSim()
@@ -8,7 +12,7 @@ has.Setup(
   44100,
   1, // TODO: Implement multiple levels
   125, // Start frequency
-  7, // Number of bands
+  numBands, // Number of bands
   1, // Octave band step
   3000, // LPF frequency
   300, // HPF frequency
@@ -18,7 +22,7 @@ has.Setup(
 )
 
 // Add noise
-has.addNoiseBefore = true
+// has.addNoiseBefore = true
 has.addNoiseAfter = true
 has.noiseNumBits = 8
 
@@ -61,15 +65,10 @@ const setEnabled = enabled => {
 
 // Set band gains
 const setGains = gains => {
-  const gainVector = new FloatVector()
-  gainVector.resize(gains.length, 0)
-
-  for (let i = 0; i < gains.length; i++) {
-    gainVector.set(i, gains[i])
-  }
-
-  has.SetGains_dB(gainVector, true)
-  has.SetGains_dB(gainVector, false)
+  gains.forEach((gain, i) => {
+    has.SetLevelBandGain_dB(0, i, gain, true)
+    has.SetLevelBandGain_dB(0, i, gain, false)
+  })
 }
 
 // Set number of noise bits

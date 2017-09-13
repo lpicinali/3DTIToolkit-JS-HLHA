@@ -56,7 +56,7 @@ function createInstance() {
       }
 
       // if (window.processBinaural === true) {
-      source.ProcessAnechoic(listener, inputMonoBuffer, outputStereoBuffer)
+      source.ProcessAnechoic(inputMonoBuffer, outputStereoBuffer)
       // }
 
       const outputDataLeft = outputBuffer.getChannelData(0)
