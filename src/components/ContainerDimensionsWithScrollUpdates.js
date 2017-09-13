@@ -46,26 +46,21 @@ class ContainerDimensionsWithScrollUpdates extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     if (
-      Object.keys(nextState).some(key => this.state[key] !== nextState[key])
+      nextState.top !== this.state.top ||
+      nextState.left !== this.state.left
     ) {
-      console.log(
-        'ContainerDimensionsWithScrollUpdates.shouldComponentUpdate()'
-      )
       this.$el.onResize()
     }
 
-    return false
+    return true
   }
 
   storeRef($el) {
-    console.log('storeRef')
     this.$el = $el
   }
 
   render() {
     const { children } = this.props
-
-    console.log('ContainerDimensionsWithScrollUpdates.render()')
 
     return React.createElement(
       ContainerDimensions,
