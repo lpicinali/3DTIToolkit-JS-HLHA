@@ -55,8 +55,6 @@ class TargetSelectorContainer extends Component {
         <H3>Volume</H3>
         <VolumeSlider
           volume={volume}
-          min={0}
-          max={1}
           onChange={onChangeVolume}
         />
       </div>

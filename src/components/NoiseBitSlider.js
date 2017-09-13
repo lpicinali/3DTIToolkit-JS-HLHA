@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import VolumeSlider from 'src/components/VolumeSlider.js'
+import Slider from 'src/components/Slider.js'
 
 const NoiseBitSliderWrap = styled.div`
   display: flex;
@@ -22,11 +22,11 @@ class NoiseBitSlider extends Component {
 
     return (
       <NoiseBitSliderWrap>
-        <VolumeSlider
+        <Slider
           min={1}
           max={16}
           step={1}
-          volume={value}
+          value={value}
           onChange={onChange}
         />
 
