@@ -17,11 +17,13 @@ export default {
   [SonicComponent.TARGET]: [
     {
       title: 'Robert Burriss #1',
-      filename: 'Robert_Burriss_open_podcast_excerpt_Psychology_of_Attractiveness_part_01.m4a',
+      filename:
+        'Robert_Burriss_open_podcast_excerpt_Psychology_of_Attractiveness_part_01.m4a',
     },
     {
       title: 'Robert Burriss #2',
-      filename: 'Robert_Burriss_open_podcast_excerpt_Psychology_of_Attractiveness_part_02.m4a',
+      filename:
+        'Robert_Burriss_open_podcast_excerpt_Psychology_of_Attractiveness_part_02.m4a',
     },
   ],
 }

@@ -21,7 +21,8 @@ class Slider extends Component {
     step: null,
   }
 
-  @autobind handleChange(evt) {
+  @autobind
+  handleChange(evt) {
     const { value, onChange } = this.props
 
     const numericValue = round(parseFloat(evt.target.value), 2)

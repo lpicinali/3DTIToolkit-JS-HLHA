@@ -59,9 +59,10 @@ function* applyComponentVolume() {
       ActionType.SET_MASK_VOLUME,
     ])
 
-    const componentId = type === ActionType.SET_TARGET_VOLUME
-      ? SonicComponent.TARGET
-      : SonicComponent.MASK
+    const componentId =
+      type === ActionType.SET_TARGET_VOLUME
+        ? SonicComponent.TARGET
+        : SonicComponent.MASK
 
     engine.setComponentVolume(componentId, payload.volume)
   }

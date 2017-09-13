@@ -4,8 +4,7 @@ import { connect } from 'react-redux'
 
 import * as CustomPropTypes from 'src/prop-types.js'
 import { setHlGrade } from 'src/actions/hl.actions.js'
-import HearingLossGradeSelector
-  from 'src/components/HearingLossGradeSelector.js'
+import HearingLossGradeSelector from 'src/components/HearingLossGradeSelector.js'
 import { H2, H3 } from 'src/styles/elements.js'
 
 /**

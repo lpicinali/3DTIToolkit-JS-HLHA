@@ -21,7 +21,6 @@ class VolumeSlider extends PureComponent {
     this.props.onChange(decibelsToGain(value))
   }
 
-
   render() {
     const { volume } = this.props
 

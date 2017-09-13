@@ -68,7 +68,8 @@ class PositionController extends Component {
     position: { azimuth: 0, distance: 0 },
   }
 
-  @autobind handlePress(objectId) {
+  @autobind
+  handlePress(objectId) {
     const object = this.props.objects.find(x => x.id === objectId)
 
     this.setState(() => ({
@@ -81,7 +82,8 @@ class PositionController extends Component {
     window.addEventListener('mouseup', this.handleRelease)
   }
 
-  @autobind handleDrag(evt) {
+  @autobind
+  handleDrag(evt) {
     const { bounds, size, onPositionChange } = this.props
     const { isDragging, currentObjectId } = this.state
 
@@ -99,10 +101,10 @@ class PositionController extends Component {
         window.scrollY + rect.top + rect.height
       )
 
-      let newX =
+      const newX =
         (constrainedMouseX - (window.scrollX + rect.left + rect.width / 2)) /
         (rect.width / 2)
-      let newZ =
+      const newZ =
         (constrainedMouseY - (window.scrollY + rect.top + rect.height / 2)) /
         (rect.height / 2)
 
@@ -122,7 +124,8 @@ class PositionController extends Component {
     }
   }
 
-  @autobind handleRelease() {
+  @autobind
+  handleRelease() {
     window.removeEventListener('mousemove', this.handleDrag)
     window.removeEventListener('mouseup', this.handleRelease)
 
@@ -146,8 +149,10 @@ class PositionController extends Component {
           <SourceHandle
             key={object.id}
             style={{
-              top: `${50 - 50 * (Math.sin(object.azimuth) * object.distance / size)}%`,
-              left: `${50 + 50 * (Math.cos(object.azimuth) * object.distance / size)}%`,
+              top: `${50 -
+                50 * (Math.sin(object.azimuth) * object.distance / size)}%`,
+              left: `${50 +
+                50 * (Math.cos(object.azimuth) * object.distance / size)}%`,
             }}
             onMouseDown={() => this.handlePress(object.id)}
           >

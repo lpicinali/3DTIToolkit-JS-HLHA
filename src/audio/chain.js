@@ -2,9 +2,7 @@
 import toolkit from '3dti-toolkit'
 
 import context from 'src/audio/context.js'
-import {
-  getInstance as getBinauralSpatializer,
-} from 'src/audio/binauralSpatializer.js'
+import { getInstance as getBinauralSpatializer } from 'src/audio/binauralSpatializer.js'
 import hearingAidProcessor from 'src/audio/hearingAidProcessor.js'
 import hearingLossProcessor from 'src/audio/hearingLossProcessor.js'
 

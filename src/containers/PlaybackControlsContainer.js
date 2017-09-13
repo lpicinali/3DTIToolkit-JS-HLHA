@@ -42,8 +42,8 @@ const buttonStyles = `
   }
 `
 
-const StyledPlayButton = styled(PlayButton)`${buttonStyles}`
-const StyledPauseButton = styled(PauseButton)`${buttonStyles}`
+const StyledPlayButton = styled(PlayButton)`${buttonStyles};`
+const StyledPauseButton = styled(PauseButton)`${buttonStyles};`
 
 /**
  * Playback Controls Container
@@ -59,17 +59,19 @@ class PlaybackControlsContainer extends Component {
 
     return (
       <FloatingPlaybackController>
-        {playbackState === PlaybackState.PAUSED
-          ? <StyledPlayButton
-              isEnabled
-              onClick={() => onStateChange(PlaybackState.PLAYING)}
-              style={{ width: 40, height: 40 }}
-            />
-          : <StyledPauseButton
-              isEnabled
-              onClick={() => onStateChange(PlaybackState.PAUSED)}
-              style={{ width: 40, height: 40 }}
-            />}
+        {playbackState === PlaybackState.PAUSED ? (
+          <StyledPlayButton
+            isEnabled
+            onClick={() => onStateChange(PlaybackState.PLAYING)}
+            style={{ width: 40, height: 40 }}
+          />
+        ) : (
+          <StyledPauseButton
+            isEnabled
+            onClick={() => onStateChange(PlaybackState.PAUSED)}
+            style={{ width: 40, height: 40 }}
+          />
+        )}
       </FloatingPlaybackController>
     )
   }

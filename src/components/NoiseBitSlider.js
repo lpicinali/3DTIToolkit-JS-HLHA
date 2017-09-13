@@ -4,9 +4,7 @@ import styled from 'styled-components'
 
 import Slider from 'src/components/Slider.js'
 
-const NoiseBitSliderWrap = styled.div`
-  display: flex;
-`
+const NoiseBitSliderWrap = styled.div`display: flex;`
 
 /**
  * Noise Bit Slider
@@ -22,13 +20,7 @@ class NoiseBitSlider extends Component {
 
     return (
       <NoiseBitSliderWrap>
-        <Slider
-          min={1}
-          max={16}
-          step={1}
-          value={value}
-          onChange={onChange}
-        />
+        <Slider min={1} max={16} step={1} value={value} onChange={onChange} />
 
         <output>{value}</output>
       </NoiseBitSliderWrap>

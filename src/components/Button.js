@@ -20,16 +20,20 @@ const StyledButton = styled.button`
     box-shadow: 0 0 0 3px ${TURQOISE};
   }
 
-  ${props => (props.isActive ? `
+  ${props =>
+    props.isActive
+      ? `
     background-color: ${TURQOISE};
     color: ${WHITE};
-  ` : ``)}
-
-  ${props => (props.disabled ? `
+  `
+      : ``} ${props =>
+      props.disabled
+        ? `
     border-color: gray;
     color: gray;
     pointer-events: none;
-  ` : ``)}
+  `
+        : ``};
 `
 
 /**

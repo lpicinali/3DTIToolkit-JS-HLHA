@@ -6,8 +6,7 @@ import { values } from 'lodash'
 import { HearingLossGrade } from 'src/constants.js'
 import * as CustomPropTypes from 'src/prop-types.js'
 import { setHaGrade, setHaNumNoiseBits } from 'src/actions/ha.actions.js'
-import HearingLossGradeSelector
-  from 'src/components/HearingLossGradeSelector.js'
+import HearingLossGradeSelector from 'src/components/HearingLossGradeSelector.js'
 import NoiseBitSlider from 'src/components/NoiseBitSlider.js'
 import { H2, H3 } from 'src/styles/elements.js'
 

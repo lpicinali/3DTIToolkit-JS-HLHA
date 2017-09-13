@@ -4,16 +4,11 @@ import { Provider } from 'react-redux'
 import styled, { injectGlobal } from 'styled-components'
 
 import store from 'src/store.js'
-import HearingAidSimulatorContainer
-  from 'src/containers/HearingAidSimulatorContainer.js'
-import HearingLossSimulatorContainer
-  from 'src/containers/HearingLossSimulatorContainer.js'
-import MaskingSelectorContainer
-  from 'src/containers/MaskingSelectorContainer.js'
-import PlaybackControlsContainer
-  from 'src/containers/PlaybackControlsContainer.js'
-import PositionControllerContainer
-  from 'src/containers/PositionControllerContainer.js'
+import HearingAidSimulatorContainer from 'src/containers/HearingAidSimulatorContainer.js'
+import HearingLossSimulatorContainer from 'src/containers/HearingLossSimulatorContainer.js'
+import MaskingSelectorContainer from 'src/containers/MaskingSelectorContainer.js'
+import PlaybackControlsContainer from 'src/containers/PlaybackControlsContainer.js'
+import PositionControllerContainer from 'src/containers/PositionControllerContainer.js'
 import TargetSelectorContainer from 'src/containers/TargetSelectorContainer.js'
 import { BLUE } from 'src/styles/colors.js'
 import { H3 } from 'src/styles/elements.js'
