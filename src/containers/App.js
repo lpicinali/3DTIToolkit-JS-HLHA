@@ -81,7 +81,7 @@ export default function App() {
           >
             <TargetSelectorContainer />
 
-            <H3>Position (radius of 5 meters)</H3>
+            <H3>Position (radius of 30 meters)</H3>
             <PositionControllerContainer />
           </div>
 
