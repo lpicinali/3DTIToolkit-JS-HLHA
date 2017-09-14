@@ -8,7 +8,7 @@ import presets from 'src/audio/presets.js'
 const hls = new CHearingLossSim()
 hls.Setup(
   44100,
-  0,
+  100, // Calibration_dBs_SPL_for_0_dBs_fs
   125,
   presets[SimulatorType.LOSS][HearingLossGrade.NONE].length,
   1
