@@ -22,9 +22,9 @@ has.Setup(
 )
 
 // Add noise
-// has.addNoiseBefore = true
+has.addNoiseBefore = true
 has.addNoiseAfter = true
-has.noiseNumBits = 8
+has.noiseNumBits = 12
 
 let isEnabled = false
 

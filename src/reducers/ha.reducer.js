@@ -3,7 +3,7 @@ import { ActionType, HearingLossGrade } from 'src/constants.js'
 const initialState = {
   isEnabled: false,
   grade: HearingLossGrade.NONE,
-  numNoiseBits: 8,
+  numNoiseBits: 12,
 }
 
 export default (state = initialState, { type, payload }) => {
