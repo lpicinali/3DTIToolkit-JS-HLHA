@@ -3,7 +3,10 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { reduce } from 'lodash'
 
-import { setTargetVolume } from 'src/actions/controls.actions.js'
+import {
+  setPerformanceModeEnabled,
+  setTargetVolume,
+} from 'src/actions/controls.actions.js'
 import { setTarget } from 'src/actions/target.actions.js'
 import ButtonGroup from 'src/components/ButtonGroup.js'
 import VolumeSlider from 'src/components/VolumeSlider.js'
@@ -17,8 +20,10 @@ class TargetSelectorContainer extends Component {
     targets: PropTypes.object.isRequired,
     target: PropTypes.string,
     volume: PropTypes.number.isRequired,
+    isPerformanceModeEnabled: PropTypes.bool.isRequired,
     onSelect: PropTypes.func.isRequired,
     onChangeVolume: PropTypes.func.isRequired,
+    onChangePerformanceMode: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -26,7 +31,15 @@ class TargetSelectorContainer extends Component {
   }
 
   render() {
-    const { targets, target, volume, onSelect, onChangeVolume } = this.props
+    const {
+      targets,
+      target,
+      volume,
+      isPerformanceModeEnabled,
+      onSelect,
+      onChangeVolume,
+      onChangePerformanceMode,
+    } = this.props
 
     const options = reduce(
       targets,
@@ -36,8 +49,6 @@ class TargetSelectorContainer extends Component {
       }),
       {}
     )
-
-    console.log({ options })
 
     return (
       <div>
@@ -52,8 +63,21 @@ class TargetSelectorContainer extends Component {
           onSelect={onSelect}
         />
 
-        <H3>Volume</H3>
-        <VolumeSlider volume={volume} onChange={onChangeVolume} />
+        <div style={{ display: 'flex' }}>
+          <div style={{ paddingRight: 16 }}>
+            <H3>Volume</H3>
+            <VolumeSlider volume={volume} onChange={onChangeVolume} />
+          </div>
+
+          <div>
+            <H3>Performance mode</H3>
+            <input
+              type="checkbox"
+              checked={isPerformanceModeEnabled}
+              onClick={() => onChangePerformanceMode(!isPerformanceModeEnabled)}
+            />
+          </div>
+        </div>
       </div>
     )
   }
@@ -64,9 +88,12 @@ export default connect(
     targets: state.target.targets,
     target: state.target.selected,
     volume: state.controls.targetVolume,
+    isPerformanceModeEnabled: state.controls.isPerformanceModeEnabled,
   }),
   dispatch => ({
     onSelect: target => dispatch(setTarget(target)),
     onChangeVolume: volume => dispatch(setTargetVolume(volume)),
+    onChangePerformanceMode: isEnabled =>
+      dispatch(setPerformanceModeEnabled(isEnabled)),
   })
 )(TargetSelectorContainer)

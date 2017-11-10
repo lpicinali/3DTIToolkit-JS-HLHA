@@ -68,6 +68,13 @@ function* applyComponentVolume() {
   }
 }
 
+function* applyPerformanceMode() {
+  while (true) {
+    const { payload } = yield take(ActionType.SET_PERFORMANE_MODE_ENABLED)
+    engine.setPerformanceModeEnabled(payload.isEnabled)
+  }
+}
+
 function* applySimulatorPresets() {
   while (true) {
     const { type, payload } = yield take([
@@ -119,6 +126,7 @@ export default function* rootSaga() {
     applyPlayPause(),
     applyComponentSource(),
     applyComponentVolume(),
+    applyPerformanceMode(),
     applySimulatorPresets(),
     applyTargetPosition(),
     applyAidNoiseBits(),

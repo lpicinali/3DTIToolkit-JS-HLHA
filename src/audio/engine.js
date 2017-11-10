@@ -82,6 +82,12 @@ export const setComponentPosition = (id, { azimuth, distance }) => {
   }
 }
 
+export const setPerformanceModeEnabled = isEnabled => {
+  getInstance().then(spatializer => {
+    spatializer.setPerformanceModeEnabled(isEnabled)
+  })
+}
+
 export const setHearingLossPreset = presetName => {
   const gains = presets[SimulatorType.LOSS][presetName]
   console.log('setHearingLossPreset', presetName, gains)

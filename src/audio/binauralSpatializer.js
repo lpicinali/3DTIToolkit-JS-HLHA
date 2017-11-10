@@ -5,6 +5,7 @@ import {
   CStereoBuffer,
   CTransform,
   CVector3,
+  TSpatializationMode,
 } from '3dti-toolkit'
 
 import context from 'src/audio/context.js'
@@ -33,8 +34,19 @@ function createInstance() {
       transform.delete()
     }
 
+    function setPerformanceModeEnabled(isEnabled) {
+      source.SetSpatializationMode(
+        isEnabled
+          ? TSpatializationMode.HighPerformance
+          : TSpatializationMode.HighQuality
+      )
+    }
+
     listener = binauralApi.CreateListener(hrirsVector, 0.0875)
     listener.SetListenerTransform(new CTransform())
+
+    // Customized ITD is required for the HighPerformance mode to work
+    listener.EnableCustomizedITD()
 
     source = binauralApi.CreateSource()
     source.DisableFarDistanceEffect()
@@ -74,6 +86,7 @@ function createInstance() {
       source,
       processor,
       setSourcePosition,
+      setPerformanceModeEnabled,
     }
   })
 }

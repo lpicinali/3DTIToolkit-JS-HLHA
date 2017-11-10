@@ -8,6 +8,7 @@ const initialState = {
   },
   targetVolume: 0.5,
   maskVolume: 0.5,
+  isPerformanceModeEnabled: false,
 }
 
 export default function(state = initialState, { type, payload }) {
@@ -16,6 +17,9 @@ export default function(state = initialState, { type, payload }) {
   }
   if (type === ActionType.SET_TARGET_VOLUME) {
     return { ...state, targetVolume: payload.volume }
+  }
+  if (type === ActionType.SET_PERFORMANE_MODE_ENABLED) {
+    return { ...state, isPerformanceModeEnabled: payload.isEnabled }
   }
   if (type === ActionType.SET_MASK_VOLUME) {
     return { ...state, maskVolume: payload.volume }

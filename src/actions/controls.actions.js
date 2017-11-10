@@ -10,6 +10,11 @@ export const setTargetVolume = volume => ({
   payload: { volume },
 })
 
+export const setPerformanceModeEnabled = isEnabled => ({
+  type: ActionType.SET_PERFORMANE_MODE_ENABLED,
+  payload: { isEnabled },
+})
+
 export const setMaskVolume = volume => ({
   type: ActionType.SET_MASK_VOLUME,
   payload: { volume },
