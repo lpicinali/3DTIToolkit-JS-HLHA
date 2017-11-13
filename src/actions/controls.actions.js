@@ -20,6 +20,16 @@ export const setHeadRadius = radius => ({
   payload: { radius },
 })
 
+export const setDirectionalityEnabled = isEnabled => ({
+  type: ActionType.SET_DIRECTIONALITY_ENABLED,
+  payload: { isEnabled },
+})
+
+export const setDirectionalityAttenuation = (ear, attenuation) => ({
+  type: ActionType.SET_DIRECTIONALITY_ATTENUATION,
+  payload: { ear, attenuation },
+})
+
 export const setMaskVolume = volume => ({
   type: ActionType.SET_MASK_VOLUME,
   payload: { volume },

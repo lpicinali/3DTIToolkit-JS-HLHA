@@ -82,6 +82,20 @@ function* applyHeadRadius() {
   }
 }
 
+function* applyDirectionalityEnabled() {
+  while (true) {
+    const { payload } = yield take(ActionType.SET_DIRECTIONALITY_ENABLED)
+    engine.setDirectionalityEnabled(payload.isEnabled)
+  }
+}
+
+function* applyDirectionalityAttenuation() {
+  while (true) {
+    const { payload } = yield take(ActionType.SET_DIRECTIONALITY_ATTENUATION)
+    engine.setDirectionalityAttenuation(payload.ear, payload.attenuation)
+  }
+}
+
 function* applySimulatorPresets() {
   while (true) {
     const { type, payload } = yield take([
@@ -135,6 +149,8 @@ export default function* rootSaga() {
     applyComponentVolume(),
     applyPerformanceMode(),
     applyHeadRadius(),
+    applyDirectionalityEnabled(),
+    applyDirectionalityAttenuation(),
     applySimulatorPresets(),
     applyTargetPosition(),
     applyAidNoiseBits(),

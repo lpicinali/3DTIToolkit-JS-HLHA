@@ -94,6 +94,18 @@ export const setHeadRadius = radius => {
   })
 }
 
+export const setDirectionalityEnabled = isEnabled => {
+  getInstance().then(spatializer => {
+    spatializer.setDirectionalityEnabled(isEnabled)
+  })
+}
+
+export const setDirectionalityAttenuation = (ear, attenuation) => {
+  getInstance().then(spatializer => {
+    spatializer.setDirectionalityAttenuation(ear, attenuation)
+  })
+}
+
 export const setHearingLossPreset = presetName => {
   const gains = presets[SimulatorType.LOSS][presetName]
   console.log('setHearingLossPreset', presetName, gains)

@@ -8,6 +8,7 @@ import {
   TSpatializationMode,
 } from '3dti-toolkit'
 
+import { Ear } from 'src/constants.js'
 import context from 'src/audio/context.js'
 import { fetchHrirsVector } from 'src/audio/hrir.js'
 import hrirUrls from 'src/audio/hrir-files.js'
@@ -46,8 +47,28 @@ function createInstance() {
       listener.SetHeadRadius(radius)
     }
 
+    function setDirectionalityEnabled(isEnabled) {
+      if (isEnabled === true) {
+        listener.EnableLeftDirectionality()
+        listener.EnableRightDirectionality()
+      } else {
+        listener.DisableLeftDirectionality()
+        listener.DisableRightDirectionality()
+      }
+    }
+
+    function setDirectionalityAttenuation(ear, attenuation) {
+      if (ear === Ear.LEFT) {
+        listener.SetLeftDirectionalityAttenuation(attenuation)
+      } else if (ear === Ear.RIGHT) {
+        listener.SetRightDirectionalityAttenuation(attenuation)
+      }
+    }
+
     listener = binauralApi.CreateListener(hrirsVector, 0.0875)
     listener.SetListenerTransform(new CTransform())
+    listener.EnableLeftDirectionality()
+    listener.EnableRightDirectionality()
 
     // Customized ITD is required for the HighPerformance mode to work
     listener.EnableCustomizedITD()
@@ -91,6 +112,8 @@ function createInstance() {
       setSourcePosition,
       setPerformanceModeEnabled,
       setHeadRadius,
+      setDirectionalityEnabled,
+      setDirectionalityAttenuation,
     }
   })
 }

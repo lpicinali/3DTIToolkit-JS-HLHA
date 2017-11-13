@@ -9,6 +9,7 @@ import {
   setTargetVolume,
 } from 'src/actions/controls.actions.js'
 import { setTarget } from 'src/actions/target.actions.js'
+import DirectionalityContainer from 'src/containers/DirectionalityContainer.js'
 import ButtonGroup from 'src/components/ButtonGroup.js'
 import Slider from 'src/components/Slider.js'
 import VolumeSlider from 'src/components/VolumeSlider.js'
@@ -85,15 +86,22 @@ class TargetSelectorContainer extends Component {
           </div>
         </div>
 
-        <div>
-          <H3>Head radius: {String(headRadius).padEnd(6, '0')} m</H3>
-          <Slider
-            value={headRadius}
-            min={0.01}
-            max={0.5}
-            step={0.0005}
-            onChange={onChangeHeadRadius}
-          />
+        <div style={{ display: 'flex' }}>
+          <div style={{ paddingRight: 16 }}>
+            <H3>Head radius: {String(headRadius).padEnd(6, '0')} m</H3>
+            <Slider
+              value={headRadius}
+              min={0.01}
+              max={0.5}
+              step={0.0005}
+              onChange={onChangeHeadRadius}
+            />
+          </div>
+
+          <div>
+            <H3>Directionality</H3>
+            <DirectionalityContainer />
+          </div>
         </div>
       </div>
     )
