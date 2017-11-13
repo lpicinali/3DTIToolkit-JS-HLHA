@@ -88,6 +88,12 @@ export const setPerformanceModeEnabled = isEnabled => {
   })
 }
 
+export const setHeadRadius = radius => {
+  getInstance().then(spatializer => {
+    spatializer.setHeadRadius(radius)
+  })
+}
+
 export const setHearingLossPreset = presetName => {
   const gains = presets[SimulatorType.LOSS][presetName]
   console.log('setHearingLossPreset', presetName, gains)

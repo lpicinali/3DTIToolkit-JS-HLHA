@@ -15,6 +15,11 @@ export const setPerformanceModeEnabled = isEnabled => ({
   payload: { isEnabled },
 })
 
+export const setHeadRadius = radius => ({
+  type: ActionType.SET_HEAD_RADIUS,
+  payload: { radius },
+})
+
 export const setMaskVolume = volume => ({
   type: ActionType.SET_MASK_VOLUME,
   payload: { volume },

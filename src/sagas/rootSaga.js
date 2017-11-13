@@ -75,6 +75,13 @@ function* applyPerformanceMode() {
   }
 }
 
+function* applyHeadRadius() {
+  while (true) {
+    const { payload } = yield take(ActionType.SET_HEAD_RADIUS)
+    engine.setHeadRadius(payload.radius)
+  }
+}
+
 function* applySimulatorPresets() {
   while (true) {
     const { type, payload } = yield take([
@@ -127,6 +134,7 @@ export default function* rootSaga() {
     applyComponentSource(),
     applyComponentVolume(),
     applyPerformanceMode(),
+    applyHeadRadius(),
     applySimulatorPresets(),
     applyTargetPosition(),
     applyAidNoiseBits(),

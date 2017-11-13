@@ -23,11 +23,11 @@ class Slider extends Component {
 
   @autobind
   handleChange(evt) {
-    const { value, onChange } = this.props
+    const { value, step, onChange } = this.props
 
-    const numericValue = round(parseFloat(evt.target.value), 2)
+    const numericValue = parseFloat(evt.target.value)
 
-    if (Math.abs(numericValue - value) >= 0.015) {
+    if (Math.abs(numericValue - value) >= step) {
       onChange(numericValue)
     }
   }

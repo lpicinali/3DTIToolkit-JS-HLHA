@@ -4,11 +4,13 @@ import { connect } from 'react-redux'
 import { reduce } from 'lodash'
 
 import {
+  setHeadRadius,
   setPerformanceModeEnabled,
   setTargetVolume,
 } from 'src/actions/controls.actions.js'
 import { setTarget } from 'src/actions/target.actions.js'
 import ButtonGroup from 'src/components/ButtonGroup.js'
+import Slider from 'src/components/Slider.js'
 import VolumeSlider from 'src/components/VolumeSlider.js'
 import { H2, H3 } from 'src/styles/elements.js'
 
@@ -21,9 +23,11 @@ class TargetSelectorContainer extends Component {
     target: PropTypes.string,
     volume: PropTypes.number.isRequired,
     isPerformanceModeEnabled: PropTypes.bool.isRequired,
+    headRadius: PropTypes.number.isRequired,
     onSelect: PropTypes.func.isRequired,
     onChangeVolume: PropTypes.func.isRequired,
     onChangePerformanceMode: PropTypes.func.isRequired,
+    onChangeHeadRadius: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -36,9 +40,11 @@ class TargetSelectorContainer extends Component {
       target,
       volume,
       isPerformanceModeEnabled,
+      headRadius,
       onSelect,
       onChangeVolume,
       onChangePerformanceMode,
+      onChangeHeadRadius,
     } = this.props
 
     const options = reduce(
@@ -78,6 +84,17 @@ class TargetSelectorContainer extends Component {
             />
           </div>
         </div>
+
+        <div>
+          <H3>Head radius: {String(headRadius).padEnd(6, '0')} m</H3>
+          <Slider
+            value={headRadius}
+            min={0.01}
+            max={0.5}
+            step={0.0005}
+            onChange={onChangeHeadRadius}
+          />
+        </div>
       </div>
     )
   }
@@ -89,11 +106,13 @@ export default connect(
     target: state.target.selected,
     volume: state.controls.targetVolume,
     isPerformanceModeEnabled: state.controls.isPerformanceModeEnabled,
+    headRadius: state.controls.headRadius,
   }),
   dispatch => ({
     onSelect: target => dispatch(setTarget(target)),
     onChangeVolume: volume => dispatch(setTargetVolume(volume)),
     onChangePerformanceMode: isEnabled =>
       dispatch(setPerformanceModeEnabled(isEnabled)),
+    onChangeHeadRadius: radius => dispatch(setHeadRadius(radius)),
   })
 )(TargetSelectorContainer)

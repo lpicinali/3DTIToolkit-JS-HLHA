@@ -42,6 +42,10 @@ function createInstance() {
       )
     }
 
+    function setHeadRadius(radius) {
+      listener.SetHeadRadius(radius)
+    }
+
     listener = binauralApi.CreateListener(hrirsVector, 0.0875)
     listener.SetListenerTransform(new CTransform())
 
@@ -87,6 +91,7 @@ function createInstance() {
       processor,
       setSourcePosition,
       setPerformanceModeEnabled,
+      setHeadRadius,
     }
   })
 }

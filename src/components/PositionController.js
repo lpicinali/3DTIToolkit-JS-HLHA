@@ -55,6 +55,7 @@ class PositionController extends Component {
         distance: PropTypes.number.isRequired,
       })
     ).isRequired,
+    headRadius: PropTypes.number.isRequired,
     onPositionChange: PropTypes.func.isRequired,
   }
 
@@ -137,13 +138,15 @@ class PositionController extends Component {
   }
 
   render() {
-    const { bounds, size, objects } = this.props
+    const { bounds, size, objects, headRadius } = this.props
 
     console.log('PositionController.render()', bounds.top)
 
     return (
       <StyledPositionController width={bounds.width} height={bounds.height}>
-        <HeadCircle size={`calc(${100 * 0.3 / size}% + 8px)`} />
+        <HeadCircle
+          size={`calc(${100 * (headRadius / 0.5) * (size / 12) / size}% + 8px)`}
+        />
 
         {objects.map(object => (
           <SourceHandle

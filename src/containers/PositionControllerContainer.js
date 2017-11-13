@@ -15,12 +15,13 @@ const BoundsRelay = rect => {}
  */
 class PositionControllerContainer extends Component {
   static propTypes = {
+    headRadius: PropTypes.number.isRequired,
     targetPosition: CustomPropTypes.position.isRequired,
     onTargetMove: PropTypes.func.isRequired,
   }
 
   render() {
-    const { targetPosition, onTargetMove } = this.props
+    const { headRadius, targetPosition, onTargetMove } = this.props
 
     return (
       <div
@@ -42,6 +43,7 @@ class PositionControllerContainer extends Component {
                   distance: targetPosition.distance,
                 },
               ]}
+              headRadius={headRadius}
               onPositionChange={(id, position) => onTargetMove(position)}
             />
           )}
@@ -53,6 +55,7 @@ class PositionControllerContainer extends Component {
 
 export default connect(
   state => ({
+    headRadius: state.controls.headRadius,
     targetPosition: state.controls.targetPosition,
   }),
   dispatch => ({

@@ -9,6 +9,7 @@ const initialState = {
   targetVolume: 0.5,
   maskVolume: 0.5,
   isPerformanceModeEnabled: false,
+  headRadius: 0.0875,
 }
 
 export default function(state = initialState, { type, payload }) {
@@ -20,6 +21,9 @@ export default function(state = initialState, { type, payload }) {
   }
   if (type === ActionType.SET_PERFORMANE_MODE_ENABLED) {
     return { ...state, isPerformanceModeEnabled: payload.isEnabled }
+  }
+  if (type === ActionType.SET_HEAD_RADIUS) {
+    return { ...state, headRadius: payload.radius }
   }
   if (type === ActionType.SET_MASK_VOLUME) {
     return { ...state, maskVolume: payload.volume }
