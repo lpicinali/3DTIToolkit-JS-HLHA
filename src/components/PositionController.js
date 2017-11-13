@@ -140,7 +140,7 @@ class PositionController extends Component {
   render() {
     const { bounds, size, objects, headRadius } = this.props
 
-    console.log('PositionController.render()', bounds.top)
+    // console.log('PositionController.render()', bounds.top)
 
     return (
       <StyledPositionController width={bounds.width} height={bounds.height}>
