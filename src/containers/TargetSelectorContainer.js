@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { reduce } from 'lodash'
 
+import { circumferenceToRadius, radiusToCircumference } from 'src/utils.js'
 import {
   setHeadRadius,
   setPerformanceModeEnabled,
@@ -88,13 +89,17 @@ class TargetSelectorContainer extends Component {
 
         <div style={{ display: 'flex' }}>
           <div style={{ paddingRight: 16 }}>
-            <H3>Head radius: {String(headRadius).padEnd(6, '0')} m</H3>
+            <H3>
+              Head circumference:{' '}
+              {Math.round(100 * radiusToCircumference(headRadius))} cm
+            </H3>
             <Slider
-              value={headRadius}
-              min={0.01}
-              max={0.5}
-              step={0.0005}
-              onChange={onChangeHeadRadius}
+              value={radiusToCircumference(headRadius)}
+              min={0.4}
+              max={0.7}
+              step={0.005}
+              onChange={circumference =>
+                onChangeHeadRadius(circumferenceToRadius(circumference))}
             />
           </div>
 
