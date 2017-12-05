@@ -16,6 +16,11 @@ export const ActionType = {
   SET_PLAYBACK_STATE: 'SET_PLAYBACK_STATE',
 }
 
+export const AudioFileType = {
+  SPLIT: 'SPLIT',
+  STEREO: 'STEREO',
+}
+
 export const Ear = {
   LEFT: 'LEFT',
   RIGHT: 'RIGHT',

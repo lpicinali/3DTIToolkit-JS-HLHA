@@ -7,6 +7,7 @@ import {
   CVector3,
   TSpatializationMode,
 } from '3dti-toolkit'
+import { map } from 'lodash'
 
 import { Ear } from 'src/constants.js'
 import context from 'src/audio/context.js'
@@ -19,27 +20,35 @@ let instancePromise = null
 
 let listener
 let source
+let maskLeft
+let maskRight
+
+function setPosition(target, azimuth, distance) {
+  const transform = new CTransform()
+
+  const x = Math.cos(azimuth) * distance
+  const z = -Math.sin(azimuth) * distance
+  const position = new CVector3(x, 0, z)
+
+  transform.SetPosition(position)
+  target.SetSourceTransform(transform)
+
+  transform.delete()
+}
 
 function createInstance() {
   return fetchHrirsVector(hrirUrls, context).then(hrirsVector => {
     function setSourcePosition(azimuth, distance) {
-      const transform = new CTransform()
-
-      const x = Math.cos(azimuth) * distance
-      const z = -Math.sin(azimuth) * distance
-      const position = new CVector3(x, 0, z)
-
-      transform.SetPosition(position)
-      source.SetSourceTransform(transform)
-
-      transform.delete()
+      setPosition(source, azimuth, distance)
     }
 
     function setPerformanceModeEnabled(isEnabled) {
-      source.SetSpatializationMode(
-        isEnabled
-          ? TSpatializationMode.HighPerformance
-          : TSpatializationMode.HighQuality
+      map([source, maskLeft, maskRight], target =>
+        target.SetSpatializationMode(
+          isEnabled
+            ? TSpatializationMode.HighPerformance
+            : TSpatializationMode.HighQuality
+        )
       )
     }
 
@@ -105,10 +114,51 @@ function createInstance() {
       }
     }
 
+    const masks = [Ear.LEFT, Ear.RIGHT].reduce((aggr, channel) => {
+      const maskSource = binauralApi.CreateSource()
+      const azimuth = channel === Ear.LEFT ? Math.PI : 0
+      setPosition(maskSource, azimuth, 3)
+
+      const maskInputBuffer = new CMonoBuffer()
+      maskInputBuffer.resize(512, 0)
+      const maskOutputBuffer = new CStereoBuffer()
+      maskOutputBuffer.resize(1024, 0)
+
+      const maskProcessor = context.createScriptProcessor(512, 2, 2)
+      maskProcessor.onaudioprocess = audioProcessingEvent => {
+        const { inputBuffer, outputBuffer } = audioProcessingEvent
+
+        const inputData = inputBuffer.getChannelData(0)
+
+        for (let i = 0; i < inputData.length; i++) {
+          maskInputBuffer.set(i, inputData[i])
+        }
+
+        maskSource.ProcessAnechoic(maskInputBuffer, maskOutputBuffer)
+
+        const outputDataLeft = outputBuffer.getChannelData(0)
+        const outputDataRight = outputBuffer.getChannelData(1)
+
+        for (let i = 0; i < outputDataLeft.length; i++) {
+          outputDataLeft[i] = maskOutputBuffer.get(i * 2)
+          outputDataRight[i] = maskOutputBuffer.get(i * 2 + 1)
+        }
+      }
+
+      return {
+        ...aggr,
+        [channel]: {
+          source: maskSource,
+          processor: maskProcessor,
+        },
+      }
+    }, {})
+
     return {
       listener,
       source,
       processor,
+      masks,
       setSourcePosition,
       setPerformanceModeEnabled,
       setHeadRadius,

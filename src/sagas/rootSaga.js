@@ -1,5 +1,5 @@
 import { call, put, select, take } from 'redux-saga/effects'
-import { values } from 'lodash'
+import { get, reduce, values } from 'lodash'
 
 import {
   ActionType,
@@ -31,17 +31,20 @@ function* applyComponentSource() {
     ])
 
     if (type === ActionType.SET_TARGET) {
-      yield call(
-        engine.setComponentSource,
-        SonicComponent.TARGET,
-        getFileUrl(payload.target)
-      )
+      yield call(engine.setTargetSource, getFileUrl(payload.target))
     } else if (type === ActionType.SET_MASK) {
-      yield call(
-        engine.setComponentSource,
-        SonicComponent.MASK,
-        getFileUrl(payload.mask)
+      const maskFilenames = yield select(state =>
+        get(state, ['masking', 'masks', payload.mask, 'filename'])
       )
+      const maskUrls = reduce(
+        maskFilenames,
+        (aggr, filename, channel) => ({
+          ...aggr,
+          [channel]: getFileUrl(filename),
+        }),
+        {}
+      )
+      yield call(engine.setMaskSource, maskUrls)
     }
 
     const playbackState = yield select(state => state.controls.playbackState)

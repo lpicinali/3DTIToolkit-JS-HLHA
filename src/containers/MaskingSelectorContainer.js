@@ -32,12 +32,10 @@ class MaskSelectorContainer extends Component {
       masks,
       (aggr, file) => ({
         ...aggr,
-        [file.filename]: file.title,
+        [file.title]: file.title,
       }),
       {}
     )
-
-    console.log({ options })
 
     return (
       <div>

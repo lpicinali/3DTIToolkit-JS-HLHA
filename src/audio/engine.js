@@ -1,12 +1,14 @@
 // import decode from 'audio-decode'
 import bufferToArrayBuffer from 'buffer-to-arraybuffer'
 import got from 'got'
+import { map } from 'lodash'
 
 import {
   HearingLossGrade,
   SimulatorType,
   SonicComponent,
 } from 'src/constants.js'
+import { fetchAudioBuffer } from 'src/utils.js'
 import { getInstance } from 'src/audio/binauralSpatializer.js'
 import {
   createNode,
@@ -43,23 +45,30 @@ export const pause = () => {
   }
 }
 
-export const setComponentSource = (id, url) => {
-  console.log('setComponentSource', id, url)
-
+export const setTargetSource = url => {
   pause()
 
-  return got(url, { encoding: null })
-    .then(response => bufferToArrayBuffer(response.body))
-    .then(arrayBuffer => decode(arrayBuffer, context))
+  return fetchAudioBuffer(url)
     .then(audioBuffer => {
       const node = createNode(audioBuffer)
-      if (id === SonicComponent.TARGET) {
-        setTargetNode(node)
-      } else if (id === SonicComponent.MASK) {
-        setMaskNode(node)
-      }
+      setTargetNode(node)
     })
     .catch(err => console.error(err))
+}
+
+export const setMaskSource = urls => {
+  pause()
+
+  return Promise.all(
+    map(urls, (url, channel) => {
+      return fetchAudioBuffer(url)
+        .then(audioBuffer => {
+          const node = createNode(audioBuffer)
+          setMaskNode(node, channel)
+        })
+        .catch(err => console.error(err))
+    })
+  )
 }
 
 export const setComponentVolume = (id, volume) => {

@@ -1,17 +1,35 @@
 /* global location */
-import { SonicComponent } from 'src/constants.js'
+import { Ear, SonicComponent } from 'src/constants.js'
 
 export default {
   [SonicComponent.MASK]: [
-    { title: 'Large cafe', filename: 'Cafe_large_crowd_02.m4a' },
-    { title: 'Medium cafe', filename: 'Cafe_med_crowd.m4a' },
+    {
+      title: 'Large cafe',
+      filename: {
+        [Ear.LEFT]: 'Cafe_large_crowd_02_LEFT.m4a',
+        [Ear.RIGHT]: 'Cafe_large_crowd_02_RIGHT.m4a',
+      },
+    },
+    {
+      title: 'Medium cafe',
+      filename: {
+        [Ear.LEFT]: 'Cafe_med_crowd_LEFT.m4a',
+        [Ear.RIGHT]: 'Cafe_med_crowd_RIGHT.m4a',
+      },
+    },
     {
       title: 'Street - low traffic',
-      filename: 'Street_low_traffic_footway_01.m4a',
+      filename: {
+        [Ear.LEFT]: 'Street_low_traffic_footway_01_LEFT.m4a',
+        [Ear.RIGHT]: 'Street_low_traffic_footway_01_RIGHT.m4a',
+      },
     },
     {
       title: 'Street - medium traffic',
-      filename: 'Street_med_traffic_footway_01.m4a',
+      filename: {
+        [Ear.LEFT]: 'Street_med_traffic_footway_01_LEFT.m4a',
+        [Ear.RIGHT]: 'Street_med_traffic_footway_01_RIGHT.m4a',
+      },
     },
   ],
   [SonicComponent.TARGET]: [

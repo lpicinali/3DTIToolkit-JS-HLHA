@@ -5,7 +5,7 @@ const initialState = {
   masks: audioFiles[SonicComponent.MASK].reduce(
     (aggr, file) => ({
       ...aggr,
-      [file.filename]: file,
+      [file.title]: file,
     }),
     {}
   ),
