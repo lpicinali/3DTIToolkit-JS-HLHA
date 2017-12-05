@@ -1,4 +1,4 @@
-import { ActionType, Ear, PlaybackState } from 'src/constants.js'
+import { ActionType, PlaybackState } from 'src/constants.js'
 
 const initialState = {
   playbackState: PlaybackState.PAUSED,
@@ -11,8 +11,7 @@ const initialState = {
   isPerformanceModeEnabled: false,
   headRadius: 0.0875,
   isDirectionalityEnabled: true,
-  directionalityAttenuationLeft: 0,
-  directionalityAttenuationRight: 0,
+  directionalityValue: 0,
 }
 
 export default function(state = initialState, { type, payload }) {
@@ -31,12 +30,8 @@ export default function(state = initialState, { type, payload }) {
   if (type === ActionType.SET_DIRECTIONALITY_ENABLED) {
     return { ...state, isDirectionalityEnabled: payload.isEnabled }
   }
-  if (type === ActionType.SET_DIRECTIONALITY_ATTENUATION) {
-    if (payload.ear === Ear.LEFT) {
-      return { ...state, directionalityAttenuationLeft: payload.attenuation }
-    } else if (payload.ear === Ear.RIGHT) {
-      return { ...state, directionalityAttenuationRight: payload.attenuation }
-    }
+  if (type === ActionType.SET_DIRECTIONALITY_VALUE) {
+    return { ...state, directionalityValue: payload.value }
   }
   if (type === ActionType.SET_MASK_VOLUME) {
     return { ...state, maskVolume: payload.volume }

@@ -3,6 +3,7 @@ import { get, reduce, values } from 'lodash'
 
 import {
   ActionType,
+  Ear,
   HearingLossGrade,
   PlaybackState,
   SonicComponent,
@@ -94,8 +95,10 @@ function* applyDirectionalityEnabled() {
 
 function* applyDirectionalityAttenuation() {
   while (true) {
-    const { payload } = yield take(ActionType.SET_DIRECTIONALITY_ATTENUATION)
-    engine.setDirectionalityAttenuation(payload.ear, payload.attenuation)
+    const { payload } = yield take(ActionType.SET_DIRECTIONALITY_VALUE)
+    const attenuation = payload.value * 30
+    engine.setDirectionalityAttenuation(Ear.LEFT, attenuation)
+    engine.setDirectionalityAttenuation(Ear.RIGHT, attenuation)
   }
 }
 

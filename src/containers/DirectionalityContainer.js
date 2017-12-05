@@ -1,13 +1,25 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import styled from 'styled-components'
 
-import { Ear } from 'src/constants.js'
 import {
-  setDirectionalityAttenuation,
+  setDirectionalityValue,
   setDirectionalityEnabled,
 } from 'src/actions/controls.actions.js'
 import Slider from 'src/components/Slider.js'
+import { BLACK } from 'src/styles/colors.js'
+
+const LeftRightLabels = styled.div`
+  display: flex;
+  color: ${BLACK};
+  font-size: 10px;
+  opacity: 0.5;
+
+  > *:first-child {
+    flex-grow: 1;
+  }
+`
 
 /**
  * Directionality Container
@@ -15,20 +27,13 @@ import Slider from 'src/components/Slider.js'
 class DirectionalityContainer extends PureComponent {
   static propTypes = {
     isEnabled: PropTypes.bool.isRequired,
-    attenuationLeft: PropTypes.number.isRequired,
-    attenuationRight: PropTypes.number.isRequired,
+    value: PropTypes.number.isRequired,
     onChangeEnabled: PropTypes.func.isRequired,
-    onChangeAttenuation: PropTypes.func.isRequired,
+    onChangeValue: PropTypes.func.isRequired,
   }
 
   render() {
-    const {
-      isEnabled,
-      attenuationLeft,
-      attenuationRight,
-      onChangeEnabled,
-      onChangeAttenuation,
-    } = this.props
+    const { isEnabled, value, onChangeEnabled, onChangeValue } = this.props
 
     return (
       <div className="DirectionalityContainer">
@@ -44,25 +49,17 @@ class DirectionalityContainer extends PureComponent {
         </div>
 
         <div>
-          Left attenuation
           <Slider
-            value={attenuationLeft}
-            min={-20}
-            max={20}
-            step={0.1}
-            onChange={value => onChangeAttenuation(Ear.LEFT, value)}
+            value={value}
+            min={-1}
+            max={1}
+            step={0.05}
+            onChange={onChangeValue}
           />
-        </div>
-
-        <div>
-          Right attenuation
-          <Slider
-            value={attenuationRight}
-            min={-20}
-            max={20}
-            step={0.1}
-            onChange={value => onChangeAttenuation(Ear.RIGHT, value)}
-          />
+          <LeftRightLabels>
+            <span>Omni-directional</span>
+            <span>Directional</span>
+          </LeftRightLabels>
         </div>
       </div>
     )
@@ -72,12 +69,10 @@ class DirectionalityContainer extends PureComponent {
 export default connect(
   state => ({
     isEnabled: state.controls.isDirectionalityEnabled,
-    attenuationLeft: state.controls.directionalityAttenuationLeft,
-    attenuationRight: state.controls.directionalityAttenuationRight,
+    value: state.controls.directionalityValue,
   }),
   dispatch => ({
     onChangeEnabled: isEnabled => dispatch(setDirectionalityEnabled(isEnabled)),
-    onChangeAttenuation: (ear, attenuation) =>
-      dispatch(setDirectionalityAttenuation(ear, attenuation)),
+    onChangeValue: value => dispatch(setDirectionalityValue(value)),
   })
 )(DirectionalityContainer)
