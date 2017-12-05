@@ -20,7 +20,7 @@ class NoiseBitSlider extends Component {
 
     return (
       <NoiseBitSliderWrap>
-        <Slider min={1} max={16} step={1} value={value} onChange={onChange} />
+        <Slider min={6} max={16} step={1} value={value} onChange={onChange} />
 
         <output>{value}</output>
       </NoiseBitSliderWrap>
