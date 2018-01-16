@@ -3,9 +3,9 @@ import { HearingLossGrade, SimulatorType } from 'src/constants.js'
 export default {
   [SimulatorType.LOSS]: {
     [HearingLossGrade.NONE]: [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [HearingLossGrade.MILD]: [7, 7, 12, 15, 22, 25, 25, 25, 25],
-    [HearingLossGrade.MODERATE]: [22, 22, 27, 30, 37, 40, 40, 40, 40],
-    [HearingLossGrade.SEVERE]: [47, 47, 52, 55, 62, 65, 65, 65, 65],
+    [HearingLossGrade.MILD]: [7, 7, 12, 17, 28, 31, 31, 31, 31],
+    [HearingLossGrade.MODERATE]: [32, 32, 37, 42, 53, 56, 56, 56, 56],
+    [HearingLossGrade.SEVERE]: [62, 62, 67, 72, 83, 86, 86, 86, 86],
   },
   [SimulatorType.AID]: {
     [HearingLossGrade.NONE]: [0, 0, 0, 0, 0, 0, 0],
