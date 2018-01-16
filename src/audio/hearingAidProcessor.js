@@ -28,11 +28,12 @@ has.Setup(
   0.707 // HPF Q
 )
 
-// Add noise
 has.EnableHearingAidSimulation(T_ear.BOTH)
 has.EnableQuantizationBeforeEqualizer()
 has.EnableQuantizationAfterEqualizer()
 has.SetQuantizationBits(12)
+has.GetDynamicEqualizer(T_ear.LEFT).EnableLevelsInterpolation()
+has.GetDynamicEqualizer(T_ear.RIGHT).EnableLevelsInterpolation()
 
 let isEnabled = false
 
