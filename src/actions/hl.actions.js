@@ -1,9 +1,14 @@
 /* eslint import/prefer-default-export: 0 */
 import { ActionType } from 'src/constants.js'
 
-export const setFrequencySmearingEnabled = isEnabled => ({
-  type: ActionType.SET_HL_FREQUENCY_SMEARING_ENABLED,
-  payload: { isEnabled },
+export const setFrequencySmearingPreset = preset => ({
+  type: ActionType.SET_HL_FREQUENCY_SMEARING_PRESET,
+  payload: { preset },
+})
+
+export const setTemporalDistortionPreset = preset => ({
+  type: ActionType.SET_HL_TEMPORAL_DISTORTION_PRESET,
+  payload: { preset },
 })
 
 export const setHlGrade = grade => ({

@@ -126,12 +126,21 @@ function* applyTargetPosition() {
   }
 }
 
-function* applyFrequencySmearingToggle() {
+function* applyFrequencySmearingPresets() {
   while (true) {
-    const { payload: { isEnabled } } = yield take(
-      ActionType.SET_HL_FREQUENCY_SMEARING_ENABLED
+    const { payload: { preset } } = yield take(
+      ActionType.SET_HL_FREQUENCY_SMEARING_PRESET
     )
-    yield call(engine.setFrequencySmearingEnabled, isEnabled)
+    yield call(engine.setFrequencySmearingPreset, preset)
+  }
+}
+
+function* applyTemporalDistortionPresets() {
+  while (true) {
+    const { payload: { preset } } = yield take(
+      ActionType.SET_HL_TEMPORAL_DISTORTION_PRESET
+    )
+    yield call(engine.setTemporalDistortionPreset, preset)
   }
 }
 
@@ -168,7 +177,8 @@ export default function* rootSaga() {
     applyDirectionalityAttenuation(),
     applySimulatorPresets(),
     applyTargetPosition(),
-    applyFrequencySmearingToggle(),
+    applyFrequencySmearingPresets(),
+    applyTemporalDistortionPresets(),
     applyAidNoiseBits(),
     makeAidFollowLoss(),
   ]

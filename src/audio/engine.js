@@ -28,7 +28,8 @@ import {
 } from 'src/audio/hearingAidProcessor.js'
 import {
   setGains as setHearingLossGains,
-  setFrequencySmearingEnabled as setHearingLossFrequencySmearingEnabled,
+  setFrequencySmearingPreset as setHearingLossFrequencySmearingPreset,
+  setTemporalDistortionPreset as setHearingLossTemporalDistortionPreset,
 } from 'src/audio/hearingLossProcessor.js'
 import presets from 'src/audio/presets.js'
 
@@ -125,8 +126,12 @@ export const setHearingLossPreset = presetName => {
   setHearingLossGains(gains)
 }
 
-export const setFrequencySmearingEnabled = isEnabled => {
-  setHearingLossFrequencySmearingEnabled(isEnabled)
+export const setFrequencySmearingPreset = preset => {
+  setHearingLossFrequencySmearingPreset(preset)
+}
+
+export const setTemporalDistortionPreset = preset => {
+  setHearingLossTemporalDistortionPreset(preset)
 }
 
 export const setHearingAidPreset = presetName => {

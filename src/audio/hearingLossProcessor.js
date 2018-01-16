@@ -70,15 +70,54 @@ const setGains = gains => {
   hls.SetFromAudiometry_dBHL(T_ear.BOTH, gainsVector)
 }
 
-const setFrequencySmearingEnabled = isEnabled => {
-  console.log('setFrequencySmearingEnabled', isEnabled)
-  if (isEnabled === true) {
-    hls.EnableFrequencySmearing(T_ear.BOTH)
-  } else if (isEnabled === false) {
+const setFrequencySmearingPreset = preset => {
+  if (preset === HearingLossGrade.NONE) {
     hls.DisableFrequencySmearing(T_ear.BOTH)
+  } else {
+    hls.EnableFrequencySmearing(T_ear.BOTH)
+
+    const { bufferSize, smearing } = presets[SimulatorType.FREQUENCY_SMEARING][
+      preset
+    ]
+    for (const ear in [T_ear.LEFT, T_ear.RIGHT]) {
+      const smearingSimulator = hls.GetFrequencySmearingSimulator(ear)
+      smearingSimulator.SetDownwardSmearingBufferSize(bufferSize.downward)
+      smearingSimulator.SetUpwardSmearingBufferSize(bufferSize.upward)
+      smearingSimulator.SetDownwardSmearing_Hz(smearing.downward)
+      smearingSimulator.SetUpwardSmearing_Hz(smearing.upward)
+    }
+  }
+}
+
+const setTemporalDistortionPreset = preset => {
+  if (preset === HearingLossGrade.NONE) {
+    hls.DisableTemporalDistortion(T_ear.BOTH)
+  } else {
+    hls.EnableTemporalDistortion(T_ear.BOTH)
+
+    const presetValues = presets[SimulatorType.TEMPORAL_DISTORTION][preset]
+    const tdSimulator = hls.GetTemporalDistortionSimulator()
+    tdSimulator.SetLeftRightNoiseSynchronicity(presetValues.noiseSynchronicity)
+    tdSimulator.SetWhiteNoisePower(T_ear.LEFT, presetValues.whiteNoisePower)
+    tdSimulator.SetWhiteNoisePower(T_ear.RIGHT, presetValues.whiteNoisePower)
+    tdSimulator.SetNoiseAutocorrelationFilterCutoffFrequency(
+      T_ear.LEFT,
+      presetValues.cutoffFrequency
+    )
+    tdSimulator.SetNoiseAutocorrelationFilterCutoffFrequency(
+      T_ear.RIGHT,
+      presetValues.cutoffFrequency
+    )
+    tdSimulator.SetBandUpperLimit(T_ear.LEFT, presetValues.bandUpperLimit)
+    tdSimulator.SetBandUpperLimit(T_ear.RIGHT, presetValues.bandUpperLimit)
   }
 }
 
 export default hearingLossProcessor
 
-export { hearingLossProcessor, setGains, setFrequencySmearingEnabled }
+export {
+  hearingLossProcessor,
+  setGains,
+  setFrequencySmearingPreset,
+  setTemporalDistortionPreset,
+}
