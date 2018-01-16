@@ -126,6 +126,15 @@ function* applyTargetPosition() {
   }
 }
 
+function* applyFrequencySmearingToggle() {
+  while (true) {
+    const { payload: { isEnabled } } = yield take(
+      ActionType.SET_HL_FREQUENCY_SMEARING_ENABLED
+    )
+    yield call(engine.setFrequencySmearingEnabled, isEnabled)
+  }
+}
+
 function* applyAidNoiseBits() {
   while (true) {
     const { payload: { numBits } } = yield take(
@@ -159,6 +168,7 @@ export default function* rootSaga() {
     applyDirectionalityAttenuation(),
     applySimulatorPresets(),
     applyTargetPosition(),
+    applyFrequencySmearingToggle(),
     applyAidNoiseBits(),
     makeAidFollowLoss(),
   ]

@@ -70,6 +70,15 @@ const setGains = gains => {
   hls.SetFromAudiometry_dBHL(T_ear.BOTH, gainsVector)
 }
 
+const setFrequencySmearingEnabled = isEnabled => {
+  console.log('setFrequencySmearingEnabled', isEnabled)
+  if (isEnabled === true) {
+    hls.EnableFrequencySmearing(T_ear.BOTH)
+  } else if (isEnabled === false) {
+    hls.DisableFrequencySmearing(T_ear.BOTH)
+  }
+}
+
 export default hearingLossProcessor
 
-export { hearingLossProcessor, setGains }
+export { hearingLossProcessor, setGains, setFrequencySmearingEnabled }
