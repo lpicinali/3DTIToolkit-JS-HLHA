@@ -7,7 +7,7 @@ const initialState = {
     distance: 30,
   },
   targetVolume: 0.5,
-  maskVolume: 0.5,
+  maskVolume: 0.1,
   isPerformanceModeEnabled: false,
   headRadius: 0.0875,
   isDirectionalityEnabled: true,

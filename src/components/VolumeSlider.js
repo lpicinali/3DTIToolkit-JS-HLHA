@@ -1,11 +1,9 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { autobind } from 'core-decorators'
+import { fromGain, toGain } from 'decibels'
 
 import Slider from 'src/components/Slider.js'
-
-const gainToDecibels = value => 20 * (0.43429 * Math.log(value))
-const decibelsToGain = value => Math.exp(value / 8.6858)
 
 /**
  * Volume Slider
@@ -18,7 +16,7 @@ class VolumeSlider extends PureComponent {
 
   @autobind
   handleSliderChange(value) {
-    this.props.onChange(decibelsToGain(value))
+    this.props.onChange(toGain(value))
   }
 
   render() {
@@ -26,7 +24,7 @@ class VolumeSlider extends PureComponent {
 
     return (
       <Slider
-        value={gainToDecibels(volume)}
+        value={fromGain(volume)}
         min={-40}
         max={20}
         step={1}
