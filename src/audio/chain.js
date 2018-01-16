@@ -45,6 +45,9 @@ getBinauralSpatializer().then(spatializer => {
   spatializer.masks[Ear.LEFT].processor.connect(input)
   spatializer.masks[Ear.RIGHT].processor.connect(input)
 
+  maskVolumes[Ear.LEFT].gain.value = 0.1
+  maskVolumes[Ear.RIGHT].gain.value = 0.1
+
   // Simulators
   input.connect(hearingLossProcessor)
   hearingLossProcessor.connect(hearingAidProcessor)
