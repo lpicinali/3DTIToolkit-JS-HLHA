@@ -5,6 +5,7 @@ import {
   CStereoBuffer,
   CTransform,
   CVector3,
+  T_ear,
   TSpatializationMode,
 } from '3dti-toolkit'
 import { map } from 'lodash'
@@ -58,26 +59,26 @@ function createInstance() {
 
     function setDirectionalityEnabled(isEnabled) {
       if (isEnabled === true) {
-        listener.EnableLeftDirectionality()
-        listener.EnableRightDirectionality()
+        listener.EnableDirectionality(T_ear.LEFT)
+        listener.EnableDirectionality(T_ear.RIGHT)
       } else {
-        listener.DisableLeftDirectionality()
-        listener.DisableRightDirectionality()
+        listener.DisableDirectionality(T_ear.LEFT)
+        listener.DisableDirectionality(T_ear.RIGHT)
       }
     }
 
     function setDirectionalityAttenuation(ear, attenuation) {
       if (ear === Ear.LEFT) {
-        listener.SetLeftDirectionalityAttenuation(attenuation)
+        listener.SetDirectionality_dB(T_ear.LEFT, attenuation)
       } else if (ear === Ear.RIGHT) {
-        listener.SetRightDirectionalityAttenuation(attenuation)
+        listener.SetDirectionality_dB(T_ear.RIGHT, attenuation)
       }
     }
 
     listener = binauralApi.CreateListener(hrirsVector, 0.0875)
     listener.SetListenerTransform(new CTransform())
-    listener.EnableLeftDirectionality()
-    listener.EnableRightDirectionality()
+    listener.EnableDirectionality(T_ear.LEFT)
+    listener.EnableDirectionality(T_ear.RIGHT)
 
     // Customized ITD is required for the HighPerformance mode to work
     listener.EnableCustomizedITD()
@@ -91,7 +92,7 @@ function createInstance() {
     const outputStereoBuffer = new CStereoBuffer()
     outputStereoBuffer.resize(1024, 0)
 
-    const processor = context.createScriptProcessor(512, 2, 2)
+    const processor = context.createScriptProcessor(512, 1, 2)
     processor.onaudioprocess = audioProcessingEvent => {
       const { inputBuffer, outputBuffer } = audioProcessingEvent
 

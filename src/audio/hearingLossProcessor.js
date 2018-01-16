@@ -1,4 +1,10 @@
-import { CHearingLossSim, CMonoBuffer, FloatVector, T_ear } from '3dti-toolkit'
+import {
+  CHearingLossSim,
+  EarPairBuffers,
+  FloatVector,
+  ProcessHLS,
+  T_ear,
+} from '3dti-toolkit'
 
 import { HearingLossGrade, SimulatorType } from 'src/constants.js'
 import context from 'src/audio/context.js'
@@ -9,20 +15,21 @@ const hls = new CHearingLossSim()
 hls.Setup(
   44100,
   100, // Calibration_dBs_SPL_for_0_dBs_fs
-  125,
+  62.5,
   presets[SimulatorType.LOSS][HearingLossGrade.NONE].length,
-  1
+  1,
+  512
 )
+hls.DisableTemporalDistortion(T_ear.BOTH)
+hls.DisableFrequencySmearing(T_ear.BOTH)
 
 // Buffers
-const inputStereoBufferLeft = new CMonoBuffer()
-const inputStereoBufferRight = new CMonoBuffer()
-const outputStereoBufferLeft = new CMonoBuffer()
-const outputStereoBufferRight = new CMonoBuffer()
-inputStereoBufferLeft.resize(512, 0)
-inputStereoBufferRight.resize(512, 0)
-outputStereoBufferLeft.resize(512, 0)
-outputStereoBufferRight.resize(512, 0)
+const inputBuffers = new EarPairBuffers()
+inputBuffers.Resize(512, 0)
+const outputBuffers = new EarPairBuffers()
+outputBuffers.Resize(512, 0)
+
+let f = 0
 
 // Audio processing
 const hearingLossProcessor = context.createScriptProcessor(512, 2, 2)
@@ -33,28 +40,34 @@ hearingLossProcessor.onaudioprocess = audioProcessingEvent => {
   const inputDataR = inputBuffer.getChannelData(1)
 
   for (let i = 0; i < inputDataL.length; i++) {
-    inputStereoBufferLeft.set(i, inputDataL[i])
-    inputStereoBufferRight.set(i, inputDataR[i])
+    inputBuffers.Set(T_ear.LEFT, i, inputDataL[i])
+    inputBuffers.Set(T_ear.RIGHT, i, inputDataR[i])
   }
 
-  hls.ProcessMono(T_ear.LEFT, inputStereoBufferLeft, outputStereoBufferLeft)
-  hls.ProcessMono(T_ear.RIGHT, inputStereoBufferRight, outputStereoBufferRight)
+  ProcessHLS(hls, inputBuffers, outputBuffers)
+
+  if (f % 10 === 0) {
+    // console.log(outputBuffers.GetLeft().get(111))
+  }
 
   const outputDataLeft = outputBuffer.getChannelData(0)
   const outputDataRight = outputBuffer.getChannelData(1)
 
   for (let i = 0; i < outputDataLeft.length; i++) {
-    outputDataLeft[i] = outputStereoBufferLeft.get(i)
-    outputDataRight[i] = outputStereoBufferRight.get(i)
+    outputDataLeft[i] = outputBuffers.Get(T_ear.LEFT, i)
+    outputDataRight[i] = outputBuffers.Get(T_ear.RIGHT, i)
   }
+
+  f++
 }
 
 // Set band gains
 const setGains = gains => {
-  gains.forEach((gain, i) => {
-    hls.SetHearingLevel_dBHL(T_ear.LEFT, i, gain)
-    hls.SetHearingLevel_dBHL(T_ear.RIGHT, i, gain)
-  })
+  const gainsVector = new FloatVector()
+  gainsVector.resize(gains.length, 0)
+  gains.forEach((gain, i) => gainsVector.set(i, gain))
+
+  hls.SetFromAudiometry_dBHL(T_ear.BOTH, gainsVector)
 }
 
 export default hearingLossProcessor

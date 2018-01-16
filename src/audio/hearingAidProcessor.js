@@ -1,61 +1,74 @@
-import { CHearingAidSim, CStereoBuffer, FloatVector } from '3dti-toolkit'
+import {
+  CHearingAidSim,
+  EarPairBuffers,
+  FloatVector,
+  ProcessHAS,
+  T_ear,
+} from '3dti-toolkit'
 
 import { HearingLossGrade, SimulatorType } from 'src/constants.js'
 import context from 'src/audio/context.js'
 import presets from 'src/audio/presets.js'
 
 const numBands = presets[SimulatorType.AID][HearingLossGrade.NONE].length
+const dBs_SPL_for_0_dBs_fs = 100
 
 // Hearing loss simulation instance
 const has = new CHearingAidSim()
 has.Setup(
   44100,
-  1, // TODO: Implement multiple levels
+  3, // Number of levels
   125, // Start frequency
   numBands, // Number of bands
   1, // Octave band step
   3000, // LPF frequency
-  300, // HPF frequency
-  0.7, // LPF Q
-  0.7, // BPF Q
-  0.7 // HPF Q
+  500, // HPF frequency
+  0.707, // LPF Q
+  1.4142, // BPF Q
+  0.707 // HPF Q
 )
 
 // Add noise
-has.addNoiseBefore = true
-has.addNoiseAfter = true
-has.noiseNumBits = 12
+has.EnableHearingAidSimulation(T_ear.BOTH)
+has.EnableQuantizationBeforeEqualizer()
+has.EnableQuantizationAfterEqualizer()
+has.SetQuantizationBits(12)
 
 let isEnabled = false
 
+let f = 0
+
 // Buffers
-const inputStereoBuffer = new CStereoBuffer()
-const outputStereoBuffer = new CStereoBuffer()
-inputStereoBuffer.resize(1024, 0)
-outputStereoBuffer.resize(1024, 0)
+const inputBuffers = new EarPairBuffers()
+inputBuffers.Resize(512, 0)
+const outputBuffers = new EarPairBuffers()
+outputBuffers.Resize(512, 0)
 
 // Audio processing
 const hearingAidProcessor = context.createScriptProcessor(512, 2, 2)
 hearingAidProcessor.onaudioprocess = audioProcessingEvent => {
   const { inputBuffer, outputBuffer } = audioProcessingEvent
 
-  const inputDataL = inputBuffer.getChannelData(0)
-  const inputDataR = inputBuffer.getChannelData(1)
-
-  for (let i = 0; i < inputDataL.length; i++) {
-    inputStereoBuffer.set(i * 2, inputDataL[i])
-    inputStereoBuffer.set(i * 2 + 1, inputDataR[i])
+  for (let i = 0; i < inputBuffer.getChannelData(0).length; i++) {
+    inputBuffers.Set(T_ear.LEFT, i, inputBuffer.getChannelData(0)[i])
+    inputBuffers.Set(T_ear.RIGHT, i, inputBuffer.getChannelData(1)[i])
   }
 
-  has.Process(inputStereoBuffer, outputStereoBuffer, isEnabled, isEnabled)
+  if (isEnabled === true) {
+    ProcessHAS(has, inputBuffers, outputBuffers)
 
-  const outputDataLeft = outputBuffer.getChannelData(0)
-  const outputDataRight = outputBuffer.getChannelData(1)
-
-  for (let i = 0; i < outputDataLeft.length; i++) {
-    outputDataLeft[i] = outputStereoBuffer.get(i * 2)
-    outputDataRight[i] = outputStereoBuffer.get(i * 2 + 1)
+    for (let i = 0; i < 512; i++) {
+      outputBuffer.getChannelData(0)[i] = outputBuffers.Get(T_ear.LEFT, i)
+      outputBuffer.getChannelData(1)[i] = outputBuffers.Get(T_ear.RIGHT, i)
+    }
+  } else {
+    for (let i = 0; i < 512; i++) {
+      outputBuffer.getChannelData(0)[i] = inputBuffer.getChannelData(0)[i]
+      outputBuffer.getChannelData(1)[i] = inputBuffer.getChannelData(1)[i]
+    }
   }
+
+  f++
 }
 
 // Enabled state
@@ -65,15 +78,20 @@ const setEnabled = enabled => {
 
 // Set band gains
 const setGains = gains => {
-  gains.forEach((gain, i) => {
-    has.SetLevelBandGain_dB(0, i, gain, true)
-    has.SetLevelBandGain_dB(0, i, gain, false)
-  })
+  const gainsVector = new FloatVector()
+  gainsVector.resize(gains.length, 0)
+  gains.forEach((gain, i) => gainsVector.set(i, gain))
+
+  has.SetDynamicEqualizerUsingFig6(
+    T_ear.BOTH,
+    gainsVector,
+    dBs_SPL_for_0_dBs_fs
+  )
 }
 
 // Set number of noise bits
 const setNumNoiseBits = numBits => {
-  has.noiseNumBits = numBits
+  has.SetQuantizationBits(numBits)
 }
 
 export default hearingAidProcessor
