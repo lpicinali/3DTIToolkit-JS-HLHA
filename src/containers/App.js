@@ -28,7 +28,7 @@ injectGlobal`
 `
 
 const Header = styled.header`
-  padding: 32px 16px 16px;
+  padding: 16px;
   background: ${BLUE};
   color: #fefefe;
 `
@@ -37,12 +37,13 @@ const HeaderContent = styled.div`
   width: 100%;
   max-width: ${MAX_WIDTH}px;
   margin: 0 auto;
+  font-size: 12px;
 `
 
 const Heading = styled.h1`
   margin: 0;
-  font-size: 24px;
-  line-height: 32px;
+  font-size: 20px;
+  line-height: 24px;
 `
 
 const AppContent = styled.div`
@@ -52,6 +53,8 @@ const AppContent = styled.div`
   margin: 0 auto;
   padding: 24px 16px;
 `
+
+const ContentPane = styled.div`width: 25%;`
 
 export default function App() {
   return (
@@ -67,34 +70,28 @@ export default function App() {
         <AppContent>
           <PlaybackControlsContainer />
 
-          <div
+          <ContentPane
             style={{
-              display: 'flex',
               flexWrap: 'wrap',
-              flex: '0 1 33.333%',
             }}
           >
             <TargetSelectorContainer />
 
             <H3>Position (radius of 30 meters)</H3>
             <PositionControllerContainer />
-          </div>
+          </ContentPane>
 
-          <div style={{ flex: '1 0 33.333%' }}>
+          <ContentPane>
             <MaskingSelectorContainer />
-          </div>
+          </ContentPane>
 
-          <div
-            style={{
-              flex: '1 0 33.333%',
-            }}
-          >
+          <ContentPane>
             <HearingLossSimulatorContainer />
+          </ContentPane>
 
-            <div style={{ marginTop: 40 }}>
-              <HearingAidSimulatorContainer />
-            </div>
-          </div>
+          <ContentPane>
+            <HearingAidSimulatorContainer />
+          </ContentPane>
         </AppContent>
       </div>
     </Provider>
