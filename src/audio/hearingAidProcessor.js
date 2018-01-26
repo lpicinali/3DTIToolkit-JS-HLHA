@@ -28,7 +28,9 @@ has.Setup(
   0.707 // HPF Q
 )
 
+has.Reset(T_ear.BOTH)
 has.EnableHearingAidSimulation(T_ear.BOTH)
+has.DisableNormalization(T_ear.BOTH)
 has.EnableQuantizationBeforeEqualizer()
 has.EnableQuantizationAfterEqualizer()
 has.SetQuantizationBits(12)
