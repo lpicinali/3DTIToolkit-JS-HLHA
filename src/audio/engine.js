@@ -17,6 +17,8 @@ import {
   setTargetVolume,
   setMaskVolume,
   startNodes,
+  stopTargetNode,
+  stopMaskNodes,
   stopNodes,
 } from 'src/audio/chain.js'
 import context from 'src/audio/context.js'

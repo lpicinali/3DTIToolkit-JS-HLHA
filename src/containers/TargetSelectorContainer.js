@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { reduce } from 'lodash'
+import { autobind } from 'core-decorators'
 
 import { circumferenceToRadius, radiusToCircumference } from 'src/utils.js'
 import {
@@ -35,6 +36,17 @@ class TargetSelectorContainer extends Component {
     target: null,
   }
 
+  @autobind
+  handleSelect(newTarget) {
+    const { target, onSelect } = this.props
+
+    if (newTarget === target) {
+      onSelect(null)
+    } else {
+      onSelect(newTarget)
+    }
+  }
+
   render() {
     const {
       targets,
@@ -42,7 +54,6 @@ class TargetSelectorContainer extends Component {
       volume,
       isPerformanceModeEnabled,
       headRadius,
-      onSelect,
       onChangeVolume,
       onChangePerformanceMode,
       onChangeHeadRadius,
@@ -67,7 +78,7 @@ class TargetSelectorContainer extends Component {
           enabledOptions={Object.keys(options)}
           value={target}
           isVertical
-          onSelect={onSelect}
+          onSelect={this.handleSelect}
         />
 
         <div style={{ display: 'flex' }}>

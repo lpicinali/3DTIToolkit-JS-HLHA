@@ -9,7 +9,7 @@ import hearingLossProcessor from 'src/audio/hearingLossProcessor.js'
 
 window.toolkit = toolkit || { nope: false }
 
-let targetNode
+let targetNode = null
 const targetInput = context.createGain()
 const targetVolume = context.createGain()
 
@@ -69,16 +69,24 @@ export const setTargetNode = node => {
   if (targetNode) {
     targetNode.disconnect()
   }
-  targetNode = node
-  targetNode.connect(targetInput)
+  if (node) {
+    targetNode = node
+    targetNode.connect(targetInput)
+  } else {
+    targetNode = null
+  }
 }
 
 export const setMaskNode = (node, channel) => {
   if (maskNodes[channel]) {
     maskNodes[channel].disconnect()
   }
-  maskNodes[channel] = node
-  maskNodes[channel].connect(maskInputs[channel])
+  if (node) {
+    maskNodes[channel] = node
+    maskNodes[channel].connect(maskInputs[channel])
+  } else {
+    maskNodes[channel] = null
+  }
 }
 
 export const setTargetVolume = newVolume => {
@@ -102,13 +110,16 @@ export const startNodes = () => {
   }
 }
 
-export const stopNodes = () => {
+export const stopTargetNode = () => {
   if (targetNode) {
     // Use disconnect instead of stop, because Safari
     targetNode.disconnect()
     targetNode = createNode(targetNode.buffer)
     setTargetNode(targetNode)
   }
+}
+
+export const stopMaskNodes = () => {
   if (maskNodes[Ear.LEFT]) {
     // Use disconnect instead of stop, because Safari
     maskNodes[Ear.LEFT].disconnect()
@@ -121,4 +132,9 @@ export const stopNodes = () => {
     maskNodes[Ear.RIGHT] = createNode(maskNodes[Ear.RIGHT].buffer)
     setMaskNode(maskNodes[Ear.RIGHT], Ear.RIGHT)
   }
+}
+
+export const stopNodes = () => {
+  stopTargetNode()
+  stopMaskNodes()
 }

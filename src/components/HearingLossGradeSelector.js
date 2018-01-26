@@ -30,8 +30,6 @@ class HearingLossGradeSelector extends Component {
   render() {
     const { grade, enabledGrades, onSelect } = this.props
 
-    console.log({ enabledGrades })
-
     return (
       <ButtonGroup
         options={HearingLossGradeSelector.gradeOptions}

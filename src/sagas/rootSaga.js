@@ -10,6 +10,12 @@ import {
 } from 'src/constants.js'
 import { setHaGrade } from 'src/actions/ha.actions.js'
 import { getFileUrl } from 'src/audio/audio-files.js'
+import {
+  setMaskNode,
+  setTargetNode,
+  stopMaskNodes,
+  stopTargetNode,
+} from 'src/audio/chain.js'
 import * as engine from 'src/audio/engine.js'
 
 function* applyPlayPause() {
@@ -32,26 +38,41 @@ function* applyComponentSource() {
     ])
 
     if (type === ActionType.SET_TARGET) {
-      yield call(engine.setTargetSource, getFileUrl(payload.target))
+      if (payload.target === null) {
+        yield call(stopTargetNode)
+        yield call(setTargetNode, null)
+      } else {
+        yield call(engine.setTargetSource, getFileUrl(payload.target))
+      }
     } else if (type === ActionType.SET_MASK) {
-      const maskFilenames = yield select(state =>
-        get(state, ['masking', 'masks', payload.mask, 'filename'])
-      )
-      const maskUrls = reduce(
-        maskFilenames,
-        (aggr, filename, channel) => ({
-          ...aggr,
-          [channel]: getFileUrl(filename),
-        }),
-        {}
-      )
-      yield call(engine.setMaskSource, maskUrls)
+      if (payload.mask === null) {
+        yield call(stopMaskNodes)
+        yield call(setMaskNode, null, Ear.LEFT)
+        yield call(setMaskNode, null, Ear.RIGHT)
+      } else {
+        const maskFilenames = yield select(state =>
+          get(state, ['masking', 'masks', payload.mask, 'filename'])
+        )
+        const maskUrls = reduce(
+          maskFilenames,
+          (aggr, filename, channel) => ({
+            ...aggr,
+            [channel]: getFileUrl(filename),
+          }),
+          {}
+        )
+        yield call(engine.setMaskSource, maskUrls)
+      }
     }
 
-    const playbackState = yield select(state => state.controls.playbackState)
-
-    if (playbackState === PlaybackState.PLAYING) {
-      yield call(engine.play)
+    if (
+      (type === ActionType.SET_TARGET && payload.target !== null) ||
+      (type === ActionType.SET_MASK && payload.mask !== null)
+    ) {
+      const playbackState = yield select(state => state.controls.playbackState)
+      if (playbackState === PlaybackState.PLAYING) {
+        yield call(engine.play)
+      }
     }
   }
 }

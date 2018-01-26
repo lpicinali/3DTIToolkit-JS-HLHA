@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { reduce } from 'lodash'
+import { autobind } from 'core-decorators'
 
 import { setMaskVolume } from 'src/actions/controls.actions.js'
 import { setMask } from 'src/actions/masking.actions.js'
@@ -25,8 +26,19 @@ class MaskSelectorContainer extends Component {
     mask: null,
   }
 
+  @autobind
+  handleSelect(newMask) {
+    const { mask, onSelect } = this.props
+
+    if (newMask === mask) {
+      onSelect(null)
+    } else {
+      onSelect(newMask)
+    }
+  }
+
   render() {
-    const { masks, mask, volume, onSelect, onChangeVolume } = this.props
+    const { masks, mask, volume, onChangeVolume } = this.props
 
     const options = reduce(
       masks,
@@ -47,7 +59,7 @@ class MaskSelectorContainer extends Component {
           enabledOptions={Object.keys(options)}
           value={mask}
           isVertical
-          onSelect={onSelect}
+          onSelect={this.handleSelect}
         />
 
         <H3>Volume</H3>
