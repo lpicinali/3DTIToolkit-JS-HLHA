@@ -2,13 +2,17 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { values } from 'lodash'
+import styled from 'styled-components'
 
 import { HearingLossGrade } from 'src/constants.js'
 import * as CustomPropTypes from 'src/prop-types.js'
 import { setHaGrade, setHaNumNoiseBits } from 'src/actions/ha.actions.js'
 import HearingLossGradeSelector from 'src/components/HearingLossGradeSelector.js'
 import NoiseBitSlider from 'src/components/NoiseBitSlider.js'
+import DirectionalityContainer from 'src/containers/DirectionalityContainer.js'
 import { H2, H3 } from 'src/styles/elements.js'
+
+const DirectionalityWrapper = styled.div`width: 130px;`
 
 /**
  * Hearing Aid Simulator Container
@@ -55,6 +59,11 @@ class HearingAidSimulatorContainer extends Component {
           value={hearingAidNumNoiseBits}
           onChange={onNumNoiseBitsChange}
         />
+
+        <DirectionalityWrapper>
+          <H3>Directionality</H3>
+          <DirectionalityContainer />
+        </DirectionalityWrapper>
       </div>
     )
   }
