@@ -123,6 +123,18 @@ function* applyDirectionalityAttenuation() {
   }
 }
 
+function* toggleDirectionalityEnabledFromHearingAidPreset() {
+  while (true) {
+    const { payload } = yield take(ActionType.SET_HA_GRADE)
+    if (payload.grade === HearingLossGrade.NONE) {
+      yield call(engine.setDirectionalityEnabled, false)
+    } else {
+      const isEnabled = yield select(state => state.isDirectionalityEnabled)
+      yield call(engine.setDirectionalityEnabled, isEnabled)
+    }
+  }
+}
+
 function* applySimulatorPresets() {
   while (true) {
     const { type, payload } = yield take([
@@ -196,6 +208,7 @@ export default function* rootSaga() {
     applyHeadRadius(),
     applyDirectionalityEnabled(),
     applyDirectionalityAttenuation(),
+    toggleDirectionalityEnabledFromHearingAidPreset(),
     applySimulatorPresets(),
     applyTargetPosition(),
     applyFrequencySmearingPresets(),

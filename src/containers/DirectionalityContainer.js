@@ -1,14 +1,24 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
+import { HearingLossGrade } from 'src/constants.js'
 import {
   setDirectionalityValue,
   setDirectionalityEnabled,
 } from 'src/actions/controls.actions.js'
 import Slider from 'src/components/Slider.js'
 import { BLACK } from 'src/styles/colors.js'
+
+const DirectionalityContainerWrapper = styled.div`
+  ${props =>
+    props.isEnablable === false &&
+    css`
+      opacity: 0.5;
+      pointer-events: none;
+    `};
+`
 
 const LeftRightLabels = styled.div`
   display: flex;
@@ -27,21 +37,28 @@ const LeftRightLabels = styled.div`
 class DirectionalityContainer extends PureComponent {
   static propTypes = {
     isEnabled: PropTypes.bool.isRequired,
+    isEnablable: PropTypes.bool.isRequired,
     value: PropTypes.number.isRequired,
     onChangeEnabled: PropTypes.func.isRequired,
     onChangeValue: PropTypes.func.isRequired,
   }
 
   render() {
-    const { isEnabled, value, onChangeEnabled, onChangeValue } = this.props
+    const {
+      isEnabled,
+      isEnablable,
+      value,
+      onChangeEnabled,
+      onChangeValue,
+    } = this.props
 
     return (
-      <div className="DirectionalityContainer">
+      <DirectionalityContainerWrapper isEnablable={isEnablable}>
         <div>
           <label>
             <input
               type="checkbox"
-              checked={isEnabled}
+              checked={isEnabled && isEnablable}
               onChange={() => onChangeEnabled(!isEnabled)}
             />
             Enabled
@@ -61,7 +78,7 @@ class DirectionalityContainer extends PureComponent {
             <span>Directional</span>
           </LeftRightLabels>
         </div>
-      </div>
+      </DirectionalityContainerWrapper>
     )
   }
 }
@@ -69,6 +86,7 @@ class DirectionalityContainer extends PureComponent {
 export default connect(
   state => ({
     isEnabled: state.controls.isDirectionalityEnabled,
+    isEnablable: state.ha.grade !== HearingLossGrade.NONE,
     value: state.controls.directionalityValue,
   }),
   dispatch => ({
