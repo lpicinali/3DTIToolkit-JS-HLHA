@@ -17,3 +17,13 @@ export function fetchAudioBuffer(url) {
     .then(response => bufferToArrayBuffer(response.body))
     .then(arrayBuffer => decode(arrayBuffer, context))
 }
+
+export function cast(val, fromLower, fromUpper, toLower, toUpper) {
+  if (toUpper === toLower) {
+    return toUpper
+  }
+
+  return (
+    (val - fromLower) * (toUpper - toLower) / (fromUpper - fromLower) + toLower
+  )
+}

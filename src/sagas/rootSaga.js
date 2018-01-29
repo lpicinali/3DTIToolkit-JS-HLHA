@@ -8,6 +8,7 @@ import {
   PlaybackState,
   SonicComponent,
 } from 'src/constants.js'
+import { cast } from 'src/utils.js'
 import { setHaGrade } from 'src/actions/ha.actions.js'
 import { getFileUrl } from 'src/audio/audio-files.js'
 import {
@@ -117,7 +118,7 @@ function* applyDirectionalityEnabled() {
 function* applyDirectionalityAttenuation() {
   while (true) {
     const { payload } = yield take(ActionType.SET_DIRECTIONALITY_VALUE)
-    const attenuation = payload.value * 30
+    const attenuation = cast(payload.value, -1, 1, 0, 30)
     engine.setDirectionalityAttenuation(Ear.LEFT, attenuation)
     engine.setDirectionalityAttenuation(Ear.RIGHT, attenuation)
   }
