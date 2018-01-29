@@ -10,7 +10,7 @@ import { HearingLossGrade, SimulatorType } from 'src/constants.js'
 import context from 'src/audio/context.js'
 import presets from 'src/audio/presets.js'
 
-const numBands = presets[SimulatorType.AID][HearingLossGrade.NONE].length
+const numBands = presets[SimulatorType.LOSS][HearingLossGrade.NONE].length
 const dBs_SPL_for_0_dBs_fs = 100
 
 // Hearing loss simulation instance
@@ -30,10 +30,12 @@ has.Setup(
 
 has.Reset(T_ear.BOTH)
 has.EnableHearingAidSimulation(T_ear.BOTH)
-has.DisableNormalization(T_ear.BOTH)
-has.EnableQuantizationBeforeEqualizer()
-has.EnableQuantizationAfterEqualizer()
-has.SetQuantizationBits(12)
+has.EnableNormalization(T_ear.BOTH)
+// has.EnableQuantizationBeforeEqualizer()
+// has.EnableQuantizationAfterEqualizer()
+has.DisableQuantizationBeforeEqualizer()
+has.DisableQuantizationAfterEqualizer()
+// has.SetQuantizationBits(12)
 has.GetDynamicEqualizer(T_ear.LEFT).EnableLevelsInterpolation()
 has.GetDynamicEqualizer(T_ear.RIGHT).EnableLevelsInterpolation()
 
