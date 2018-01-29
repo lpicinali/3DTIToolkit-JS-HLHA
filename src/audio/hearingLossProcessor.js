@@ -79,13 +79,15 @@ const setFrequencySmearingPreset = preset => {
     const { bufferSize, smearing } = presets[SimulatorType.FREQUENCY_SMEARING][
       preset
     ]
-    for (const ear in [T_ear.LEFT, T_ear.RIGHT]) {
+
+    const ears = [T_ear.LEFT, T_ear.RIGHT]
+    ears.forEach(ear => {
       const smearingSimulator = hls.GetFrequencySmearingSimulator(ear)
       smearingSimulator.SetDownwardSmearingBufferSize(bufferSize.downward)
       smearingSimulator.SetUpwardSmearingBufferSize(bufferSize.upward)
       smearingSimulator.SetDownwardSmearing_Hz(smearing.downward)
       smearingSimulator.SetUpwardSmearing_Hz(smearing.upward)
-    }
+    })
   }
 }
 
