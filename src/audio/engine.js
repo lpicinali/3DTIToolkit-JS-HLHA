@@ -1,6 +1,4 @@
 // import decode from 'audio-decode'
-import bufferToArrayBuffer from 'buffer-to-arraybuffer'
-import got from 'got'
 import { map } from 'lodash'
 
 import {
@@ -17,8 +15,6 @@ import {
   setTargetVolume,
   setMaskVolume,
   startNodes,
-  stopTargetNode,
-  stopMaskNodes,
   stopNodes,
 } from 'src/audio/chain.js'
 import context from 'src/audio/context.js'
