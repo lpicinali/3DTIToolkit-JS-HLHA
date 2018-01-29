@@ -85,7 +85,7 @@ function createInstance() {
     listener.EnableCustomizedITD()
 
     source = binauralApi.CreateSource()
-    setSourcePosition(Math.PI / 2, 30)
+    setSourcePosition(Math.PI / 2, 2)
 
     const inputMonoBuffer = new CMonoBuffer()
     inputMonoBuffer.resize(512, 0)
