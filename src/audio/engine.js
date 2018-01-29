@@ -133,8 +133,7 @@ export const setTemporalDistortionPreset = preset => {
 }
 
 export const setHearingAidPreset = presetName => {
-  const gains = presets[SimulatorType.AID][presetName]
-  console.log('setHearingAidPreset', presetName, gains)
+  const gains = presets[SimulatorType.LOSS][presetName]
 
   setHearingAidEnabled(presetName !== HearingLossGrade.NONE)
   setHearingAidGains(gains)
