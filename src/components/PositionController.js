@@ -60,7 +60,7 @@ class PositionController extends Component {
   }
 
   static defaultProps = {
-    size: 100,
+    size: 30,
   }
 
   state = {

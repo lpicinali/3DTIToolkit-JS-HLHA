@@ -4,7 +4,7 @@ const initialState = {
   playbackState: PlaybackState.PAUSED,
   targetPosition: {
     azimuth: Math.PI * 0.5,
-    distance: 30,
+    distance: 2,
   },
   targetVolume: 0.5,
   maskVolume: 0.1,

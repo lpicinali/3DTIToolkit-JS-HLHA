@@ -11,7 +11,6 @@ import PlaybackControlsContainer from 'src/containers/PlaybackControlsContainer.
 import PositionControllerContainer from 'src/containers/PositionControllerContainer.js'
 import TargetSelectorContainer from 'src/containers/TargetSelectorContainer.js'
 import { BLUE } from 'src/styles/colors.js'
-import { H3 } from 'src/styles/elements.js'
 import { MAX_WIDTH } from 'src/styles/layout.js'
 
 injectGlobal`
@@ -54,7 +53,9 @@ const AppContent = styled.div`
   padding: 24px 16px;
 `
 
-const ContentPane = styled.div`width: 25%;`
+const ContentPane = styled.div`
+  width: 25%;
+`
 
 export default function App() {
   return (
@@ -76,8 +77,6 @@ export default function App() {
             }}
           >
             <TargetSelectorContainer />
-
-            <H3>Position (radius of 30 meters)</H3>
             <PositionControllerContainer />
           </ContentPane>
 
