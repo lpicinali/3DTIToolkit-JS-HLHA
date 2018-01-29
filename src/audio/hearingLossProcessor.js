@@ -17,7 +17,7 @@ hls.Setup(
   100, // Calibration_dBs_SPL_for_0_dBs_fs
   62.5,
   presets[SimulatorType.LOSS][HearingLossGrade.NONE].length,
-  1,
+  3,
   512
 )
 hls.DisableTemporalDistortion(T_ear.BOTH)
