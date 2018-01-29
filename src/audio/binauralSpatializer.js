@@ -19,10 +19,8 @@ const binauralApi = new BinauralAPI()
 
 let instancePromise = null
 
-let listener
-let source
-let maskLeft
-let maskRight
+let listener = null
+let source = null
 
 function setPosition(target, azimuth, distance) {
   const transform = new CTransform()
@@ -44,13 +42,16 @@ function createInstance() {
     }
 
     function setPerformanceModeEnabled(isEnabled) {
-      map([source, maskLeft, maskRight], target =>
-        target.SetSpatializationMode(
-          isEnabled
-            ? TSpatializationMode.HighPerformance
-            : TSpatializationMode.HighQuality
-        )
-      )
+      const maskSources = [masks[Ear.LEFT], masks[Ear.RIGHT]].map(x => x.source)
+      map([source, ...maskSources], target => {
+        if (target !== null) {
+          target.SetSpatializationMode(
+            isEnabled
+              ? TSpatializationMode.HighPerformance
+              : TSpatializationMode.HighQuality
+          )
+        }
+      })
     }
 
     function setHeadRadius(radius) {
