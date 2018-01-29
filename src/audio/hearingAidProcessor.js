@@ -30,7 +30,7 @@ has.Setup(
 
 has.Reset(T_ear.BOTH)
 has.EnableHearingAidSimulation(T_ear.BOTH)
-has.EnableNormalization(T_ear.BOTH)
+// has.EnableNormalization(T_ear.BOTH)
 // has.EnableQuantizationBeforeEqualizer()
 // has.EnableQuantizationAfterEqualizer()
 has.DisableQuantizationBeforeEqualizer()
