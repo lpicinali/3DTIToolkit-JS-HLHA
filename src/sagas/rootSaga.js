@@ -130,7 +130,9 @@ function* toggleDirectionalityEnabledFromHearingAidPreset() {
     if (payload.grade === HearingLossGrade.NONE) {
       yield call(engine.setDirectionalityEnabled, false)
     } else {
-      const isEnabled = yield select(state => state.isDirectionalityEnabled)
+      const isEnabled = yield select(
+        state => state.controls.isDirectionalityEnabled
+      )
       yield call(engine.setDirectionalityEnabled, isEnabled)
     }
   }
