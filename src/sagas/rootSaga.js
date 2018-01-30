@@ -18,6 +18,7 @@ import {
   stopTargetNode,
 } from 'src/audio/chain.js'
 import * as engine from 'src/audio/engine.js'
+import { setQuantisationStepEnabled } from 'src/audio/hearingAidProcessor.js'
 
 function* applyPlayPause() {
   while (true) {
@@ -180,6 +181,15 @@ function* applyTemporalDistortionPresets() {
   }
 }
 
+function* applyQuantisationStepEnabled() {
+  while (true) {
+    const { payload: { step, isEnabled } } = yield take(
+      ActionType.SET_QUANTISATION_STEP_ENABLED
+    )
+    yield call(setQuantisationStepEnabled, step, isEnabled)
+  }
+}
+
 function* applyAidNoiseBits() {
   while (true) {
     const { payload: { numBits } } = yield take(
@@ -216,6 +226,7 @@ export default function* rootSaga() {
     applyTargetPosition(),
     applyFrequencySmearingPresets(),
     applyTemporalDistortionPresets(),
+    applyQuantisationStepEnabled(),
     applyAidNoiseBits(),
     makeAidFollowLoss(),
   ]

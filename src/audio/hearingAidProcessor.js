@@ -6,7 +6,11 @@ import {
   T_ear,
 } from '3dti-toolkit'
 
-import { HearingLossGrade, SimulatorType } from 'src/constants.js'
+import {
+  HearingLossGrade,
+  QuantisationStep,
+  SimulatorType,
+} from 'src/constants.js'
 import context from 'src/audio/context.js'
 import presets from 'src/audio/presets.js'
 
@@ -31,11 +35,9 @@ has.Setup(
 has.Reset(T_ear.BOTH)
 has.EnableHearingAidSimulation(T_ear.BOTH)
 // has.EnableNormalization(T_ear.BOTH)
-// has.EnableQuantizationBeforeEqualizer()
-// has.EnableQuantizationAfterEqualizer()
 has.DisableQuantizationBeforeEqualizer()
 has.DisableQuantizationAfterEqualizer()
-// has.SetQuantizationBits(12)
+has.SetQuantizationBits(12)
 has.GetDynamicEqualizer(T_ear.LEFT).EnableLevelsInterpolation()
 has.GetDynamicEqualizer(T_ear.RIGHT).EnableLevelsInterpolation()
 
@@ -94,6 +96,18 @@ const setGains = gains => {
   )
 }
 
+const setQuantisationStepEnabled = (step, isStepEnabled) => {
+  if (step === QuantisationStep.BEFORE && isStepEnabled === true) {
+    has.EnableQuantizationBeforeEqualizer()
+  } else if (step === QuantisationStep.BEFORE && isStepEnabled === false) {
+    has.DisableQuantizationBeforeEqualizer()
+  } else if (step === QuantisationStep.AFTER && isStepEnabled === true) {
+    has.EnableQuantizationAfterEqualizer()
+  } else if (step === QuantisationStep.AFTER && isStepEnabled === false) {
+    has.DisableQuantizationAfterEqualizer()
+  }
+}
+
 // Set number of noise bits
 const setNumNoiseBits = numBits => {
   has.SetQuantizationBits(numBits)
@@ -101,4 +115,10 @@ const setNumNoiseBits = numBits => {
 
 export default hearingAidProcessor
 
-export { hearingAidProcessor, setEnabled, setGains, setNumNoiseBits }
+export {
+  hearingAidProcessor,
+  setEnabled,
+  setGains,
+  setQuantisationStepEnabled,
+  setNumNoiseBits,
+}

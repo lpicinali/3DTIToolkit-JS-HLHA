@@ -16,6 +16,12 @@ export const H3 = styled.h3`
   letter-spacing: 1px;
 `
 
+export const Label = styled.label`
+  display: inline-block;
+  margin: 8px 16px 8px 0;
+  font-size: 14px;
+`
+
 export const P = styled.p`
   font-size: 16px;
   color: ${BLACK};

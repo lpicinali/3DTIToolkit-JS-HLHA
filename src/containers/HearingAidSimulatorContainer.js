@@ -4,15 +4,21 @@ import { connect } from 'react-redux'
 import { values } from 'lodash'
 import styled from 'styled-components'
 
-import { HearingLossGrade } from 'src/constants.js'
+import { HearingLossGrade, QuantisationStep } from 'src/constants.js'
 import * as CustomPropTypes from 'src/prop-types.js'
-import { setHaGrade, setHaNumNoiseBits } from 'src/actions/ha.actions.js'
+import {
+  setHaGrade,
+  setHaNumNoiseBits,
+  setQuantisationStepEnabled,
+} from 'src/actions/ha.actions.js'
 import HearingLossGradeSelector from 'src/components/HearingLossGradeSelector.js'
 import NoiseBitSlider from 'src/components/NoiseBitSlider.js'
 import DirectionalityContainer from 'src/containers/DirectionalityContainer.js'
-import { H2, H3 } from 'src/styles/elements.js'
+import { H2, H3, Label } from 'src/styles/elements.js'
 
-const DirectionalityWrapper = styled.div`width: 130px;`
+const DirectionalityWrapper = styled.div`
+  width: 130px;
+`
 
 /**
  * Hearing Aid Simulator Container
@@ -23,7 +29,10 @@ class HearingAidSimulatorContainer extends Component {
     grade: CustomPropTypes.grade.isRequired,
     hearingLossGrade: CustomPropTypes.grade.isRequired,
     hearingAidNumNoiseBits: PropTypes.number.isRequired,
+    isQuantisationBeforeEnabled: PropTypes.bool.isRequired,
+    isQuantisationAfterEnabled: PropTypes.bool.isRequired,
     onGradeChange: PropTypes.func.isRequired,
+    onQuantisationChange: PropTypes.func.isRequired,
     onNumNoiseBitsChange: PropTypes.func.isRequired,
   }
 
@@ -32,8 +41,11 @@ class HearingAidSimulatorContainer extends Component {
       isEnabled,
       grade,
       hearingLossGrade,
+      isQuantisationBeforeEnabled,
+      isQuantisationAfterEnabled,
       hearingAidNumNoiseBits,
       onGradeChange,
+      onQuantisationChange,
       onNumNoiseBitsChange,
     } = this.props
 
@@ -55,6 +67,35 @@ class HearingAidSimulatorContainer extends Component {
         />
 
         <H3>Hearing Aid Quantisation - bits</H3>
+        <div>
+          <Label>
+            <input
+              type="checkbox"
+              checked={isQuantisationBeforeEnabled}
+              onChange={() =>
+                onQuantisationChange(
+                  QuantisationStep.BEFORE,
+                  !isQuantisationBeforeEnabled
+                )
+              }
+            />
+            Before equalizer
+          </Label>
+          <Label>
+            <input
+              type="checkbox"
+              checked={isQuantisationAfterEnabled}
+              onChange={() =>
+                onQuantisationChange(
+                  QuantisationStep.AFTER,
+                  !isQuantisationAfterEnabled
+                )
+              }
+            />
+            After equalizer
+          </Label>
+        </div>
+
         <NoiseBitSlider
           value={hearingAidNumNoiseBits}
           onChange={onNumNoiseBitsChange}
@@ -74,10 +115,14 @@ export default connect(
     isEnabled: state.ha.isEnabled,
     grade: state.ha.grade,
     hearingLossGrade: state.hl.grade,
+    isQuantisationBeforeEnabled: state.ha.isQuantisationBeforeEnabled,
+    isQuantisationAfterEnabled: state.ha.isQuantisationAfterEnabled,
     hearingAidNumNoiseBits: state.ha.numNoiseBits,
   }),
   dispatch => ({
     onGradeChange: grade => dispatch(setHaGrade(grade)),
+    onQuantisationChange: (step, isEnabled) =>
+      dispatch(setQuantisationStepEnabled(step, isEnabled)),
     onNumNoiseBitsChange: numBits => dispatch(setHaNumNoiseBits(numBits)),
   })
 )(HearingAidSimulatorContainer)
