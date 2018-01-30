@@ -32,13 +32,10 @@ import {
 import presets from 'src/audio/presets.js'
 
 export const play = () => {
-  console.log('play')
   startNodes()
 }
 
 export const pause = () => {
-  console.log('pause')
-
   try {
     stopNodes()
   } catch (err) {
@@ -74,8 +71,6 @@ export const setMaskSource = urls => {
 }
 
 export const setComponentVolume = (id, volume) => {
-  console.log('setComponentVolume', { id, volume })
-
   if (id === SonicComponent.TARGET) {
     setTargetVolume(volume)
   } else if (id === SonicComponent.MASK) {
@@ -84,8 +79,6 @@ export const setComponentVolume = (id, volume) => {
 }
 
 export const setComponentPosition = (id, { azimuth, distance }) => {
-  console.log('setComponentPosition', id, { azimuth, distance })
-
   if (id === SonicComponent.TARGET) {
     getInstance().then(spatializer => {
       spatializer.setSourcePosition(azimuth, distance)
@@ -119,7 +112,6 @@ export const setDirectionalityAttenuation = (ear, attenuation) => {
 
 export const setHearingLossPreset = presetName => {
   const gains = presets[SimulatorType.LOSS][presetName]
-  console.log('setHearingLossPreset', presetName, gains)
 
   setHearingLossGains(gains)
 }
