@@ -110,9 +110,9 @@ class PositionController extends Component {
         (rect.height / 2)
 
       const azimuth = Math.atan(-newZ / newX) + (newX < 0 ? Math.PI : 0)
-      let distance = size * Math.sqrt(newX ** 2 + newZ ** 2)
-      distance = Math.max(0.3, distance)
-      distance = Math.min(distance, size)
+
+      const expDistance = Math.sqrt(size) * Math.sqrt(newX ** 2 + newZ ** 2)
+      const distance = clamp(expDistance ** 2, 0.3, size)
 
       const newPos = { azimuth, distance }
 
@@ -153,9 +153,15 @@ class PositionController extends Component {
             key={object.id}
             style={{
               top: `${50 -
-                50 * (Math.sin(object.azimuth) * object.distance / size)}%`,
+                50 *
+                  (Math.sin(object.azimuth) *
+                    Math.sqrt(object.distance) /
+                    Math.sqrt(size))}%`,
               left: `${50 +
-                50 * (Math.cos(object.azimuth) * object.distance / size)}%`,
+                50 *
+                  (Math.cos(object.azimuth) *
+                    Math.sqrt(object.distance) /
+                    Math.sqrt(size))}%`,
             }}
             onMouseDown={() => this.handlePress(object.id)}
           >
