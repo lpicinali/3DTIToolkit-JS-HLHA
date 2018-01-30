@@ -35,6 +35,11 @@ export const HearingLossGrade = {
   SEVERE: 'SEVERE',
 }
 
+export const PlaybackState = {
+  PAUSED: 'PAUSED',
+  PLAYING: 'PLAYING',
+}
+
 export const SimulatorType = {
   AID: 'AID',
   LOSS: 'LOSS',
@@ -45,9 +50,4 @@ export const SimulatorType = {
 export const SonicComponent = {
   TARGET: 'TARGET',
   MASK: 'MASK',
-}
-
-export const PlaybackState = {
-  PAUSED: 'PAUSED',
-  PLAYING: 'PLAYING',
 }
