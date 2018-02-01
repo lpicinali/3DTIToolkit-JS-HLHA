@@ -26,7 +26,8 @@ class PositionControllerContainer extends Component {
     return (
       <div>
         <H3>
-          Position (radius of 30 meters): {round(targetPosition.distance, 2)}m
+          Target position (radius of 30 meters):{' '}
+          {round(targetPosition.distance, 2)}m
         </H3>
         <div
           style={{

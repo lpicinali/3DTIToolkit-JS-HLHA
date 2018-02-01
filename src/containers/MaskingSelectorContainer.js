@@ -51,7 +51,7 @@ class MaskSelectorContainer extends Component {
 
     return (
       <div>
-        <H2>Masking</H2>
+        <H2>Masking (diffuse)</H2>
 
         <H3>Source</H3>
         <ButtonGroup

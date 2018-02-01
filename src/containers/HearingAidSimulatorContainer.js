@@ -59,7 +59,7 @@ class HearingAidSimulatorContainer extends Component {
       <div>
         <H2>Hearing Aid Simulator</H2>
 
-        <H3>Select a grade of hearing aid to apply</H3>
+        <H3>Set the hearing aid to compensate for a specific loss level</H3>
         <HearingLossGradeSelector
           grade={grade}
           enabledGrades={enabledGrades}

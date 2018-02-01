@@ -39,7 +39,7 @@ class HearingAidSimulatorContainer extends Component {
     return (
       <div>
         <H2>Hearing Loss Simulator</H2>
-        <H3>Select a grade of hearing loss</H3>
+        <H3>Select a level of hearing loss</H3>
         <HearingLossGradeSelector grade={grade} onSelect={onGradeChange} />
 
         <H3>Frequency smearing</H3>
