@@ -71,11 +71,7 @@ export default function App() {
         <AppContent>
           <PlaybackControlsContainer />
 
-          <ContentPane
-            style={{
-              flexWrap: 'wrap',
-            }}
-          >
+          <ContentPane>
             <TargetSelectorContainer />
             <PositionControllerContainer />
           </ContentPane>
