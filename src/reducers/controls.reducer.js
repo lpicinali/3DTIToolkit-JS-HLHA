@@ -6,7 +6,7 @@ const initialState = {
     azimuth: Math.PI * 0.5,
     distance: 2,
   },
-  targetVolume: 0.4,
+  targetVolume: 0.6,
   maskVolume: 1,
   isPerformanceModeEnabled: false,
   headRadius: 0.0875,
