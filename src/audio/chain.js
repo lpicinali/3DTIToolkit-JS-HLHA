@@ -29,13 +29,15 @@ const maskVolumes = {
 const input = context.createGain()
 
 const volume = context.createGain()
-volume.gain.value = 0.3
+volume.gain.value = 0.5
 
 getBinauralSpatializer().then(spatializer => {
   // Target
   targetInput.connect(targetVolume)
   targetVolume.connect(spatializer.processor)
   spatializer.processor.connect(input)
+
+  targetVolume.gain.value = 0.6
 
   // Masks
   maskInputs[Ear.LEFT].connect(maskVolumes[Ear.LEFT])
@@ -45,8 +47,8 @@ getBinauralSpatializer().then(spatializer => {
   spatializer.masks[Ear.LEFT].processor.connect(input)
   spatializer.masks[Ear.RIGHT].processor.connect(input)
 
-  maskVolumes[Ear.LEFT].gain.value = 0.3
-  maskVolumes[Ear.RIGHT].gain.value = 0.3
+  maskVolumes[Ear.LEFT].gain.value = 1
+  maskVolumes[Ear.RIGHT].gain.value = 1
 
   // Simulators
   input.connect(hearingLossProcessor)
