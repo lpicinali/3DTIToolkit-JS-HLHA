@@ -15,13 +15,13 @@ import {
 import ContainerDimensionsWithScrollUpdates from 'src/components/ContainerDimensionsWithScrollUpdates.js'
 import PositionController from 'src/components/PositionController.js'
 import Slider from 'src/components/Slider.js'
-import { WHITESMOKE } from 'src/styles/colors.js'
+import { WHITE_SMOKE } from 'src/styles/colors.js'
 import { H3 } from 'src/styles/elements.js'
 
 const Wrapper = styled.div`
   margin-top: 24px;
   margin-right: 16px;
-  border-top: 1px solid ${WHITESMOKE};
+  border-top: 1px solid ${WHITE_SMOKE};
 `
 
 const SplitPane = styled.div`

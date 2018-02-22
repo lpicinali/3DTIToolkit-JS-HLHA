@@ -1,11 +1,11 @@
 import styled from 'styled-components'
 
-import { BLACK, BLUE } from 'src/styles/colors.js'
+import { BLACK, DARK_TURQUOISE } from 'src/styles/colors.js'
 
 export const H2 = styled.h2`
   margin: 0 0 16px;
   font-size: 20px;
-  color: ${BLUE};
+  color: ${DARK_TURQUOISE};
 `
 
 export const H3 = styled.h3`

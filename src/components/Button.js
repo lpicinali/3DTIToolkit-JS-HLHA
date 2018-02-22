@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-import { BLACK, TURQOISE, WHITE } from 'src/styles/colors.js'
+import { BLACK, TURQUOISE, WHITE } from 'src/styles/colors.js'
 
 const StyledButton = styled.button`
   appearance: none;
   padding: 4px 8px;
   background: ${WHITE};
-  border: 1px solid ${TURQOISE};
+  border: 1px solid ${TURQUOISE};
   border-radius: 3px;
   outline: none;
   cursor: pointer;
@@ -17,13 +17,13 @@ const StyledButton = styled.button`
   transition: all 0.15s;
 
   &:hover {
-    box-shadow: 0 0 0 3px ${TURQOISE};
+    box-shadow: 0 0 0 3px ${TURQUOISE};
   }
 
   ${props =>
     props.isActive
       ? `
-    background-color: ${TURQOISE};
+    background-color: ${TURQUOISE};
     color: ${WHITE};
   `
       : ``} ${props =>

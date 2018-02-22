@@ -7,7 +7,7 @@ import styled from 'styled-components'
 
 import { PlaybackState } from 'src/constants.js'
 import { setPlaybackState } from 'src/actions/controls.actions.js'
-import { BLUE, TURQOISE, WHITE } from 'src/styles/colors.js'
+import { DARK_TURQUOISE, TURQUOISE, WHITE } from 'src/styles/colors.js'
 
 const FloatingPlaybackController = styled.div`
   position: fixed;
@@ -21,14 +21,14 @@ const buttonStyles = `
   width: 72px !important;
   height: 56px !important;
   padding: 0 8px;
-  background: ${BLUE};
+  background: ${DARK_TURQUOISE};
   border: none;
   border-radius: 3px;
   outline: none;
   cursor: pointer;
 
   &:hover {
-    background: ${TURQOISE};
+    background: ${TURQUOISE};
   }
 
   svg {
@@ -42,8 +42,12 @@ const buttonStyles = `
   }
 `
 
-const StyledPlayButton = styled(PlayButton)`${buttonStyles};`
-const StyledPauseButton = styled(PauseButton)`${buttonStyles};`
+const StyledPlayButton = styled(PlayButton)`
+  ${buttonStyles};
+`
+const StyledPauseButton = styled(PauseButton)`
+  ${buttonStyles};
+`
 
 /**
  * Playback Controls Container

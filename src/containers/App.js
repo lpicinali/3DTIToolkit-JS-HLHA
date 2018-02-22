@@ -10,7 +10,7 @@ import MaskingSelectorContainer from 'src/containers/MaskingSelectorContainer.js
 import PlaybackControlsContainer from 'src/containers/PlaybackControlsContainer.js'
 import PositionControllerContainer from 'src/containers/PositionControllerContainer.js'
 import TargetSelectorContainer from 'src/containers/TargetSelectorContainer.js'
-import { BLUE } from 'src/styles/colors.js'
+import { DARK_TURQUOISE } from 'src/styles/colors.js'
 import { MAX_WIDTH } from 'src/styles/layout.js'
 
 injectGlobal`
@@ -28,7 +28,7 @@ injectGlobal`
 
 const Header = styled.header`
   padding: 16px;
-  background: ${BLUE};
+  background: ${DARK_TURQUOISE};
   color: #fefefe;
 `
 

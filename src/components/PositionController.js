@@ -6,14 +6,14 @@ import { autobind } from 'core-decorators'
 import styled from 'styled-components'
 
 import * as CustomPropTypes from 'src/prop-types.js'
-import { BLUE, TURQOISE, WHITESMOKE } from 'src/styles/colors.js'
+import { TURQUOISE, DARK_TURQUOISE, WHITE_SMOKE } from 'src/styles/colors.js'
 
 const StyledPositionController = styled.div`
   position: relative;
   width: ${props => props.width}px;
   height: ${props => props.height}px;
-  background-color: ${WHITESMOKE};
-  border: 1px solid ${BLUE};
+  background-color: ${WHITE_SMOKE};
+  border: 1px solid ${DARK_TURQUOISE};
   border-radius: 100%;
 `
 
@@ -32,7 +32,7 @@ const SourceHandle = styled.div`
   position: absolute;
   width: 16px;
   height: 16px;
-  background: ${TURQOISE};
+  background: ${TURQUOISE};
   border-radius: 10px;
   text-indent: -9999px;
   overflow: hidden;
