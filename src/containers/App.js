@@ -10,7 +10,7 @@ import MaskingSelectorContainer from 'src/containers/MaskingSelectorContainer.js
 import PlaybackControlsContainer from 'src/containers/PlaybackControlsContainer.js'
 import PositionControllerContainer from 'src/containers/PositionControllerContainer.js'
 import TargetSelectorContainer from 'src/containers/TargetSelectorContainer.js'
-import { DARK_TURQUOISE } from 'src/styles/colors.js'
+import { DARK_TURQUOISE, WHITE } from 'src/styles/colors.js'
 import { MAX_WIDTH } from 'src/styles/layout.js'
 
 injectGlobal`
@@ -22,6 +22,7 @@ injectGlobal`
   }
 
   body {
+    background-color: #f7f7f7;
     font-family: 'Roboto', sans-serif;
   }
 `
@@ -54,7 +55,16 @@ const AppContent = styled.div`
 `
 
 const ContentPane = styled.div`
-  width: 25%;
+  width: 33.333%;
+  padding: 0 12px;
+`
+
+const ModuleBox = styled.div`
+  margin-bottom: 32px;
+  padding: 16px 24px;
+  background: ${WHITE};
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 `
 
 export default function App() {
@@ -72,20 +82,26 @@ export default function App() {
           <PlaybackControlsContainer />
 
           <ContentPane>
-            <TargetSelectorContainer />
-            <PositionControllerContainer />
+            <ModuleBox>
+              <TargetSelectorContainer />
+
+              <PositionControllerContainer />
+            </ModuleBox>
+            <ModuleBox>
+              <MaskingSelectorContainer />
+            </ModuleBox>
           </ContentPane>
 
           <ContentPane>
-            <MaskingSelectorContainer />
+            <ModuleBox>
+              <HearingLossSimulatorContainer />
+            </ModuleBox>
           </ContentPane>
 
           <ContentPane>
-            <HearingLossSimulatorContainer />
-          </ContentPane>
-
-          <ContentPane>
-            <HearingAidSimulatorContainer />
+            <ModuleBox>
+              <HearingAidSimulatorContainer />
+            </ModuleBox>
           </ContentPane>
         </AppContent>
       </div>
