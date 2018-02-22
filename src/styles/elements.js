@@ -13,16 +13,16 @@ export const A = styled.a`
 
 export const H2 = styled.h2`
   margin: 0 0 16px;
+  color: ${BLACK};
   font-size: 20px;
-  color: ${DARK_TURQUOISE};
+  line-height: 24px;
 `
 
 export const H3 = styled.h3`
   margin: 32px 0 8px;
-  color: gray;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  color: ${DARK_TURQUOISE};
+  font-size: 16px;
+  line-height: 24px;
 `
 
 export const Label = styled.label`
