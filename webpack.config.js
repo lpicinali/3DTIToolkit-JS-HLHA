@@ -18,9 +18,9 @@ module.exports = {
   },
   resolve: {
     alias: {
-      src: path.resolve('./src'),
-      fs: path.resolve('./src/shims/fs.js'),
-      '3dti-toolkit': path.resolve('./src/shims/3dti-toolkit.js'),
+      src: path.join(__dirname, 'src'),
+      fs: path.join(__dirname, './src/shims/fs.js'),
+      '3dti-toolkit': path.join(__dirname, './src/shims/3dti-toolkit.js'),
     },
     extensions: ['.js', '.json'],
   },
