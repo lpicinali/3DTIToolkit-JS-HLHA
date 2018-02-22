@@ -32,7 +32,6 @@ export const Label = styled.label`
 `
 
 export const ModuleBox = styled.div`
-  margin-bottom: 32px;
   padding: 16px 24px;
   background: ${WHITE};
   border-radius: 4px;

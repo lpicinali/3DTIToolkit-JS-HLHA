@@ -66,6 +66,10 @@ const ContentPane = styled(GutteredElement)`
   width: 33.333%;
 `
 
+const MaskingModuleBox = styled(ModuleBox)`
+  margin-bottom: 32px;
+`
+
 export default function App() {
   return (
     <Provider store={store}>
@@ -79,9 +83,9 @@ export default function App() {
 
               <PositionControllerContainer />
             </ModuleBox>
-            <ModuleBox>
+            <MaskingModuleBox>
               <MaskingSelectorContainer />
-            </ModuleBox>
+            </MaskingModuleBox>
           </ContentPane>
 
           <ContentPane>

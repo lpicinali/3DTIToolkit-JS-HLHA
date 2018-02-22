@@ -48,6 +48,10 @@ const Prologue = styled.p`
   line-height: 20px;
 `
 
+const PlaybackControlsAligner = styled.div`
+  margin-top: 64px;
+`
+
 class SiteHeader extends PureComponent {
   render() {
     return (
@@ -72,7 +76,9 @@ class SiteHeader extends PureComponent {
           </HeadingArea>
 
           <HeaderSideArea>
-            <PlaybackControlsContainer />
+            <PlaybackControlsAligner>
+              <PlaybackControlsContainer />
+            </PlaybackControlsAligner>
           </HeaderSideArea>
         </HeaderContent>
       </Header>
