@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
+import PlaybackControlsContainer from 'src/containers/PlaybackControlsContainer.js'
 import { BLACK, GRAY, TURQUOISE } from 'src/styles/colors.js'
 import { A } from 'src/styles/elements.js'
 import { GutteredElement } from 'src/styles/grid.js'
@@ -70,7 +71,9 @@ class SiteHeader extends PureComponent {
             </Prologue>
           </HeadingArea>
 
-          <HeaderSideArea>{/* Player controls */}</HeaderSideArea>
+          <HeaderSideArea>
+            <PlaybackControlsContainer />
+          </HeaderSideArea>
         </HeaderContent>
       </Header>
     )

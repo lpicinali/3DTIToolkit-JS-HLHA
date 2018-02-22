@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { BLACK, DARK_TURQUOISE, TURQUOISE } from 'src/styles/colors.js'
+import { BLACK, DARK_TURQUOISE, TURQUOISE, WHITE } from 'src/styles/colors.js'
 
 export const A = styled.a`
   color: ${TURQUOISE};
@@ -29,6 +29,14 @@ export const Label = styled.label`
   display: inline-block;
   margin: 8px 16px 8px 0;
   font-size: 14px;
+`
+
+export const ModuleBox = styled.div`
+  margin-bottom: 32px;
+  padding: 16px 24px;
+  background: ${WHITE};
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 `
 
 export const P = styled.p`

@@ -8,10 +8,10 @@ import SiteHeader from 'src/components/SiteHeader.js'
 import HearingAidSimulatorContainer from 'src/containers/HearingAidSimulatorContainer.js'
 import HearingLossSimulatorContainer from 'src/containers/HearingLossSimulatorContainer.js'
 import MaskingSelectorContainer from 'src/containers/MaskingSelectorContainer.js'
-import PlaybackControlsContainer from 'src/containers/PlaybackControlsContainer.js'
 import PositionControllerContainer from 'src/containers/PositionControllerContainer.js'
 import TargetSelectorContainer from 'src/containers/TargetSelectorContainer.js'
 import { WHITE } from 'src/styles/colors.js'
+import { ModuleBox } from 'src/styles/elements.js'
 import { GutteredElement } from 'src/styles/grid.js'
 import { MAX_WIDTH } from 'src/styles/layout.js'
 
@@ -66,14 +66,6 @@ const ContentPane = styled(GutteredElement)`
   width: 33.333%;
 `
 
-const ModuleBox = styled.div`
-  margin-bottom: 32px;
-  padding: 16px 24px;
-  background: ${WHITE};
-  border-radius: 4px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-`
-
 export default function App() {
   return (
     <Provider store={store}>
@@ -81,8 +73,6 @@ export default function App() {
         <SiteHeader />
 
         <AppContent>
-          <PlaybackControlsContainer />
-
           <ContentPane>
             <ModuleBox>
               <TargetSelectorContainer />

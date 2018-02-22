@@ -7,38 +7,20 @@ import styled from 'styled-components'
 
 import { PlaybackState } from 'src/constants.js'
 import { setPlaybackState } from 'src/actions/controls.actions.js'
-import { DARK_TURQUOISE, TURQUOISE, WHITE } from 'src/styles/colors.js'
-
-const FloatingPlaybackController = styled.div`
-  position: fixed;
-  bottom: 32px;
-  left: 50%;
-  transform: translateX(-50%);
-`
+import { ModuleBox } from 'src/styles/elements.js'
 
 const buttonStyles = `
   appearance: none;
-  width: 72px !important;
-  height: 56px !important;
-  padding: 0 8px;
-  background: ${DARK_TURQUOISE};
+  width: 20px !important;
+  height: 20px !important;
+  padding: 0;
   border: none;
-  border-radius: 3px;
   outline: none;
   cursor: pointer;
 
-  &:hover {
-    background: ${TURQUOISE};
-  }
-
   svg {
-    width: 32px;
-    height: 32px;
-  }
-
-  polygon,
-  rect {
-    fill: ${WHITE};
+    width: 100%;
+    height: 100%;
   }
 `
 
@@ -62,7 +44,7 @@ class PlaybackControlsContainer extends Component {
     const { playbackState, onStateChange } = this.props
 
     return (
-      <FloatingPlaybackController>
+      <ModuleBox>
         {playbackState === PlaybackState.PAUSED ? (
           <StyledPlayButton
             isEnabled
@@ -76,7 +58,7 @@ class PlaybackControlsContainer extends Component {
             style={{ width: 40, height: 40 }}
           />
         )}
-      </FloatingPlaybackController>
+      </ModuleBox>
     )
   }
 }
