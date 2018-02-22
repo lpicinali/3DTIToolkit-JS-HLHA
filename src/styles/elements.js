@@ -1,6 +1,15 @@
 import styled from 'styled-components'
 
-import { BLACK, DARK_TURQUOISE } from 'src/styles/colors.js'
+import { BLACK, DARK_TURQUOISE, TURQUOISE } from 'src/styles/colors.js'
+
+export const A = styled.a`
+  color: ${TURQUOISE};
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`
 
 export const H2 = styled.h2`
   margin: 0 0 16px;

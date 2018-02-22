@@ -10,11 +10,17 @@ import MaskingSelectorContainer from 'src/containers/MaskingSelectorContainer.js
 import PlaybackControlsContainer from 'src/containers/PlaybackControlsContainer.js'
 import PositionControllerContainer from 'src/containers/PositionControllerContainer.js'
 import TargetSelectorContainer from 'src/containers/TargetSelectorContainer.js'
-import { DARK_TURQUOISE, WHITE } from 'src/styles/colors.js'
+import { BLACK, GRAY, TURQUOISE, WHITE } from 'src/styles/colors.js'
+import { A } from 'src/styles/elements.js'
+import { GutteredElement } from 'src/styles/grid.js'
 import { MAX_WIDTH } from 'src/styles/layout.js'
 
 injectGlobal`
   @import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
+
+  * {
+    box-sizing: border-box;
+  }
 
   html, body {
     margin: 0;
@@ -28,22 +34,44 @@ injectGlobal`
 `
 
 const Header = styled.header`
-  padding: 16px;
-  background: ${DARK_TURQUOISE};
-  color: #fefefe;
+  padding-top: 32px;
+  padding-bottom: 24px;
+  border-top: 2px solid ${TURQUOISE};
 `
 
 const HeaderContent = styled.div`
+  display: flex;
   width: 100%;
   max-width: ${MAX_WIDTH}px;
   margin: 0 auto;
   font-size: 12px;
 `
 
+const HeadingArea = styled(GutteredElement)`
+  width: 66.6667%;
+`
+
+const HeaderSideArea = styled(GutteredElement)`
+  width: 33.3333%;
+`
+
 const Heading = styled.h1`
   margin: 0;
-  font-size: 20px;
-  line-height: 24px;
+  color: ${BLACK};
+  font-size: 24px;
+  line-height: 32px;
+`
+
+const SubHeading = styled.div`
+  color: ${GRAY};
+  font-size: 14px;
+  line-height: 20px;
+`
+
+const Prologue = styled.p`
+  margin: 16px 0;
+  font-size: 14px;
+  line-height: 20px;
 `
 
 const AppContent = styled.div`
@@ -51,7 +79,7 @@ const AppContent = styled.div`
   width: 100%;
   max-width: ${MAX_WIDTH}px;
   margin: 0 auto;
-  padding: 24px 16px;
+  padding-bottom: 32px;
 `
 
 const ContentPane = styled.div`
@@ -73,8 +101,25 @@ export default function App() {
       <div>
         <Header>
           <HeaderContent>
-            <div>3D Tune-In Toolkit Demo</div>
-            <Heading>Hearing Loss & Hearing Aid</Heading>
+            <HeadingArea>
+              <Heading>
+                Binaural Spatialisation, Hearing Loss & Hearing Aid
+              </Heading>
+              <SubHeading>from 3D Tune-In</SubHeading>
+
+              <Prologue>
+                This is a web-based interface for the 3D Tune-In Toolkit. The 3D
+                Tune-In Toolkit is available open-source{' '}
+                <A href="https://github.com/3DTune-In/3dti_AudioToolkit">
+                  on GitHub
+                </A>. A more complete set of test applications and interfaces
+                for Mac and PC can be downloaded here. For more information
+                about the project, visit{' '}
+                <A href="http://3d-tune-in.eu">http://3d-tune-in.eu</A>.
+              </Prologue>
+            </HeadingArea>
+
+            <HeaderSideArea>{/* Player controls */}</HeaderSideArea>
           </HeaderContent>
         </Header>
 
