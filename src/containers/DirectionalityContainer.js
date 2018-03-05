@@ -9,7 +9,6 @@ import {
   setDirectionalityEnabled,
 } from 'src/actions/controls.actions.js'
 import Slider from 'src/components/Slider.js'
-import { BLACK } from 'src/styles/colors.js'
 
 const DirectionalityContainerWrapper = styled.div`
   ${props =>
@@ -18,17 +17,6 @@ const DirectionalityContainerWrapper = styled.div`
       opacity: 0.5;
       pointer-events: none;
     `};
-`
-
-const LeftRightLabels = styled.div`
-  display: flex;
-  color: ${BLACK};
-  font-size: 10px;
-  opacity: 0.5;
-
-  > *:first-child {
-    flex-grow: 1;
-  }
 `
 
 /**
@@ -67,16 +55,16 @@ class DirectionalityContainer extends PureComponent {
 
         <div>
           <Slider
+            isDisabled={isEnablable == true && isEnabled === false}
             value={value}
             min={-1}
             max={1}
             step={0.05}
             onChange={onChangeValue}
+            minLabel="Omni-directional"
+            maxLabel="Directional"
+            showValue={false}
           />
-          <LeftRightLabels>
-            <span>Omni-directional</span>
-            <span>Directional</span>
-          </LeftRightLabels>
         </div>
       </DirectionalityContainerWrapper>
     )

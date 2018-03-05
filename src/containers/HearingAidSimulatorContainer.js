@@ -12,7 +12,7 @@ import {
   setQuantisationStepEnabled,
 } from 'src/actions/ha.actions.js'
 import HearingLossGradeSelector from 'src/components/HearingLossGradeSelector.js'
-import NoiseBitSlider from 'src/components/NoiseBitSlider.js'
+import Slider from 'src/components/Slider.js'
 import DirectionalityContainer from 'src/containers/DirectionalityContainer.js'
 import { H2, H3, Label } from 'src/styles/elements.js'
 
@@ -96,9 +96,13 @@ class HearingAidSimulatorContainer extends Component {
           </Label>
         </div>
 
-        <NoiseBitSlider
-          value={hearingAidNumNoiseBits}
+        <Slider
+          min={6}
+          max={16}
+          step={1}
           onChange={onNumNoiseBitsChange}
+          value={hearingAidNumNoiseBits}
+          formatDisplayValue={value => `${value} bits`}
         />
 
         <DirectionalityWrapper>

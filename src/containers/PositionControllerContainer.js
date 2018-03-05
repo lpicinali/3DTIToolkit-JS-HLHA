@@ -94,18 +94,18 @@ class PositionControllerContainer extends Component {
           onClick={() => onChangePerformanceMode(!isPerformanceModeEnabled)}
         />
 
-        <H3>
-          Head circumference:{' '}
-          {Math.round(100 * radiusToCircumference(headRadius))} cm
-        </H3>
+        <H3>Head circumference</H3>
         <Slider
-          value={radiusToCircumference(headRadius)}
           min={0.4}
           max={0.7}
           step={0.005}
+          value={radiusToCircumference(headRadius)}
           onChange={circumference =>
             onChangeHeadRadius(circumferenceToRadius(circumference))
           }
+          minLabel="40 cm"
+          maxLabel="70 cm"
+          formatDisplayValue={currentValue => `${round(100 * currentValue)} cm`}
         />
       </Wrapper>
     )

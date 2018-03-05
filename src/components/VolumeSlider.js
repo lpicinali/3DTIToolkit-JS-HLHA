@@ -29,6 +29,8 @@ class VolumeSlider extends PureComponent {
         max={20}
         step={1}
         onChange={this.handleSliderChange}
+        showLabels={false}
+        showValue={false}
       />
     )
   }
