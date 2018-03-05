@@ -19,7 +19,6 @@ module.exports = Object.assign({}, config, {
     contentBase: path.join(__dirname, 'public'),
     compress: true,
     port: 8261,
-    hot: true,
     historyApiFallback: {
       index: 'index.html',
     },

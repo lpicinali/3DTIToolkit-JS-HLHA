@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { values } from 'lodash'
+import { map, values } from 'lodash'
 
 import * as CustomPropTypes from 'src/prop-types.js'
 import { HearingLossGrade } from 'src/constants.js'
-import ButtonGroup from 'src/components/ButtonGroup.js'
+import Select from 'src/components/Select.js'
 
 /**
  * Hearing Loss Grade Selector
@@ -20,24 +20,26 @@ class HearingLossGradeSelector extends Component {
     enabledGrades: values(HearingLossGrade),
   }
 
-  static gradeOptions = {
-    NONE: 'None',
-    MILD: 'Mild',
-    MODERATE: 'Moderate',
-    SEVERE: 'Severe',
+  static GRADE_OPTIONS = {
+    [HearingLossGrade.NONE]: 'None',
+    [HearingLossGrade.MILD]: 'Mild',
+    [HearingLossGrade.MODERATE]: 'Moderate',
+    [HearingLossGrade.SEVERE]: 'Severe',
   }
 
   render() {
     const { grade, enabledGrades, onSelect } = this.props
 
-    return (
-      <ButtonGroup
-        options={HearingLossGradeSelector.gradeOptions}
-        enabledOptions={enabledGrades}
-        value={grade}
-        onSelect={onSelect}
-      />
+    const options = map(
+      HearingLossGradeSelector.GRADE_OPTIONS,
+      (label, value) => ({
+        label,
+        value,
+        disabled: enabledGrades.includes(value) === false,
+      })
     )
+
+    return <Select onChange={onSelect} options={options} value={grade} />
   }
 }
 

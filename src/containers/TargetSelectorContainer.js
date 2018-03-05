@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { reduce } from 'lodash'
+import { map } from 'lodash'
 import { autobind } from 'core-decorators'
 
 import { setTargetVolume } from 'src/actions/controls.actions.js'
 import { setTarget } from 'src/actions/target.actions.js'
-import ButtonGroup from 'src/components/ButtonGroup.js'
+import Select from 'src/components/Select.js'
 import VolumeSlider from 'src/components/VolumeSlider.js'
 import { H2, H3 } from 'src/styles/elements.js'
 
@@ -40,26 +40,21 @@ class TargetSelectorContainer extends Component {
   render() {
     const { targets, target, volume, onChangeVolume } = this.props
 
-    const options = reduce(
-      targets,
-      (aggr, file) => ({
-        ...aggr,
-        [file.filename]: file.title,
-      }),
-      {}
-    )
+    const options = map(targets, ({ filename, title }) => ({
+      value: filename,
+      label: title,
+    }))
 
     return (
       <div>
         <H2>Target</H2>
 
         <H3>Source</H3>
-        <ButtonGroup
+        <Select
+          onChange={this.handleSelect}
           options={options}
-          enabledOptions={Object.keys(options)}
+          placeholder="Select target..."
           value={target}
-          isVertical
-          onSelect={this.handleSelect}
         />
 
         <H3>Volume</H3>

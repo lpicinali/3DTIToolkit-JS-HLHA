@@ -1,6 +1,7 @@
 import { injectGlobal } from 'styled-components'
 
 export default function injectGlobalStyles() {
+  // eslint-disable-next-line no-unused-expressions
   injectGlobal`
     @font-face {
       font-family: 'PT-Sans';

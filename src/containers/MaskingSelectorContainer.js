@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { reduce } from 'lodash'
+import { map } from 'lodash'
 import { autobind } from 'core-decorators'
 
 import { setMaskVolume } from 'src/actions/controls.actions.js'
 import { setMask } from 'src/actions/masking.actions.js'
-import ButtonGroup from 'src/components/ButtonGroup.js'
+import Select from 'src/components/Select.js'
 import VolumeSlider from 'src/components/VolumeSlider.js'
 import { H2, H3 } from 'src/styles/elements.js'
 
@@ -40,26 +40,21 @@ class MaskSelectorContainer extends Component {
   render() {
     const { masks, mask, volume, onChangeVolume } = this.props
 
-    const options = reduce(
-      masks,
-      (aggr, file) => ({
-        ...aggr,
-        [file.title]: file.title,
-      }),
-      {}
-    )
+    const options = map(masks, ({ title }) => ({
+      value: title,
+      label: title,
+    }))
 
     return (
       <div>
         <H2>Masking (diffuse)</H2>
 
         <H3>Source</H3>
-        <ButtonGroup
+        <Select
+          onChange={this.handleSelect}
           options={options}
-          enabledOptions={Object.keys(options)}
+          placeholder="Select masking..."
           value={mask}
-          isVertical
-          onSelect={this.handleSelect}
         />
 
         <H3>Volume</H3>
