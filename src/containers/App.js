@@ -1,7 +1,7 @@
 /* eslint no-unused-expressions: 0 */
 import React from 'react'
 import { Provider } from 'react-redux'
-import styled, { injectGlobal } from 'styled-components'
+import styled from 'styled-components'
 
 import store from 'src/store.js'
 import SiteHeader from 'src/components/SiteHeader.js'
@@ -12,47 +12,11 @@ import PositionControllerContainer from 'src/containers/PositionControllerContai
 import TargetSelectorContainer from 'src/containers/TargetSelectorContainer.js'
 import { WHITE } from 'src/styles/colors.js'
 import { ModuleBox } from 'src/styles/elements.js'
+import injectGlobalStyles from 'src/styles/globals.js'
 import { GutteredElement } from 'src/styles/grid.js'
 import { MAX_WIDTH } from 'src/styles/layout.js'
 
-injectGlobal`
-  @font-face {
-    font-family: 'PT-Sans';
-    src:
-      local('PT Sans'),
-      local('PTSans-Regular'),
-      url('/assets/fonts/PT_Sans-Web-Regular.ttf');
-    font-style: normal;
-    font-weight: normal;
-    text-rendering: optimizeLegibility;
-  }
-
-  @font-face {
-    font-family: 'PT-Sans';
-    src:
-      local('PT Sans Bold'),
-      local('PTSans-Bold'),
-      url('/assets/fonts/PT_Sans-Web-Bold.ttf');
-    font-style: normal;
-    font-weight: bold;
-    text-rendering: optimizeLegibility;
-  }
-
-  * {
-    box-sizing: border-box;
-  }
-
-  html, body {
-    margin: 0;
-    padding: 0;
-  }
-
-  body {
-    background-color: #f7f7f7;
-    font-family: 'PT-Sans', sans-serif;
-    -webkit-font-smoothing: antialiased;
-  }
-`
+injectGlobalStyles()
 
 const AppContent = styled.div`
   display: flex;
