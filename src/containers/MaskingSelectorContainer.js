@@ -3,12 +3,30 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { map } from 'lodash'
 import { autobind } from 'core-decorators'
+import styled from 'styled-components'
 
 import { setMaskVolume } from 'src/actions/controls.actions.js'
 import { setMask } from 'src/actions/masking.actions.js'
 import Select from 'src/components/Select.js'
 import VolumeSlider from 'src/components/VolumeSlider.js'
 import { H2, H3 } from 'src/styles/elements.js'
+
+const SourceWrapper = styled.div`
+  display: flex;
+  align-items: center;
+
+  > * {
+    flex-grow: 1;
+  }
+
+  > *:not(:first-child) {
+    margin-left: 16px;
+  }
+`
+
+const VolumeSliderWrapper = styled.div`
+  width: 128px;
+`
 
 /**
  * Mask Selector Container
@@ -50,15 +68,18 @@ class MaskSelectorContainer extends Component {
         <H2>Masking (diffuse)</H2>
 
         <H3>Source</H3>
-        <Select
-          onChange={this.handleSelect}
-          options={options}
-          placeholder="Select masking..."
-          value={mask}
-        />
+        <SourceWrapper>
+          <Select
+            onChange={this.handleSelect}
+            options={options}
+            placeholder="Select masking..."
+            value={mask}
+          />
 
-        <H3>Volume</H3>
-        <VolumeSlider volume={volume} onChange={onChangeVolume} />
+          <VolumeSliderWrapper>
+            <VolumeSlider volume={volume} onChange={onChangeVolume} />
+          </VolumeSliderWrapper>
+        </SourceWrapper>
       </div>
     )
   }

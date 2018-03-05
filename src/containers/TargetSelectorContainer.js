@@ -3,12 +3,30 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { map } from 'lodash'
 import { autobind } from 'core-decorators'
+import styled from 'styled-components'
 
 import { setTargetVolume } from 'src/actions/controls.actions.js'
 import { setTarget } from 'src/actions/target.actions.js'
 import Select from 'src/components/Select.js'
 import VolumeSlider from 'src/components/VolumeSlider.js'
 import { H2, H3 } from 'src/styles/elements.js'
+
+const SourceWrapper = styled.div`
+  display: flex;
+  align-items: center;
+
+  > * {
+    flex-grow: 1;
+  }
+
+  > *:not(:first-child) {
+    margin-left: 16px;
+  }
+`
+
+const VolumeSliderWrapper = styled.div`
+  width: 128px;
+`
 
 /**
  * Target Selector Container
@@ -50,15 +68,18 @@ class TargetSelectorContainer extends Component {
         <H2>Target</H2>
 
         <H3>Source</H3>
-        <Select
-          onChange={this.handleSelect}
-          options={options}
-          placeholder="Select target..."
-          value={target}
-        />
+        <SourceWrapper>
+          <Select
+            onChange={this.handleSelect}
+            options={options}
+            placeholder="Select target..."
+            value={target}
+          />
 
-        <H3>Volume</H3>
-        <VolumeSlider volume={volume} onChange={onChangeVolume} />
+          <VolumeSliderWrapper>
+            <VolumeSlider volume={volume} onChange={onChangeVolume} />
+          </VolumeSliderWrapper>
+        </SourceWrapper>
       </div>
     )
   }
