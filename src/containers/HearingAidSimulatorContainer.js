@@ -13,6 +13,7 @@ import {
 } from 'src/actions/ha.actions.js'
 import HearingLossGradeSelector from 'src/components/HearingLossGradeSelector.js'
 import Slider from 'src/components/Slider.js'
+import Toggle from 'src/components/Toggle.js'
 import DirectionalityContainer from 'src/containers/DirectionalityContainer.js'
 import { H2, H3, Label } from 'src/styles/elements.js'
 
@@ -68,32 +69,27 @@ class HearingAidSimulatorContainer extends Component {
 
         <H3>Hearing Aid Quantisation - bits</H3>
         <div>
-          <Label>
-            <input
-              type="checkbox"
-              checked={isQuantisationBeforeEnabled}
-              onChange={() =>
-                onQuantisationChange(
-                  QuantisationStep.BEFORE,
-                  !isQuantisationBeforeEnabled
-                )
-              }
-            />
-            Before equalizer
-          </Label>
-          <Label>
-            <input
-              type="checkbox"
-              checked={isQuantisationAfterEnabled}
-              onChange={() =>
-                onQuantisationChange(
-                  QuantisationStep.AFTER,
-                  !isQuantisationAfterEnabled
-                )
-              }
-            />
-            After equalizer
-          </Label>
+          <Toggle
+            isChecked={isQuantisationBeforeEnabled}
+            label="Before equalizer"
+            onChange={() =>
+              onQuantisationChange(
+                QuantisationStep.BEFORE,
+                !isQuantisationBeforeEnabled
+              )
+            }
+          />
+
+          <Toggle
+            isChecked={isQuantisationAfterEnabled}
+            label="After equalizer"
+            onChange={() =>
+              onQuantisationChange(
+                QuantisationStep.AFTER,
+                !isQuantisationAfterEnabled
+              )
+            }
+          />
         </div>
 
         <Slider

@@ -9,6 +9,7 @@ import {
   setDirectionalityEnabled,
 } from 'src/actions/controls.actions.js'
 import Slider from 'src/components/Slider.js'
+import Toggle from 'src/components/Toggle.js'
 
 const DirectionalityContainerWrapper = styled.div`
   ${props =>
@@ -42,20 +43,15 @@ class DirectionalityContainer extends PureComponent {
 
     return (
       <DirectionalityContainerWrapper isEnablable={isEnablable}>
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              checked={isEnabled && isEnablable}
-              onChange={() => onChangeEnabled(!isEnabled)}
-            />
-            Enabled
-          </label>
-        </div>
+        <Toggle
+          isChecked={isEnabled}
+          onChange={onChangeEnabled}
+          label={isEnabled ? 'On' : 'Off'}
+        />
 
         <div>
           <Slider
-            isDisabled={isEnablable == true && isEnabled === false}
+            isDisabled={isEnablable === true && isEnabled === false}
             value={value}
             min={-1}
             max={1}

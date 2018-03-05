@@ -52,6 +52,7 @@
     "lodash": "^4.17.4",
     "morgan": "^1.8.1",
     "node-sass": "^4.7.2",
+    "polished": "^1.9.2",
     "prop-types": "^15.5.9",
     "rc-slider": "^8.6.1",
     "react": "^15.5.4",
