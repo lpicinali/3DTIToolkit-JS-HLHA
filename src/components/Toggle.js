@@ -51,12 +51,13 @@ const ToggleWrap = styled.div`
 class Toggle extends PureComponent {
   static propTypes = {
     isChecked: PropTypes.bool.isRequired,
-    label: PropTypes.node.isRequired,
+    label: PropTypes.node,
     labelPosition: PropTypes.oneOf(values(LabelPosition)),
     onChange: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
+    label: null,
     labelPosition: LabelPosition.AFTER,
   }
 

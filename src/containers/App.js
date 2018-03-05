@@ -31,7 +31,7 @@ const ContentPane = styled(GutteredElement)`
 `
 
 const MaskingModuleBox = styled(ModuleBox)`
-  margin-bottom: 32px;
+  margin-top: 32px;
 `
 
 export default function App() {

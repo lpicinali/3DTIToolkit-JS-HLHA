@@ -16,16 +16,12 @@ const SourceWrapper = styled.div`
   align-items: center;
 
   > * {
-    flex-grow: 1;
+    width: 50%;
   }
 
   > *:not(:first-child) {
-    margin-left: 16px;
+    padding-left: 16px;
   }
-`
-
-const VolumeSliderWrapper = styled.div`
-  width: 128px;
 `
 
 /**
@@ -76,9 +72,7 @@ class TargetSelectorContainer extends Component {
             value={target}
           />
 
-          <VolumeSliderWrapper>
-            <VolumeSlider volume={volume} onChange={onChangeVolume} />
-          </VolumeSliderWrapper>
+          <VolumeSlider volume={volume} onChange={onChangeVolume} />
         </SourceWrapper>
       </div>
     )

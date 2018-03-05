@@ -39,7 +39,7 @@ $select-option-disabled-color: $gray;
 @import '~react-select/scss/default.scss';
 
 .Select {
-  min-width: 184px;
+  font-size: 14px;
 }
 
 .Select-control {
