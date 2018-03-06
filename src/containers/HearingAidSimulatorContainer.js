@@ -35,6 +35,10 @@ const LinkToggle = styled(Toggle)`
   margin: 24px 0 32px;
 `
 
+const QuantisationToggles = styled.div`
+  margin-bottom: 16px;
+`
+
 /**
  * Hearing Aid Simulator Container
  */
@@ -124,27 +128,29 @@ class HearingAidSimulatorContainer extends Component {
           <DirectionalityContainer />
 
           <H3>Hearing aid quantisation</H3>
-          <Toggle
-            isChecked={isQuantisationBeforeEnabled}
-            label="Before equalizer"
-            onChange={() =>
-              onQuantisationChange(
-                QuantisationStep.BEFORE,
-                !isQuantisationBeforeEnabled
-              )
-            }
-          />
+          <QuantisationToggles>
+            <Toggle
+              isChecked={isQuantisationBeforeEnabled}
+              label="Before equalizer"
+              onChange={() =>
+                onQuantisationChange(
+                  QuantisationStep.BEFORE,
+                  !isQuantisationBeforeEnabled
+                )
+              }
+            />
 
-          <Toggle
-            isChecked={isQuantisationAfterEnabled}
-            label="After equalizer"
-            onChange={() =>
-              onQuantisationChange(
-                QuantisationStep.AFTER,
-                !isQuantisationAfterEnabled
-              )
-            }
-          />
+            <Toggle
+              isChecked={isQuantisationAfterEnabled}
+              label="After equalizer"
+              onChange={() =>
+                onQuantisationChange(
+                  QuantisationStep.AFTER,
+                  !isQuantisationAfterEnabled
+                )
+              }
+            />
+          </QuantisationToggles>
 
           <Slider
             min={6}
