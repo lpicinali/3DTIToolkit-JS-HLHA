@@ -9,6 +9,7 @@ import {
 
 const initialState = {
   isEnabled: false,
+  isLinked: false,
   grade: {
     [Ear.LEFT]: HearingLossGrade.NONE,
     [Ear.RIGHT]: HearingLossGrade.NONE,
@@ -19,6 +20,9 @@ const initialState = {
 }
 
 export default (state = initialState, { type, payload }) => {
+  if (type === ActionType.SET_HA_LINKED) {
+    return set('isLinked', payload.isLinked, state)
+  }
   if (type === ActionType.SET_HA_GRADE) {
     return set(['grade', payload.ear], payload.grade, state)
   }

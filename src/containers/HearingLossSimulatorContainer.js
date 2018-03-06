@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import styled from 'styled-components'
 
 import { Ear } from 'src/constants.js'
 import * as CustomPropTypes from 'src/prop-types.js'
@@ -8,9 +9,15 @@ import {
   setFrequencySmearingPreset,
   setTemporalDistortionPreset,
   setHlGrade,
+  setHlLinked,
 } from 'src/actions/hl.actions.js'
 import HearingLossGradeSelector from 'src/components/HearingLossGradeSelector.js'
+import Toggle from 'src/components/Toggle.js'
 import { H2, H3, Label, Pane, PaneSet } from 'src/styles/elements.js'
+
+const LinkToggle = styled(Toggle)`
+  margin: 24px 0 32px;
+`
 
 /**
  * Hearing Aid Simulator Container
@@ -18,6 +25,8 @@ import { H2, H3, Label, Pane, PaneSet } from 'src/styles/elements.js'
 class HearingAidSimulatorContainer extends Component {
   static propTypes = {
     isEnabled: PropTypes.bool.isRequired,
+    isLinked: PropTypes.bool.isRequired,
+    onLinkedChange: PropTypes.func.isRequired,
     grade: CustomPropTypes.earGrades.isRequired,
     onGradeChange: PropTypes.func.isRequired,
     frequencySmearingPreset: CustomPropTypes.earGrades.isRequired,
@@ -29,6 +38,8 @@ class HearingAidSimulatorContainer extends Component {
   render() {
     const {
       isEnabled,
+      isLinked,
+      onLinkedChange,
       grade,
       onGradeChange,
       frequencySmearingPreset,
@@ -40,6 +51,13 @@ class HearingAidSimulatorContainer extends Component {
     return (
       <div>
         <H2>Hearing loss simulator</H2>
+
+        <LinkToggle
+          isChecked={isLinked}
+          onChange={onLinkedChange}
+          label="Link left and right ear"
+        />
+
         <H3>Select a level of hearing loss</H3>
         <PaneSet numPanes={2}>
           <Pane>
@@ -49,7 +67,7 @@ class HearingAidSimulatorContainer extends Component {
               onSelect={newGrade => onGradeChange(Ear.LEFT, newGrade)}
             />
           </Pane>
-          <Pane>
+          <Pane isDisabled={isLinked}>
             <Label>Right ear</Label>
             <HearingLossGradeSelector
               grade={grade[Ear.RIGHT]}
@@ -69,7 +87,7 @@ class HearingAidSimulatorContainer extends Component {
               }
             />
           </Pane>
-          <Pane>
+          <Pane isDisabled={isLinked}>
             <Label>Right ear</Label>
             <HearingLossGradeSelector
               grade={frequencySmearingPreset[Ear.RIGHT]}
@@ -91,7 +109,7 @@ class HearingAidSimulatorContainer extends Component {
               }
             />
           </Pane>
-          <Pane>
+          <Pane isDisabled={isLinked}>
             <Label>Right ear</Label>
             <HearingLossGradeSelector
               grade={temporalDistortionPreset[Ear.RIGHT]}
@@ -109,11 +127,13 @@ class HearingAidSimulatorContainer extends Component {
 export default connect(
   state => ({
     isEnabled: state.hl.isEnabled,
+    isLinked: state.hl.isLinked,
     grade: state.hl.grade,
     frequencySmearingPreset: state.hl.frequencySmearingPreset,
     temporalDistortionPreset: state.hl.temporalDistortionPreset,
   }),
   dispatch => ({
+    onLinkedChange: isLinked => dispatch(setHlLinked(isLinked)),
     onGradeChange: (ear, grade) => dispatch(setHlGrade(ear, grade)),
     onFrequencySmearingChange: (ear, preset) =>
       dispatch(setFrequencySmearingPreset(ear, preset)),

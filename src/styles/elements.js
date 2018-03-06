@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import {
   BLACK,
@@ -54,6 +54,13 @@ export const Pane = styled.div`
   flex-grow: 1;
   padding-right: 12px;
   padding-left: 12px;
+
+  ${props =>
+    props.isDisabled === true &&
+    css`
+      opacity: 0.5;
+      pointer-events: none;
+    `};
 `
 
 export const PaneSet = styled.div`

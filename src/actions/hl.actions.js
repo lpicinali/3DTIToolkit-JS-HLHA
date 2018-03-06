@@ -1,6 +1,11 @@
 /* eslint import/prefer-default-export: 0 */
 import { ActionType } from 'src/constants.js'
 
+export const setHlLinked = isLinked => ({
+  type: ActionType.SET_HL_LINKED,
+  payload: { isLinked },
+})
+
 export const setFrequencySmearingPreset = (ear, preset) => ({
   type: ActionType.SET_HL_FREQUENCY_SMEARING_PRESET,
   payload: { ear, preset },

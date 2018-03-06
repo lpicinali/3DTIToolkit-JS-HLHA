@@ -10,6 +10,11 @@ import {
 } from 'src/constants.js'
 import { cast } from 'src/utils.js'
 import { setHaGrade } from 'src/actions/ha.actions.js'
+import {
+  setFrequencySmearingPreset,
+  setTemporalDistortionPreset,
+  setHlGrade,
+} from 'src/actions/hl.actions.js'
 import { getFileUrl } from 'src/audio/audio-files.js'
 import {
   setMaskNode,
@@ -181,6 +186,43 @@ function* applyTemporalDistortionPresets() {
   }
 }
 
+function* mirrorLinkedHearingLossSettings() {
+  while (true) {
+    const { type, payload } = yield take([
+      ActionType.SET_HL_LINKED,
+      ActionType.SET_HL_GRADE,
+      ActionType.SET_HL_FREQUENCY_SMEARING_PRESET,
+      ActionType.SET_HL_TEMPORAL_DISTORTION_PRESET,
+    ])
+
+    const hearingLossState = yield select(state => state.hl)
+
+    if (type === ActionType.SET_HL_LINKED && payload.isLinked === true) {
+      yield put(setHlGrade(Ear.RIGHT, hearingLossState.grade[Ear.LEFT]))
+      yield put(
+        setFrequencySmearingPreset(
+          Ear.RIGHT,
+          hearingLossState.frequencySmearingPreset[Ear.LEFT]
+        )
+      )
+      yield put(
+        setTemporalDistortionPreset(
+          Ear.RIGHT,
+          hearingLossState.temporalDistortionPreset[Ear.LEFT]
+        )
+      )
+    } else if (hearingLossState.isLinked === true && payload.ear === Ear.LEFT) {
+      if (type === ActionType.SET_HL_GRADE) {
+        yield put(setHlGrade(Ear.RIGHT, payload.grade))
+      } else if (type === ActionType.SET_HL_FREQUENCY_SMEARING_PRESET) {
+        yield put(setFrequencySmearingPreset(Ear.RIGHT, payload.preset))
+      } else if (type === ActionType.SET_HL_TEMPORAL_DISTORTION_PRESET) {
+        yield put(setTemporalDistortionPreset(Ear.RIGHT, payload.preset))
+      }
+    }
+  }
+}
+
 function* applyQuantisationStepEnabled() {
   while (true) {
     const { payload: { step, isEnabled } } = yield take(
@@ -197,6 +239,25 @@ function* applyAidNoiseBits() {
     )
 
     yield call(engine.setHearingAidNumNoiseBits, numBits)
+  }
+}
+
+function* mirrorLinkedHearingAidSettings() {
+  while (true) {
+    const { type, payload } = yield take([
+      ActionType.SET_HA_LINKED,
+      ActionType.SET_HA_GRADE,
+    ])
+
+    const hearingAidState = yield select(state => state.ha)
+
+    if (type === ActionType.SET_HA_LINKED && payload.isLinked === true) {
+      yield put(setHaGrade(Ear.RIGHT, hearingAidState.grade[Ear.LEFT]))
+    } else if (hearingAidState.isLinked === true && payload.ear === Ear.LEFT) {
+      if (type === ActionType.SET_HA_GRADE) {
+        yield put(setHaGrade(Ear.RIGHT, payload.grade))
+      }
+    }
   }
 }
 
@@ -226,8 +287,10 @@ export default function* rootSaga() {
     applyTargetPosition(),
     applyFrequencySmearingPresets(),
     applyTemporalDistortionPresets(),
+    mirrorLinkedHearingLossSettings(),
     applyQuantisationStepEnabled(),
     applyAidNoiseBits(),
+    mirrorLinkedHearingAidSettings(),
     makeAidFollowLoss(),
   ]
 }

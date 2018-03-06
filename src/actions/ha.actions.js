@@ -1,5 +1,10 @@
 import { ActionType } from 'src/constants.js'
 
+export const setHaLinked = isLinked => ({
+  type: ActionType.SET_HA_LINKED,
+  payload: { isLinked },
+})
+
 export const setHaGrade = (ear, grade) => ({
   type: ActionType.SET_HA_GRADE,
   payload: { ear, grade },

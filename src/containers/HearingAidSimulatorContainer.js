@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import { Ear, HearingLossGrade, QuantisationStep } from 'src/constants.js'
 import * as CustomPropTypes from 'src/prop-types.js'
 import {
+  setHaLinked,
   setHaGrade,
   setHaNumNoiseBits,
   setQuantisationStepEnabled,
@@ -16,6 +17,10 @@ import Slider from 'src/components/Slider.js'
 import Toggle from 'src/components/Toggle.js'
 import DirectionalityContainer from 'src/containers/DirectionalityContainer.js'
 import { H2, H3, Label, Pane, PaneSet } from 'src/styles/elements.js'
+
+const LinkToggle = styled(Toggle)`
+  margin: 24px 0 32px;
+`
 
 const DirectionalityWrapper = styled.div`
   width: 130px;
@@ -27,6 +32,8 @@ const DirectionalityWrapper = styled.div`
 class HearingAidSimulatorContainer extends Component {
   static propTypes = {
     isEnabled: PropTypes.bool.isRequired,
+    isLinked: PropTypes.bool.isRequired,
+    onLinkedChange: PropTypes.func.isRequired,
     grade: CustomPropTypes.earGrades.isRequired,
     hearingLossGrade: CustomPropTypes.earGrades.isRequired,
     hearingAidNumNoiseBits: PropTypes.number.isRequired,
@@ -40,6 +47,8 @@ class HearingAidSimulatorContainer extends Component {
   render() {
     const {
       isEnabled,
+      isLinked,
+      onLinkedChange,
       grade,
       hearingLossGrade,
       isQuantisationBeforeEnabled,
@@ -66,6 +75,12 @@ class HearingAidSimulatorContainer extends Component {
       <div>
         <H2>Hearing aid simulator</H2>
 
+        <LinkToggle
+          isChecked={isLinked}
+          onChange={onLinkedChange}
+          label="Link left and right ear"
+        />
+
         <H3>Set the hearing aid to compensate for a specific loss level</H3>
         <PaneSet numPanes={2}>
           <Pane>
@@ -76,7 +91,7 @@ class HearingAidSimulatorContainer extends Component {
               onSelect={newGrade => onGradeChange(Ear.LEFT, newGrade)}
             />
           </Pane>
-          <Pane>
+          <Pane isDisabled={isLinked}>
             <Label>Right ear</Label>
             <HearingLossGradeSelector
               grade={grade[Ear.RIGHT]}
@@ -132,6 +147,7 @@ class HearingAidSimulatorContainer extends Component {
 export default connect(
   state => ({
     isEnabled: state.ha.isEnabled,
+    isLinked: state.ha.isLinked,
     grade: state.ha.grade,
     hearingLossGrade: state.hl.grade,
     isQuantisationBeforeEnabled: state.ha.isQuantisationBeforeEnabled,
@@ -139,6 +155,7 @@ export default connect(
     hearingAidNumNoiseBits: state.ha.numNoiseBits,
   }),
   dispatch => ({
+    onLinkedChange: isLinked => dispatch(setHaLinked(isLinked)),
     onGradeChange: (ear, grade) => dispatch(setHaGrade(ear, grade)),
     onQuantisationChange: (step, isEnabled) =>
       dispatch(setQuantisationStepEnabled(step, isEnabled)),

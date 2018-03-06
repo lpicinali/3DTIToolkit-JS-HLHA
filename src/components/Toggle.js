@@ -50,6 +50,7 @@ const ToggleWrap = styled.div`
  */
 class Toggle extends PureComponent {
   static propTypes = {
+    className: PropTypes.string,
     isChecked: PropTypes.bool.isRequired,
     label: PropTypes.node,
     labelPosition: PropTypes.oneOf(values(LabelPosition)),
@@ -57,15 +58,20 @@ class Toggle extends PureComponent {
   }
 
   static defaultProps = {
+    className: '',
     label: null,
     labelPosition: LabelPosition.AFTER,
   }
 
   render() {
-    const { isChecked, label, labelPosition, onChange } = this.props
+    const { className, isChecked, label, labelPosition, onChange } = this.props
 
     return (
-      <ToggleWrap isChecked={isChecked} onClick={() => onChange(!isChecked)}>
+      <ToggleWrap
+        className={className}
+        isChecked={isChecked}
+        onClick={() => onChange(!isChecked)}
+      >
         {labelPosition === LabelPosition.BEFORE && (
           <ToggleLabel>{label}</ToggleLabel>
         )}
