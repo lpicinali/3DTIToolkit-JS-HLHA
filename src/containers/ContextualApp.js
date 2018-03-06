@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { Provider } from 'react-redux'
 
-import store from 'src/store.js'
+import store from 'src/store/store.js'
 import App from 'src/containers/App.js'
 
 /**
