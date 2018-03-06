@@ -2,7 +2,7 @@
 import toolkit from '3dti-toolkit'
 
 import { Ear } from 'src/constants.js'
-import { analysersInput, getAnalyserData } from 'src/audio/analysers.js'
+// import { analysersInput, getAnalyserData } from 'src/audio/analysers.js'
 import context from 'src/audio/context.js'
 import { getInstance as getBinauralSpatializer } from 'src/audio/binauralSpatializer.js'
 import hearingAidProcessor from 'src/audio/hearingAidProcessor.js'
@@ -57,7 +57,7 @@ getBinauralSpatializer().then(spatializer => {
   hearingAidProcessor.connect(volume)
 
   // Analysers
-  hearingAidProcessor.connect(analysersInput)
+  // hearingAidProcessor.connect(analysersInput)
 
   // Master volume
   volume.connect(context.destination)

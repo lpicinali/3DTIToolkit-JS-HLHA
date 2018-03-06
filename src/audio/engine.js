@@ -1,4 +1,3 @@
-// import decode from 'audio-decode'
 import { map } from 'lodash'
 
 import {
@@ -17,8 +16,6 @@ import {
   startNodes,
   stopNodes,
 } from 'src/audio/chain.js'
-import context from 'src/audio/context.js'
-import decode from 'src/audio/decode.js'
 import {
   setEnabled as setHearingAidEnabled,
   setGains as setHearingAidGains,

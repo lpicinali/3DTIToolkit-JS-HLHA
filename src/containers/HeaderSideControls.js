@@ -10,7 +10,7 @@ import {
   TooltipBox,
   TooltipPosition,
 } from 'src/components/Tooltip.js'
-import MasterLevelMeter from 'src/containers/MasterLevelMeter.js'
+// import MasterLevelMeter from 'src/containers/MasterLevelMeter.js'
 import PlaybackControlsContainer from 'src/containers/PlaybackControlsContainer.js'
 import { TURQUOISE, WHITE_SMOKE } from 'src/styles/colors.js'
 import { H3, ModuleBox } from 'src/styles/elements.js'
@@ -72,14 +72,14 @@ const SettingValue = styled.span`
   text-align: right;
 `
 
-const MasterLevelWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  padding: 16px;
-  background: ${darken(0.01, WHITE_SMOKE)};
-  border-left: 1px solid rgba(0, 0, 0, 0.03);
-  border-radius: 0 4px 4px 0;
-`
+// const MasterLevelWrapper = styled.div`
+//   display: flex;
+//   align-items: center;
+//   padding: 16px;
+//   background: ${darken(0.01, WHITE_SMOKE)};
+//   border-left: 1px solid rgba(0, 0, 0, 0.03);
+//   border-radius: 0 4px 4px 0;
+// `
 
 /**
  * Header Side Area
@@ -164,9 +164,9 @@ class HeaderSideControls extends PureComponent {
           </TooltipAnimation>
         </SettingsWrapper>
 
-        <MasterLevelWrapper>
+        {/*<MasterLevelWrapper>
           <MasterLevelMeter />
-        </MasterLevelWrapper>
+        </MasterLevelWrapper>*/}
       </HeaderSideBox>
     )
   }
