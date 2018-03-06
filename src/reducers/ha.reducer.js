@@ -20,6 +20,9 @@ const initialState = {
 }
 
 export default (state = initialState, { type, payload }) => {
+  if (type === ActionType.SET_HA_ENABLED) {
+    return set('isEnabled', payload.isEnabled, state)
+  }
   if (type === ActionType.SET_HA_LINKED) {
     return set('isLinked', payload.isLinked, state)
   }

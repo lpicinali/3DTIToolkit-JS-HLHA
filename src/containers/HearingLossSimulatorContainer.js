@@ -6,14 +6,27 @@ import styled from 'styled-components'
 import { Ear } from 'src/constants.js'
 import * as CustomPropTypes from 'src/prop-types.js'
 import {
+  setHlEnabled,
+  setHlLinked,
+  setHlGrade,
   setFrequencySmearingPreset,
   setTemporalDistortionPreset,
-  setHlGrade,
-  setHlLinked,
 } from 'src/actions/hl.actions.js'
 import HearingLossGradeSelector from 'src/components/HearingLossGradeSelector.js'
-import Toggle from 'src/components/Toggle.js'
-import { H2, H3, Label, Pane, PaneSet } from 'src/styles/elements.js'
+import { LabelPosition, Toggle } from 'src/components/Toggle.js'
+import {
+  Disablable,
+  H2,
+  H3,
+  Label,
+  Pane,
+  PaneSet,
+} from 'src/styles/elements.js'
+
+const ModuleToggle = styled(Toggle)`
+  float: right;
+  margin-top: 4px;
+`
 
 const LinkToggle = styled(Toggle)`
   margin: 24px 0 32px;
@@ -25,6 +38,7 @@ const LinkToggle = styled(Toggle)`
 class HearingAidSimulatorContainer extends Component {
   static propTypes = {
     isEnabled: PropTypes.bool.isRequired,
+    onEnabledChange: PropTypes.func.isRequired,
     isLinked: PropTypes.bool.isRequired,
     onLinkedChange: PropTypes.func.isRequired,
     grade: CustomPropTypes.earGrades.isRequired,
@@ -38,6 +52,7 @@ class HearingAidSimulatorContainer extends Component {
   render() {
     const {
       isEnabled,
+      onEnabledChange,
       isLinked,
       onLinkedChange,
       grade,
@@ -50,75 +65,84 @@ class HearingAidSimulatorContainer extends Component {
 
     return (
       <div>
-        <H2>Hearing loss simulator</H2>
-
-        <LinkToggle
-          isChecked={isLinked}
-          onChange={onLinkedChange}
-          label="Link left and right ear"
+        <ModuleToggle
+          isChecked={isEnabled}
+          onChange={onEnabledChange}
+          label={isEnabled ? 'On' : 'Off'}
+          labelPosition={LabelPosition.BEFORE}
         />
 
-        <H3>Select a level of hearing loss</H3>
-        <PaneSet numPanes={2}>
-          <Pane>
-            <Label>Left ear</Label>
-            <HearingLossGradeSelector
-              grade={grade[Ear.LEFT]}
-              onSelect={newGrade => onGradeChange(Ear.LEFT, newGrade)}
-            />
-          </Pane>
-          <Pane isDisabled={isLinked}>
-            <Label>Right ear</Label>
-            <HearingLossGradeSelector
-              grade={grade[Ear.RIGHT]}
-              onSelect={newGrade => onGradeChange(Ear.RIGHT, newGrade)}
-            />
-          </Pane>
-        </PaneSet>
+        <H2>Hearing loss simulator</H2>
 
-        <H3>Frequency smearing</H3>
-        <PaneSet numPanes={2}>
-          <Pane>
-            <Label>Left ear</Label>
-            <HearingLossGradeSelector
-              grade={frequencySmearingPreset[Ear.LEFT]}
-              onSelect={newGrade =>
-                onFrequencySmearingChange(Ear.LEFT, newGrade)
-              }
-            />
-          </Pane>
-          <Pane isDisabled={isLinked}>
-            <Label>Right ear</Label>
-            <HearingLossGradeSelector
-              grade={frequencySmearingPreset[Ear.RIGHT]}
-              onSelect={newGrade =>
-                onFrequencySmearingChange(Ear.RIGHT, newGrade)
-              }
-            />
-          </Pane>
-        </PaneSet>
+        <Disablable isDisabled={isEnabled === false}>
+          <LinkToggle
+            isChecked={isLinked}
+            onChange={onLinkedChange}
+            label="Link left and right ear"
+          />
 
-        <H3>Temporal distortion</H3>
-        <PaneSet numPanes={2}>
-          <Pane>
-            <Label>Left ear</Label>
-            <HearingLossGradeSelector
-              grade={temporalDistortionPreset[Ear.LEFT]}
-              onSelect={newGrade =>
-                onTemporalDistortionChange(Ear.LEFT, newGrade)
-              }
-            />
-          </Pane>
-          <Pane isDisabled={isLinked}>
-            <Label>Right ear</Label>
-            <HearingLossGradeSelector
-              grade={temporalDistortionPreset[Ear.RIGHT]}
-              onSelect={newGrade =>
-                onTemporalDistortionChange(Ear.RIGHT, newGrade)
-              }
-            />
-          </Pane>
-        </PaneSet>
+          <H3>Select a level of hearing loss</H3>
+          <PaneSet numPanes={2}>
+            <Pane>
+              <Label>Left ear</Label>
+              <HearingLossGradeSelector
+                grade={grade[Ear.LEFT]}
+                onSelect={newGrade => onGradeChange(Ear.LEFT, newGrade)}
+              />
+            </Pane>
+            <Pane isDisabled={isLinked}>
+              <Label>Right ear</Label>
+              <HearingLossGradeSelector
+                grade={grade[Ear.RIGHT]}
+                onSelect={newGrade => onGradeChange(Ear.RIGHT, newGrade)}
+              />
+            </Pane>
+          </PaneSet>
+
+          <H3>Frequency smearing</H3>
+          <PaneSet numPanes={2}>
+            <Pane>
+              <Label>Left ear</Label>
+              <HearingLossGradeSelector
+                grade={frequencySmearingPreset[Ear.LEFT]}
+                onSelect={newGrade =>
+                  onFrequencySmearingChange(Ear.LEFT, newGrade)
+                }
+              />
+            </Pane>
+            <Pane isDisabled={isLinked}>
+              <Label>Right ear</Label>
+              <HearingLossGradeSelector
+                grade={frequencySmearingPreset[Ear.RIGHT]}
+                onSelect={newGrade =>
+                  onFrequencySmearingChange(Ear.RIGHT, newGrade)
+                }
+              />
+            </Pane>
+          </PaneSet>
+
+          <H3>Temporal distortion</H3>
+          <PaneSet numPanes={2}>
+            <Pane>
+              <Label>Left ear</Label>
+              <HearingLossGradeSelector
+                grade={temporalDistortionPreset[Ear.LEFT]}
+                onSelect={newGrade =>
+                  onTemporalDistortionChange(Ear.LEFT, newGrade)
+                }
+              />
+            </Pane>
+            <Pane isDisabled={isLinked}>
+              <Label>Right ear</Label>
+              <HearingLossGradeSelector
+                grade={temporalDistortionPreset[Ear.RIGHT]}
+                onSelect={newGrade =>
+                  onTemporalDistortionChange(Ear.RIGHT, newGrade)
+                }
+              />
+            </Pane>
+          </PaneSet>
+        </Disablable>
       </div>
     )
   }
@@ -133,6 +157,7 @@ export default connect(
     temporalDistortionPreset: state.hl.temporalDistortionPreset,
   }),
   dispatch => ({
+    onEnabledChange: isEnabled => dispatch(setHlEnabled(isEnabled)),
     onLinkedChange: isLinked => dispatch(setHlLinked(isLinked)),
     onGradeChange: (ear, grade) => dispatch(setHlGrade(ear, grade)),
     onFrequencySmearingChange: (ear, preset) =>

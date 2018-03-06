@@ -48,7 +48,7 @@ const ToggleWrap = styled.div`
 /**
  * Toggle
  */
-class Toggle extends PureComponent {
+export class Toggle extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     isChecked: PropTypes.bool.isRequired,

@@ -57,31 +57,32 @@ const hearingAidProcessor = context.createScriptProcessor(512, 2, 2)
 hearingAidProcessor.onaudioprocess = audioProcessingEvent => {
   const { inputBuffer, outputBuffer } = audioProcessingEvent
 
+  if (isEnabled === false) {
+    for (let i = 0; i < 512; i++) {
+      outputBuffer.getChannelData(0)[i] = inputBuffer.getChannelData(0)[i]
+      outputBuffer.getChannelData(1)[i] = inputBuffer.getChannelData(1)[i]
+    }
+    return
+  }
+
   for (let i = 0; i < inputBuffer.getChannelData(0).length; i++) {
     inputBuffers.Set(T_ear.LEFT, i, inputBuffer.getChannelData(0)[i])
     inputBuffers.Set(T_ear.RIGHT, i, inputBuffer.getChannelData(1)[i])
   }
 
-  if (isEnabled === true) {
-    ProcessHAS(has, inputBuffers, outputBuffers)
+  ProcessHAS(has, inputBuffers, outputBuffers)
 
-    for (let i = 0; i < 512; i++) {
-      outputBuffer.getChannelData(0)[i] = outputBuffers.Get(T_ear.LEFT, i)
-      outputBuffer.getChannelData(1)[i] = outputBuffers.Get(T_ear.RIGHT, i)
-    }
-  } else {
-    for (let i = 0; i < 512; i++) {
-      outputBuffer.getChannelData(0)[i] = inputBuffer.getChannelData(0)[i]
-      outputBuffer.getChannelData(1)[i] = inputBuffer.getChannelData(1)[i]
-    }
+  for (let i = 0; i < 512; i++) {
+    outputBuffer.getChannelData(0)[i] = outputBuffers.Get(T_ear.LEFT, i)
+    outputBuffer.getChannelData(1)[i] = outputBuffers.Get(T_ear.RIGHT, i)
   }
 
   f++
 }
 
 // Enabled state
-const setEnabled = enabled => {
-  isEnabled = enabled
+const setEnabled = newIsEnabled => {
+  isEnabled = newIsEnabled
 }
 
 // Set band gains

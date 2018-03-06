@@ -1,6 +1,11 @@
 /* eslint import/prefer-default-export: 0 */
 import { ActionType } from 'src/constants.js'
 
+export const setHlEnabled = isEnabled => ({
+  type: ActionType.SET_HL_ENABLED,
+  payload: { isEnabled },
+})
+
 export const setHlLinked = isLinked => ({
   type: ActionType.SET_HL_LINKED,
   payload: { isLinked },

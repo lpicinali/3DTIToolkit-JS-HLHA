@@ -17,6 +17,15 @@ export const A = styled.a`
   }
 `
 
+export const Disablable = styled.div`
+  ${props =>
+    props.isDisabled === true &&
+    css`
+      opacity: 0.5;
+      pointer-events: none;
+    `};
+`
+
 export const H2 = styled.h2`
   margin: 0 0 8px;
   color: ${BLACK};
@@ -50,20 +59,13 @@ export const P = styled.p`
   color: ${BLACK};
 `
 
-export const Pane = styled.div`
+export const Pane = styled(Disablable)`
   flex-grow: 1;
   padding-right: 12px;
   padding-left: 12px;
-
-  ${props =>
-    props.isDisabled === true &&
-    css`
-      opacity: 0.5;
-      pointer-events: none;
-    `};
 `
 
-export const PaneSet = styled.div`
+export const PaneSet = styled(Disablable)`
   display: flex;
   margin-right: -12px;
   margin-left: -12px;

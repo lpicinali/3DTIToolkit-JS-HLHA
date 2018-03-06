@@ -24,7 +24,11 @@ import {
   stopTargetNode,
 } from 'src/audio/chain.js'
 import * as engine from 'src/audio/engine.js'
-import { setQuantisationStepEnabled } from 'src/audio/hearingAidProcessor.js'
+import {
+  setEnabled as setHearingAidEnabled,
+  setQuantisationStepEnabled,
+} from 'src/audio/hearingAidProcessor.js'
+import { setEnabled as setHearingLossEnabled } from 'src/audio/hearingLossProcessor.js'
 
 function* applyPlayPause() {
   while (true) {
@@ -141,6 +145,20 @@ function* toggleDirectionalityEnabledFromHearingAidPreset() {
       )
       yield call(engine.setDirectionalityEnabled, isEnabled)
     }
+  }
+}
+
+function* applyHearingLossSimulatorEnabled() {
+  while (true) {
+    const { payload } = yield take(ActionType.SET_HL_ENABLED)
+    yield call(setHearingLossEnabled, payload.isEnabled)
+  }
+}
+
+function* applyHearingAidSimulatorEnabled() {
+  while (true) {
+    const { payload } = yield take(ActionType.SET_HA_ENABLED)
+    yield call(setHearingAidEnabled, payload.isEnabled)
   }
 }
 
@@ -295,6 +313,8 @@ export default function* rootSaga() {
     applyDirectionalityEnabled(),
     applyDirectionalityAttenuation(),
     toggleDirectionalityEnabledFromHearingAidPreset(),
+    applyHearingLossSimulatorEnabled(),
+    applyHearingAidSimulatorEnabled(),
     applySimulatorPresets(),
     applyTargetPosition(),
     applyFrequencySmearingPresets(),

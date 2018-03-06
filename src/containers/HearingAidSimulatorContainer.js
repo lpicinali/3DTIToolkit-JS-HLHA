@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import { Ear, HearingLossGrade, QuantisationStep } from 'src/constants.js'
 import * as CustomPropTypes from 'src/prop-types.js'
 import {
+  setHaEnabled,
   setHaLinked,
   setHaGrade,
   setHaNumNoiseBits,
@@ -14,9 +15,21 @@ import {
 } from 'src/actions/ha.actions.js'
 import HearingLossGradeSelector from 'src/components/HearingLossGradeSelector.js'
 import Slider from 'src/components/Slider.js'
-import Toggle from 'src/components/Toggle.js'
+import { LabelPosition, Toggle } from 'src/components/Toggle.js'
 import DirectionalityContainer from 'src/containers/DirectionalityContainer.js'
-import { H2, H3, Label, Pane, PaneSet } from 'src/styles/elements.js'
+import {
+  Disablable,
+  H2,
+  H3,
+  Label,
+  Pane,
+  PaneSet,
+} from 'src/styles/elements.js'
+
+const ModuleToggle = styled(Toggle)`
+  float: right;
+  margin-top: 4px;
+`
 
 const LinkToggle = styled(Toggle)`
   margin: 24px 0 32px;
@@ -28,6 +41,7 @@ const LinkToggle = styled(Toggle)`
 class HearingAidSimulatorContainer extends Component {
   static propTypes = {
     isEnabled: PropTypes.bool.isRequired,
+    onEnabledChange: PropTypes.func.isRequired,
     isLinked: PropTypes.bool.isRequired,
     onLinkedChange: PropTypes.func.isRequired,
     grade: CustomPropTypes.earGrades.isRequired,
@@ -43,6 +57,7 @@ class HearingAidSimulatorContainer extends Component {
   render() {
     const {
       isEnabled,
+      onEnabledChange,
       isLinked,
       onLinkedChange,
       grade,
@@ -69,39 +84,46 @@ class HearingAidSimulatorContainer extends Component {
 
     return (
       <div>
-        <H2>Hearing aid simulator</H2>
-
-        <LinkToggle
-          isChecked={isLinked}
-          onChange={onLinkedChange}
-          label="Link left and right ear"
+        <ModuleToggle
+          isChecked={isEnabled}
+          onChange={onEnabledChange}
+          label={isEnabled ? 'On' : 'Off'}
+          labelPosition={LabelPosition.BEFORE}
         />
 
-        <H3>Set the hearing aid to compensate for a specific loss level</H3>
-        <PaneSet numPanes={2}>
-          <Pane>
-            <Label>Left ear</Label>
-            <HearingLossGradeSelector
-              grade={grade[Ear.LEFT]}
-              enabledGrades={enabledGrades[Ear.LEFT]}
-              onSelect={newGrade => onGradeChange(Ear.LEFT, newGrade)}
-            />
-          </Pane>
-          <Pane isDisabled={isLinked}>
-            <Label>Right ear</Label>
-            <HearingLossGradeSelector
-              grade={grade[Ear.RIGHT]}
-              enabledGrades={enabledGrades[Ear.RIGHT]}
-              onSelect={newGrade => onGradeChange(Ear.RIGHT, newGrade)}
-            />
-          </Pane>
-        </PaneSet>
+        <H2>Hearing aid simulator</H2>
 
-        <H3>Directionality</H3>
-        <DirectionalityContainer />
+        <Disablable isDisabled={isEnabled === false}>
+          <LinkToggle
+            isChecked={isLinked}
+            onChange={onLinkedChange}
+            label="Link left and right ear"
+          />
 
-        <H3>Hearing aid quantisation</H3>
-        <div>
+          <H3>Set the hearing aid to compensate for a specific loss level</H3>
+          <PaneSet numPanes={2}>
+            <Pane>
+              <Label>Left ear</Label>
+              <HearingLossGradeSelector
+                grade={grade[Ear.LEFT]}
+                enabledGrades={enabledGrades[Ear.LEFT]}
+                onSelect={newGrade => onGradeChange(Ear.LEFT, newGrade)}
+              />
+            </Pane>
+            <Pane isDisabled={isLinked}>
+              <Label>Right ear</Label>
+              <HearingLossGradeSelector
+                grade={grade[Ear.RIGHT]}
+                enabledGrades={enabledGrades[Ear.RIGHT]}
+                onSelect={newGrade => onGradeChange(Ear.RIGHT, newGrade)}
+              />
+            </Pane>
+          </PaneSet>
+
+          <H3>Directionality</H3>
+          <DirectionalityContainer />
+
+          <H3>Hearing aid quantisation</H3>
           <Toggle
             isChecked={isQuantisationBeforeEnabled}
             label="Before equalizer"
@@ -123,16 +145,16 @@ class HearingAidSimulatorContainer extends Component {
               )
             }
           />
-        </div>
 
-        <Slider
-          min={6}
-          max={16}
-          step={1}
-          onChange={onNumNoiseBitsChange}
-          value={hearingAidNumNoiseBits}
-          formatDisplayValue={value => `${value} bits`}
-        />
+          <Slider
+            min={6}
+            max={16}
+            step={1}
+            onChange={onNumNoiseBitsChange}
+            value={hearingAidNumNoiseBits}
+            formatDisplayValue={value => `${value} bits`}
+          />
+        </Disablable>
       </div>
     )
   }
@@ -149,6 +171,7 @@ export default connect(
     hearingAidNumNoiseBits: state.ha.numNoiseBits,
   }),
   dispatch => ({
+    onEnabledChange: isEnabled => dispatch(setHaEnabled(isEnabled)),
     onLinkedChange: isLinked => dispatch(setHaLinked(isLinked)),
     onGradeChange: (ear, grade) => dispatch(setHaGrade(ear, grade)),
     onQuantisationChange: (step, isEnabled) =>

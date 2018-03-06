@@ -29,12 +29,21 @@ inputBuffers.Resize(512, 0)
 const outputBuffers = new EarPairBuffers()
 outputBuffers.Resize(512, 0)
 
+let isEnabled = true
 let f = 0
 
 // Audio processing
 const hearingLossProcessor = context.createScriptProcessor(512, 2, 2)
 hearingLossProcessor.onaudioprocess = audioProcessingEvent => {
   const { inputBuffer, outputBuffer } = audioProcessingEvent
+
+  if (isEnabled === false) {
+    for (let i = 0; i < 512; i++) {
+      outputBuffer.getChannelData(0)[i] = inputBuffer.getChannelData(0)[i]
+      outputBuffer.getChannelData(1)[i] = inputBuffer.getChannelData(1)[i]
+    }
+    return
+  }
 
   const inputDataL = inputBuffer.getChannelData(0)
   const inputDataR = inputBuffer.getChannelData(1)
@@ -59,6 +68,10 @@ hearingLossProcessor.onaudioprocess = audioProcessingEvent => {
   }
 
   f++
+}
+
+const setEnabled = newIsEnabled => {
+  isEnabled = newIsEnabled
 }
 
 // Set band gains
@@ -117,6 +130,7 @@ export default hearingLossProcessor
 
 export {
   hearingLossProcessor,
+  setEnabled,
   setGains,
   setFrequencySmearingPreset,
   setTemporalDistortionPreset,
