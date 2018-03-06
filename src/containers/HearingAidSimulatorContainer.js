@@ -6,6 +6,7 @@ import styled from 'styled-components'
 
 import { Ear, HearingLossGrade, QuantisationStep } from 'src/constants.js'
 import * as CustomPropTypes from 'src/prop-types.js'
+import { setDirectionalityEnabled } from 'src/actions/controls.actions.js'
 import {
   setHaEnabled,
   setHaLinked,
@@ -35,6 +36,19 @@ const LinkToggle = styled(Toggle)`
   margin: 24px 0 32px;
 `
 
+const DirectionalityHeader = styled.div`
+  display: flex;
+  align-items: flex-end;
+
+  ${H3} {
+    flex-grow: 1;
+  }
+`
+
+const DirectionalityToggle = styled(Toggle)`
+  margin-bottom: 12px;
+`
+
 const QuantisationToggles = styled.div`
   margin-bottom: 16px;
 `
@@ -50,6 +64,8 @@ class HearingAidSimulatorContainer extends Component {
     onLinkedChange: PropTypes.func.isRequired,
     grade: CustomPropTypes.earGrades.isRequired,
     hearingLossGrade: CustomPropTypes.earGrades.isRequired,
+    isDirectionalityEnabled: PropTypes.bool.isRequired,
+    onDirectionalityEnabledChange: PropTypes.func.isRequired,
     hearingAidNumNoiseBits: PropTypes.number.isRequired,
     isQuantisationBeforeEnabled: PropTypes.bool.isRequired,
     isQuantisationAfterEnabled: PropTypes.bool.isRequired,
@@ -66,6 +82,8 @@ class HearingAidSimulatorContainer extends Component {
       onLinkedChange,
       grade,
       hearingLossGrade,
+      isDirectionalityEnabled,
+      onDirectionalityEnabledChange,
       isQuantisationBeforeEnabled,
       isQuantisationAfterEnabled,
       hearingAidNumNoiseBits,
@@ -124,7 +142,15 @@ class HearingAidSimulatorContainer extends Component {
             </Pane>
           </PaneSet>
 
-          <H3>Directionality</H3>
+          <DirectionalityHeader>
+            <H3>Directionality</H3>
+            <DirectionalityToggle
+              isChecked={isDirectionalityEnabled}
+              onChange={onDirectionalityEnabledChange}
+              label={isEnabled ? 'On' : 'Off'}
+              labelPosition={LabelPosition.BEFORE}
+            />
+          </DirectionalityHeader>
           <DirectionalityContainer />
 
           <H3>Hearing aid quantisation</H3>
@@ -172,6 +198,7 @@ export default connect(
     isLinked: state.ha.isLinked,
     grade: state.ha.grade,
     hearingLossGrade: state.hl.grade,
+    isDirectionalityEnabled: state.controls.isDirectionalityEnabled,
     isQuantisationBeforeEnabled: state.ha.isQuantisationBeforeEnabled,
     isQuantisationAfterEnabled: state.ha.isQuantisationAfterEnabled,
     hearingAidNumNoiseBits: state.ha.numNoiseBits,
@@ -180,6 +207,8 @@ export default connect(
     onEnabledChange: isEnabled => dispatch(setHaEnabled(isEnabled)),
     onLinkedChange: isLinked => dispatch(setHaLinked(isLinked)),
     onGradeChange: (ear, grade) => dispatch(setHaGrade(ear, grade)),
+    onDirectionalityEnabledChange: isEnabled =>
+      dispatch(setDirectionalityEnabled(isEnabled)),
     onQuantisationChange: (step, isEnabled) =>
       dispatch(setQuantisationStepEnabled(step, isEnabled)),
     onNumNoiseBitsChange: numBits => dispatch(setHaNumNoiseBits(numBits)),

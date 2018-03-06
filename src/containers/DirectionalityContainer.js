@@ -3,13 +3,9 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 
 import { Ear } from 'src/constants.js'
-import {
-  setDirectionalityValue,
-  setDirectionalityEnabled,
-} from 'src/actions/controls.actions.js'
+import { setDirectionalityValue } from 'src/actions/controls.actions.js'
 import Slider from 'src/components/Slider.js'
-import Toggle from 'src/components/Toggle.js'
-import { Label, Pane, PaneSet } from 'src/styles/elements.js'
+import { Disablable, Label, Pane, PaneSet } from 'src/styles/elements.js'
 
 /**
  * Directionality Container
@@ -22,32 +18,18 @@ class DirectionalityContainer extends PureComponent {
       [Ear.LEFT]: PropTypes.number.isRequired,
       [Ear.RIGHT]: PropTypes.number.isRequired,
     }).isRequired,
-    onChangeEnabled: PropTypes.func.isRequired,
     onChangeValue: PropTypes.func.isRequired,
   }
 
   render() {
-    const {
-      isEnabled,
-      isLinked,
-      value,
-      onChangeEnabled,
-      onChangeValue,
-    } = this.props
+    const { isEnabled, isLinked, value, onChangeValue } = this.props
 
     return (
-      <div>
-        <Toggle
-          isChecked={isEnabled}
-          onChange={onChangeEnabled}
-          label={isEnabled ? 'On' : 'Off'}
-        />
-
+      <Disablable isDisabled={isEnabled === false}>
         <PaneSet numPanes={2}>
           <Pane>
             <Label>Left ear</Label>
             <Slider
-              isDisabled={isEnabled === false}
               value={value[Ear.LEFT]}
               min={-1}
               max={1}
@@ -62,7 +44,6 @@ class DirectionalityContainer extends PureComponent {
           <Pane isDisabled={isLinked}>
             <Label>Right ear</Label>
             <Slider
-              isDisabled={isEnabled === false}
               value={value[Ear.RIGHT]}
               min={-1}
               max={1}
@@ -74,7 +55,7 @@ class DirectionalityContainer extends PureComponent {
             />
           </Pane>
         </PaneSet>
-      </div>
+      </Disablable>
     )
   }
 }
@@ -86,7 +67,6 @@ export default connect(
     value: state.controls.directionalityValue,
   }),
   dispatch => ({
-    onChangeEnabled: isEnabled => dispatch(setDirectionalityEnabled(isEnabled)),
     onChangeValue: (ear, value) => dispatch(setDirectionalityValue(ear, value)),
   })
 )(DirectionalityContainer)
