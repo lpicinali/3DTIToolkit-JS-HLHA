@@ -64,7 +64,7 @@ class HearingAidSimulatorContainer extends Component {
 
     return (
       <div>
-        <H2>Hearing Aid Simulator</H2>
+        <H2>Hearing aid simulator</H2>
 
         <H3>Set the hearing aid to compensate for a specific loss level</H3>
         <PaneSet numPanes={2}>
@@ -86,7 +86,7 @@ class HearingAidSimulatorContainer extends Component {
           </Pane>
         </PaneSet>
 
-        <H3>Hearing Aid Quantisation - bits</H3>
+        <H3>Hearing aid quantisation</H3>
         <div>
           <Toggle
             isChecked={isQuantisationBeforeEnabled}

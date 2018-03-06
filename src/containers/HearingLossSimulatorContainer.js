@@ -39,7 +39,7 @@ class HearingAidSimulatorContainer extends Component {
 
     return (
       <div>
-        <H2>Hearing Loss Simulator</H2>
+        <H2>Hearing loss simulator</H2>
         <H3>Select a level of hearing loss</H3>
         <PaneSet numPanes={2}>
           <Pane>
