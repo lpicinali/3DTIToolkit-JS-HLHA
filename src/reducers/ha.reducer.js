@@ -8,7 +8,7 @@ import {
 } from 'src/constants.js'
 
 const initialState = {
-  isEnabled: false,
+  isEnabled: true,
   isLinked: false,
   grade: {
     [Ear.LEFT]: HearingLossGrade.NONE,

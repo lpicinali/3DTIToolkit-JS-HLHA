@@ -3,7 +3,7 @@ import { set } from 'lodash/fp'
 import { ActionType, Ear, HearingLossGrade } from 'src/constants.js'
 
 const initialState = {
-  isEnabled: false,
+  isEnabled: true,
   isLinked: false,
   grade: {
     [Ear.LEFT]: HearingLossGrade.NONE,
