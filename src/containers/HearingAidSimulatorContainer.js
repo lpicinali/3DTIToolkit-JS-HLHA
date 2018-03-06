@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { values } from 'lodash'
 import styled from 'styled-components'
 
-import { HearingLossGrade, QuantisationStep } from 'src/constants.js'
+import { Ear, HearingLossGrade, QuantisationStep } from 'src/constants.js'
 import * as CustomPropTypes from 'src/prop-types.js'
 import {
   setHaGrade,
@@ -114,7 +114,7 @@ export default connect(
   state => ({
     isEnabled: state.ha.isEnabled,
     grade: state.ha.grade,
-    hearingLossGrade: state.hl.grade,
+    hearingLossGrade: state.hl.grade[Ear.LEFT],
     isQuantisationBeforeEnabled: state.ha.isQuantisationBeforeEnabled,
     isQuantisationAfterEnabled: state.ha.isQuantisationAfterEnabled,
     hearingAidNumNoiseBits: state.ha.numNoiseBits,

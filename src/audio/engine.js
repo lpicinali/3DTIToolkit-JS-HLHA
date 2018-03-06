@@ -110,18 +110,18 @@ export const setDirectionalityAttenuation = (ear, attenuation) => {
   })
 }
 
-export const setHearingLossPreset = presetName => {
+export const setHearingLossPreset = (ear, presetName) => {
   const gains = presets[SimulatorType.LOSS][presetName]
 
-  setHearingLossGains(gains)
+  setHearingLossGains(ear, gains)
 }
 
-export const setFrequencySmearingPreset = preset => {
-  setHearingLossFrequencySmearingPreset(preset)
+export const setFrequencySmearingPreset = (ear, preset) => {
+  setHearingLossFrequencySmearingPreset(ear, preset)
 }
 
-export const setTemporalDistortionPreset = preset => {
-  setHearingLossTemporalDistortionPreset(preset)
+export const setTemporalDistortionPreset = (ear, preset) => {
+  setHearingLossTemporalDistortionPreset(ear, preset)
 }
 
 export const setHearingAidPreset = presetName => {

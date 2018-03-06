@@ -147,7 +147,7 @@ function* applySimulatorPresets() {
     ])
 
     if (type === ActionType.SET_HL_GRADE) {
-      engine.setHearingLossPreset(payload.grade)
+      engine.setHearingLossPreset(payload.ear, payload.grade)
     } else if (type === ActionType.SET_HA_GRADE) {
       engine.setHearingAidPreset(payload.grade)
     }
@@ -165,19 +165,19 @@ function* applyTargetPosition() {
 
 function* applyFrequencySmearingPresets() {
   while (true) {
-    const { payload: { preset } } = yield take(
+    const { payload: { ear, preset } } = yield take(
       ActionType.SET_HL_FREQUENCY_SMEARING_PRESET
     )
-    yield call(engine.setFrequencySmearingPreset, preset)
+    yield call(engine.setFrequencySmearingPreset, ear, preset)
   }
 }
 
 function* applyTemporalDistortionPresets() {
   while (true) {
-    const { payload: { preset } } = yield take(
+    const { payload: { ear, preset } } = yield take(
       ActionType.SET_HL_TEMPORAL_DISTORTION_PRESET
     )
-    yield call(engine.setTemporalDistortionPreset, preset)
+    yield call(engine.setTemporalDistortionPreset, ear, preset)
   }
 }
 

@@ -49,3 +49,19 @@ export const P = styled.p`
   font-size: 16px;
   color: ${BLACK};
 `
+
+export const Pane = styled.div`
+  flex-grow: 1;
+  padding-right: 12px;
+  padding-left: 12px;
+`
+
+export const PaneSet = styled.div`
+  display: flex;
+  margin-right: -12px;
+  margin-left: -12px;
+
+  ${Pane} {
+    width: ${props => 100 / props.numPanes}%;
+  }
+`

@@ -1,21 +1,32 @@
-import { ActionType, HearingLossGrade } from 'src/constants.js'
+import { set } from 'lodash/fp'
+
+import { ActionType, Ear, HearingLossGrade } from 'src/constants.js'
 
 const initialState = {
   isEnabled: false,
-  grade: HearingLossGrade.NONE,
-  frequencySmearingPreset: HearingLossGrade.NONE,
-  temporalDistortionPreset: HearingLossGrade.NONE,
+  grade: {
+    [Ear.LEFT]: HearingLossGrade.NONE,
+    [Ear.RIGHT]: HearingLossGrade.NONE,
+  },
+  frequencySmearingPreset: {
+    [Ear.LEFT]: HearingLossGrade.NONE,
+    [Ear.RIGHT]: HearingLossGrade.NONE,
+  },
+  temporalDistortionPreset: {
+    [Ear.LEFT]: HearingLossGrade.NONE,
+    [Ear.RIGHT]: HearingLossGrade.NONE,
+  },
 }
 
 export default (state = initialState, { type, payload }) => {
   if (type === ActionType.SET_HL_GRADE) {
-    return { ...state, grade: payload.grade }
+    return set(['grade', payload.ear], payload.grade, state)
   }
   if (type === ActionType.SET_HL_FREQUENCY_SMEARING_PRESET) {
-    return { ...state, frequencySmearingPreset: payload.preset }
+    return set(['frequencySmearingPreset', payload.ear], payload.preset, state)
   }
   if (type === ActionType.SET_HL_TEMPORAL_DISTORTION_PRESET) {
-    return { ...state, temporalDistortionPreset: payload.preset }
+    return set(['temporalDistortionPreset', payload.ear], payload.preset, state)
   }
 
   return state

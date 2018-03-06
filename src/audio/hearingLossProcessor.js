@@ -6,7 +6,7 @@ import {
   T_ear,
 } from '3dti-toolkit'
 
-import { HearingLossGrade, SimulatorType } from 'src/constants.js'
+import { Ear, HearingLossGrade, SimulatorType } from 'src/constants.js'
 import context from 'src/audio/context.js'
 import presets from 'src/audio/presets.js'
 
@@ -62,56 +62,54 @@ hearingLossProcessor.onaudioprocess = audioProcessingEvent => {
 }
 
 // Set band gains
-const setGains = gains => {
+const setGains = (ear, gains) => {
   const gainsVector = new FloatVector()
   gainsVector.resize(gains.length, 0)
   gains.forEach((gain, i) => gainsVector.set(i, gain))
 
-  hls.SetFromAudiometry_dBHL(T_ear.BOTH, gainsVector)
+  hls.SetFromAudiometry_dBHL(
+    ear === Ear.LEFT ? T_ear.LEFT : T_ear.RIGHT,
+    gainsVector
+  )
 }
 
-const setFrequencySmearingPreset = preset => {
+const setFrequencySmearingPreset = (ear, preset) => {
+  const toolkitEar = ear === Ear.LEFT ? T_ear.LEFT : T_ear.RIGHT
+
   if (preset === HearingLossGrade.NONE) {
-    hls.DisableFrequencySmearing(T_ear.BOTH)
+    hls.DisableFrequencySmearing(toolkitEar)
   } else {
-    hls.EnableFrequencySmearing(T_ear.BOTH)
+    hls.EnableFrequencySmearing(toolkitEar)
 
     const { bufferSize, smearing } = presets[SimulatorType.FREQUENCY_SMEARING][
       preset
     ]
 
-    const ears = [T_ear.LEFT, T_ear.RIGHT]
-    ears.forEach(ear => {
-      const smearingSimulator = hls.GetFrequencySmearingSimulator(ear)
-      smearingSimulator.SetDownwardSmearingBufferSize(bufferSize.downward)
-      smearingSimulator.SetUpwardSmearingBufferSize(bufferSize.upward)
-      smearingSimulator.SetDownwardSmearing_Hz(smearing.downward)
-      smearingSimulator.SetUpwardSmearing_Hz(smearing.upward)
-    })
+    const smearingSimulator = hls.GetFrequencySmearingSimulator(toolkitEar)
+    smearingSimulator.SetDownwardSmearingBufferSize(bufferSize.downward)
+    smearingSimulator.SetUpwardSmearingBufferSize(bufferSize.upward)
+    smearingSimulator.SetDownwardSmearing_Hz(smearing.downward)
+    smearingSimulator.SetUpwardSmearing_Hz(smearing.upward)
   }
 }
 
-const setTemporalDistortionPreset = preset => {
+const setTemporalDistortionPreset = (ear, preset) => {
+  const toolkitEar = ear === Ear.LEFT ? T_ear.LEFT : T_ear.RIGHT
+
   if (preset === HearingLossGrade.NONE) {
-    hls.DisableTemporalDistortion(T_ear.BOTH)
+    hls.DisableTemporalDistortion(toolkitEar)
   } else {
-    hls.EnableTemporalDistortion(T_ear.BOTH)
+    hls.EnableTemporalDistortion(toolkitEar)
 
     const presetValues = presets[SimulatorType.TEMPORAL_DISTORTION][preset]
     const tdSimulator = hls.GetTemporalDistortionSimulator()
     tdSimulator.SetLeftRightNoiseSynchronicity(presetValues.noiseSynchronicity)
-    tdSimulator.SetWhiteNoisePower(T_ear.LEFT, presetValues.whiteNoisePower)
-    tdSimulator.SetWhiteNoisePower(T_ear.RIGHT, presetValues.whiteNoisePower)
+    tdSimulator.SetWhiteNoisePower(toolkitEar, presetValues.whiteNoisePower)
     tdSimulator.SetNoiseAutocorrelationFilterCutoffFrequency(
-      T_ear.LEFT,
+      toolkitEar,
       presetValues.cutoffFrequency
     )
-    tdSimulator.SetNoiseAutocorrelationFilterCutoffFrequency(
-      T_ear.RIGHT,
-      presetValues.cutoffFrequency
-    )
-    tdSimulator.SetBandUpperLimit(T_ear.LEFT, presetValues.bandUpperLimit)
-    tdSimulator.SetBandUpperLimit(T_ear.RIGHT, presetValues.bandUpperLimit)
+    tdSimulator.SetBandUpperLimit(toolkitEar, presetValues.bandUpperLimit)
   }
 }
 

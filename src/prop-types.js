@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { values } from 'lodash'
 
-import { HearingLossGrade } from 'src/constants.js'
+import { Ear, HearingLossGrade } from 'src/constants.js'
 
 function makeRequirable(validate) {
   function checkExists(
@@ -15,9 +15,9 @@ function makeRequirable(validate) {
     if (props[propName] === null || props[propName] === undefined) {
       if (isRequired === true) {
         return new Error(
-          `The ${location} \`${propFullName}\` is marked as required in \`${componentName}\`, but its value is \`${prop[
-            propName
-          ]}\`.`
+          `The ${location} \`${propFullName}\` is marked as required in \`${componentName}\`, but its value is \`${
+            prop[propName]
+          }\`.`
         )
       }
 
@@ -34,6 +34,11 @@ function makeRequirable(validate) {
 }
 
 export const grade = PropTypes.oneOf(values(HearingLossGrade))
+
+export const earGrades = PropTypes.shape({
+  [Ear.LEFT]: grade.isRequired,
+  [Ear.RIGHT]: grade.isRequired,
+})
 
 export const rect = PropTypes.shape({
   width: PropTypes.number.isRequired,
@@ -57,10 +62,11 @@ export const scrollable = makeRequirable((props, propName, componentName) => {
     return new Error(
       `Invalid prop ${propName} supplied to ${componentName}. ` +
         `\`${propName}\` needs to have a pair of scroll offsets, either { scrollTop, scrollLeft } or { scrollX, scrollY }. ` +
-        `Current values are: \n\tscrollLeft: ${props[propName]
-          .scrollLeft} \n\tscrollTop: ${props[propName]
-          .scrollTop} \n\tscrollX: ${props[propName]
-          .scrollX} \n\tscrollY: ${props[propName].scrollY}`
+        `Current values are: \n\tscrollLeft: ${
+          props[propName].scrollLeft
+        } \n\tscrollTop: ${props[propName].scrollTop} \n\tscrollX: ${
+          props[propName].scrollX
+        } \n\tscrollY: ${props[propName].scrollY}`
     )
   }
 
