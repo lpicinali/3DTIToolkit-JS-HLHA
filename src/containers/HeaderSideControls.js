@@ -146,6 +146,10 @@ class HeaderSideControls extends PureComponent {
                   <SettingName>HRTF</SettingName>
                   <SettingValue>IRC_1032_C_R0195</SettingValue>
                 </SettingRow>
+                <SettingRow>
+                  <SettingName>Listener elevation</SettingName>
+                  <SettingValue>1.6 m</SettingValue>
+                </SettingRow>
               </TooltipBox>
             </SettingsTooltip>
           </TooltipAnimation>

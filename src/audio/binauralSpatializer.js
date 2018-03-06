@@ -22,12 +22,12 @@ let instancePromise = null
 let listener = null
 let source = null
 
-function setPosition(target, azimuth, distance) {
+function setPosition(target, azimuth, distance, elevation) {
   const transform = new CTransform()
 
   const x = Math.cos(azimuth) * distance
   const z = -Math.sin(azimuth) * distance
-  const position = new CVector3(x, 0, z)
+  const position = new CVector3(x, elevation, z)
 
   transform.SetPosition(position)
   target.SetSourceTransform(transform)
@@ -37,8 +37,8 @@ function setPosition(target, azimuth, distance) {
 
 function createInstance() {
   return fetchHrirsVector(hrirUrls, context).then(hrirsVector => {
-    function setSourcePosition(azimuth, distance) {
-      setPosition(source, azimuth, distance)
+    function setSourcePosition(azimuth, distance, elevation) {
+      setPosition(source, azimuth, distance, elevation)
     }
 
     function setPerformanceModeEnabled(isEnabled) {
@@ -77,17 +77,24 @@ function createInstance() {
     }
 
     listener = binauralApi.CreateListener(hrirsVector, 0.0875)
-    listener.SetListenerTransform(new CTransform())
     listener.EnableDirectionality(T_ear.LEFT)
     listener.EnableDirectionality(T_ear.RIGHT)
     listener.SetDirectionality_dB(T_ear.LEFT, 15)
     listener.SetDirectionality_dB(T_ear.RIGHT, 15)
 
+    // Set listener position
+    const listenerPosition = new CVector3(0, 1.6, 0)
+    const listenerTransform = new CTransform()
+    listenerTransform.SetPosition(listenerPosition)
+    listener.SetListenerTransform(listenerTransform)
+    listenerPosition.delete()
+    listenerTransform.delete()
+
     // Customized ITD is required for the HighPerformance mode to work
     listener.EnableCustomizedITD()
 
     source = binauralApi.CreateSource()
-    setSourcePosition(Math.PI / 2, 2)
+    setSourcePosition(Math.PI / 2, 2, 1.6)
 
     const inputMonoBuffer = new CMonoBuffer()
     inputMonoBuffer.resize(512, 0)
@@ -121,7 +128,7 @@ function createInstance() {
     const masks = [Ear.LEFT, Ear.RIGHT].reduce((aggr, channel) => {
       const maskSource = binauralApi.CreateSource()
       const azimuth = channel === Ear.LEFT ? Math.PI : 0
-      setPosition(maskSource, azimuth, 3)
+      setPosition(maskSource, azimuth, 3, 0)
 
       const maskInputBuffer = new CMonoBuffer()
       maskInputBuffer.resize(512, 0)

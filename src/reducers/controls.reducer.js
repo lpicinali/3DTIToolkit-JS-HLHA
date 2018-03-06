@@ -8,6 +8,7 @@ const initialState = {
     azimuth: Math.PI * 0.5,
     distance: 2,
   },
+  targetElevation: 1.6,
   targetVolume: 0.6,
   maskVolume: 1,
   isPerformanceModeEnabled: false,
@@ -22,6 +23,9 @@ const initialState = {
 export default function(state = initialState, { type, payload }) {
   if (type === ActionType.SET_TARGET_POSITION) {
     return { ...state, targetPosition: payload.position }
+  }
+  if (type === ActionType.SET_TARGET_ELEVATION) {
+    return { ...state, targetElevation: payload.elevation }
   }
   if (type === ActionType.SET_TARGET_VOLUME) {
     return { ...state, targetVolume: payload.volume }

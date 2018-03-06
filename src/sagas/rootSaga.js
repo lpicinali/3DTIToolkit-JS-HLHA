@@ -181,8 +181,30 @@ function* applyTargetPosition() {
   while (true) {
     const { payload } = yield take(ActionType.SET_TARGET_POSITION)
     const { azimuth, distance } = payload.position
+    const elevation = yield select(state => state.controls.targetElevation)
 
-    engine.setComponentPosition(SonicComponent.TARGET, { azimuth, distance })
+    yield call(engine.setComponentPosition, SonicComponent.TARGET, {
+      azimuth,
+      distance,
+      elevation,
+    })
+  }
+}
+
+function* applyTargetElevation() {
+  while (true) {
+    const { payload: { elevation } } = yield take(
+      ActionType.SET_TARGET_ELEVATION
+    )
+    const { azimuth, distance } = yield select(
+      state => state.controls.targetPosition
+    )
+
+    yield call(engine.setComponentPosition, SonicComponent.TARGET, {
+      azimuth,
+      distance,
+      elevation,
+    })
   }
 }
 
@@ -317,6 +339,7 @@ export default function* rootSaga() {
     applyHearingAidSimulatorEnabled(),
     applySimulatorPresets(),
     applyTargetPosition(),
+    applyTargetElevation(),
     applyFrequencySmearingPresets(),
     applyTemporalDistortionPresets(),
     mirrorLinkedHearingLossSettings(),

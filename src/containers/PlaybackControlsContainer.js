@@ -14,6 +14,7 @@ const PlaybackControlButton = styled.button`
   align-items: center;
   margin: 0;
   padding: 0;
+  background: transparent;
   border: 0;
   outline: none;
   cursor: pointer;

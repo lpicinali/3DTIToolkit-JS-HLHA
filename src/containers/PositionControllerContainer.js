@@ -14,6 +14,7 @@ import {
 import {
   setHeadRadius,
   setPerformanceModeEnabled,
+  setTargetElevation,
   setTargetPosition,
 } from 'src/actions/controls.actions.js'
 import ContainerDimensionsWithScrollUpdates from 'src/components/ContainerDimensionsWithScrollUpdates.js'
@@ -77,9 +78,11 @@ class PositionControllerContainer extends Component {
     headRadius: PropTypes.number.isRequired,
     isPerformanceModeEnabled: PropTypes.bool.isRequired,
     targetPosition: CustomPropTypes.position.isRequired,
+    elevation: PropTypes.number.isRequired,
     onChangePerformanceMode: PropTypes.func.isRequired,
     onChangeHeadRadius: PropTypes.func.isRequired,
     onTargetMove: PropTypes.func.isRequired,
+    onChangeElevation: PropTypes.func.isRequired,
   }
 
   render() {
@@ -87,9 +90,11 @@ class PositionControllerContainer extends Component {
       headRadius,
       isPerformanceModeEnabled,
       targetPosition,
+      elevation,
       onChangePerformanceMode,
       onChangeHeadRadius,
       onTargetMove,
+      onChangeElevation,
     } = this.props
 
     const { azimuth, distance } = targetPosition
@@ -141,6 +146,22 @@ class PositionControllerContainer extends Component {
 
           <Pane>
             <PositionSetting>
+              <Label>Elevation</Label>
+              <Slider
+                min={-2}
+                max={2}
+                step={0.05}
+                value={elevation}
+                onChange={onChangeElevation}
+                minLabel="-2 m"
+                maxLabel="2 m"
+                formatDisplayValue={currentValue =>
+                  `${roundPadded(currentValue, 1)} m`
+                }
+              />
+            </PositionSetting>
+
+            <PositionSetting>
               <Label>Head circumference</Label>
               <Slider
                 min={0.4}
@@ -178,11 +199,13 @@ export default connect(
     headRadius: state.controls.headRadius,
     isPerformanceModeEnabled: state.controls.isPerformanceModeEnabled,
     targetPosition: state.controls.targetPosition,
+    elevation: state.controls.targetElevation,
   }),
   dispatch => ({
     onChangeHeadRadius: radius => dispatch(setHeadRadius(radius)),
     onChangePerformanceMode: isEnabled =>
       dispatch(setPerformanceModeEnabled(isEnabled)),
     onTargetMove: position => dispatch(setTargetPosition(position)),
+    onChangeElevation: elevation => dispatch(setTargetElevation(elevation)),
   })
 )(PositionControllerContainer)

@@ -5,6 +5,11 @@ export const setTargetPosition = position => ({
   payload: { position },
 })
 
+export const setTargetElevation = elevation => ({
+  type: ActionType.SET_TARGET_ELEVATION,
+  payload: { elevation },
+})
+
 export const setTargetVolume = volume => ({
   type: ActionType.SET_TARGET_VOLUME,
   payload: { volume },

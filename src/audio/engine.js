@@ -78,10 +78,10 @@ export const setComponentVolume = (id, volume) => {
   }
 }
 
-export const setComponentPosition = (id, { azimuth, distance }) => {
+export const setComponentPosition = (id, { azimuth, distance, elevation }) => {
   if (id === SonicComponent.TARGET) {
     getInstance().then(spatializer => {
-      spatializer.setSourcePosition(azimuth, distance)
+      spatializer.setSourcePosition(azimuth, distance, elevation)
     })
   }
 }
