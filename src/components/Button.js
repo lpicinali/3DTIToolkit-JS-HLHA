@@ -1,39 +1,44 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
+import { lighten, transparentize } from 'polished'
 
-import { BLACK, TURQUOISE, WHITE } from 'src/styles/colors.js'
+import { TURQUOISE, WHITE } from 'src/styles/colors.js'
 
 const StyledButton = styled.button`
   appearance: none;
-  padding: 4px 8px;
-  background: ${WHITE};
-  border: 1px solid ${TURQUOISE};
+  padding: 8px 16px;
+  background: ${TURQUOISE};
+  background-image: linear-gradient(to right, #5be1ff, ${TURQUOISE});
+  border: none;
   border-radius: 3px;
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.2);
   outline: none;
   cursor: pointer;
-  color: ${BLACK};
+  color: ${WHITE};
+  font-family: 'PT-Sans', sans-serif;
   font-size: 14px;
+  font-weight: bold;
   transition: all 0.15s;
 
   &:hover {
-    box-shadow: 0 0 0 3px ${TURQUOISE};
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+      0 0 0 3px ${lighten(0.3, TURQUOISE)};
+  }
+
+  &:active {
+    color: ${transparentize(0.2, WHITE)};
+    box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+      0 0 0 0 ${lighten(0.3, TURQUOISE)};
   }
 
   ${props =>
-    props.isActive
-      ? `
-    background-color: ${TURQUOISE};
-    color: ${WHITE};
-  `
-      : ``} ${props =>
-      props.disabled
-        ? `
-    border-color: gray;
-    color: gray;
-    pointer-events: none;
-  `
-        : ``};
+    props.disabled &&
+    css`
+      border-color: gray;
+      color: gray;
+      pointer-events: none;
+    `};
 `
 
 /**

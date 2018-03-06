@@ -1,25 +1,25 @@
 /* eslint no-unused-expressions: 0 */
-import React from 'react'
-import { Provider } from 'react-redux'
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
 
-import store from 'src/store.js'
 import SiteFooter from 'src/components/SiteFooter.js'
 import SiteHeader from 'src/components/SiteHeader.js'
+import Disclaimer from 'src/containers/Disclaimer.js'
 import HearingAidSimulatorContainer from 'src/containers/HearingAidSimulatorContainer.js'
 import HearingLossSimulatorContainer from 'src/containers/HearingLossSimulatorContainer.js'
 import MaskingSelectorContainer from 'src/containers/MaskingSelectorContainer.js'
 import PositionControllerContainer from 'src/containers/PositionControllerContainer.js'
 import TargetSelectorContainer from 'src/containers/TargetSelectorContainer.js'
-import { WHITE } from 'src/styles/colors.js'
-import { ModuleBox } from 'src/styles/elements.js'
+import { Disablable, ModuleBox } from 'src/styles/elements.js'
 import injectGlobalStyles from 'src/styles/globals.js'
 import { GutteredElement } from 'src/styles/grid.js'
 import { MAX_WIDTH } from 'src/styles/layout.js'
 
 injectGlobalStyles()
 
-const AppContent = styled.div`
+const AppContent = styled(Disablable)`
   display: flex;
   width: 100%;
   max-width: ${MAX_WIDTH}px;
@@ -35,13 +35,21 @@ const MaskingModuleBox = styled(ModuleBox)`
   margin-top: 32px;
 `
 
-export default function App() {
-  return (
-    <Provider store={store}>
+class App extends PureComponent {
+  static propTypes = {
+    hasReadDisclaimer: PropTypes.bool.isRequired,
+  }
+
+  render() {
+    const { hasReadDisclaimer } = this.props
+
+    return (
       <div>
         <SiteHeader />
 
-        <AppContent>
+        <Disclaimer isRead={hasReadDisclaimer} />
+
+        <AppContent isDisabled={hasReadDisclaimer === false}>
           <ContentPane>
             <ModuleBox>
               <TargetSelectorContainer />
@@ -68,6 +76,10 @@ export default function App() {
 
         <SiteFooter />
       </div>
-    </Provider>
-  )
+    )
+  }
 }
+
+export default connect(state => ({
+  hasReadDisclaimer: state.alerts.hasReadDisclaimer,
+}))(App)

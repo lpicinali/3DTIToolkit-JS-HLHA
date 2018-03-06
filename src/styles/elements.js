@@ -55,7 +55,8 @@ export const ModuleBox = styled.div`
 `
 
 export const P = styled.p`
-  font-size: 16px;
+  font-size: 14px;
+  line-height: 20px;
   color: ${BLACK};
 `
 
