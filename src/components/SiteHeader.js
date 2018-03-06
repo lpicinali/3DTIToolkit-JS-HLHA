@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
-import PlaybackControlsContainer from 'src/containers/PlaybackControlsContainer.js'
+import HeaderSideControls from 'src/containers/HeaderSideControls.js'
 import { BLACK, GRAY, TURQUOISE } from 'src/styles/colors.js'
 import { A } from 'src/styles/elements.js'
 import { GutteredElement } from 'src/styles/grid.js'
@@ -25,10 +25,6 @@ const HeadingArea = styled(GutteredElement)`
   width: 66.6667%;
 `
 
-const HeaderSideArea = styled(GutteredElement)`
-  width: 33.3333%;
-`
-
 const Heading = styled.h1`
   margin: 0;
   color: ${BLACK};
@@ -48,7 +44,8 @@ const Prologue = styled.p`
   line-height: 20px;
 `
 
-const PlaybackControlsAligner = styled.div`
+const HeaderSideArea = styled(GutteredElement)`
+  width: 33.3333%;
   margin-top: 64px;
 `
 
@@ -76,9 +73,7 @@ class SiteHeader extends PureComponent {
           </HeadingArea>
 
           <HeaderSideArea>
-            <PlaybackControlsAligner>
-              <PlaybackControlsContainer />
-            </PlaybackControlsAligner>
+            <HeaderSideControls />
           </HeaderSideArea>
         </HeaderContent>
       </Header>

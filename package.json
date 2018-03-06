@@ -60,7 +60,7 @@
     "react-dom": "^15.5.4",
     "react-feather": "^1.0.8",
     "react-hot-loader": "next",
-    "react-player-controls": "^0.5.11",
+    "react-motion-ui-pack": "^0.10.3",
     "react-redux": "^5.0.4",
     "react-select": "^1.2.1",
     "redux": "^3.6.0",
