@@ -3,9 +3,9 @@ const webpack = require('webpack')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
-  entry: ['babel-polyfill', path.join(__dirname, 'src/index.js')],
+  entry: ['babel-polyfill', path.resolve('./src/index.js')],
   output: {
-    path: path.join(__dirname, 'public/assets/js'),
+    path: path.resolve('./public/assets/js'),
     publicPath: '/assets/js',
     filename: 'app.js',
     sourceMapFilename: '[file].map',
@@ -29,9 +29,9 @@ module.exports = {
   },
   resolve: {
     alias: {
-      src: path.join(__dirname, 'src'),
-      fs: path.join(__dirname, './src/shims/fs.js'),
-      '3dti-toolkit': path.join(__dirname, './src/shims/3dti-toolkit.js'),
+      src: path.resolve('./src'),
+      fs: path.resolve('./src/shims/fs.js'),
+      '3dti-toolkit': path.resolve('./src/shims/3dti-toolkit.js'),
     },
     extensions: ['.js', '.json'],
   },
