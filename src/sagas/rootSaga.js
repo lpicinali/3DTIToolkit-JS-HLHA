@@ -1,4 +1,4 @@
-import { call, put, select, take } from 'redux-saga/effects'
+import { all, call, put, select, take } from 'redux-saga/effects'
 import { get, reduce, values } from 'lodash'
 
 import {
@@ -9,6 +9,7 @@ import {
   SonicComponent,
 } from 'src/constants.js'
 import { cast } from 'src/utils.js'
+import { setDirectionalityValue } from 'src/actions/controls.actions.js'
 import { setHaGrade } from 'src/actions/ha.actions.js'
 import {
   setFrequencySmearingPreset,
@@ -125,8 +126,7 @@ function* applyDirectionalityAttenuation() {
   while (true) {
     const { payload } = yield take(ActionType.SET_DIRECTIONALITY_VALUE)
     const attenuation = cast(payload.value, -1, 1, 0, 30)
-    engine.setDirectionalityAttenuation(Ear.LEFT, attenuation)
-    engine.setDirectionalityAttenuation(Ear.RIGHT, attenuation)
+    engine.setDirectionalityAttenuation(payload.ear, attenuation)
   }
 }
 
@@ -247,15 +247,27 @@ function* mirrorLinkedHearingAidSettings() {
     const { type, payload } = yield take([
       ActionType.SET_HA_LINKED,
       ActionType.SET_HA_GRADE,
+      ActionType.SET_DIRECTIONALITY_VALUE,
     ])
 
-    const hearingAidState = yield select(state => state.ha)
+    const [hearingAidState, controlsState] = yield all([
+      select(state => state.ha),
+      select(state => state.controls),
+    ])
 
     if (type === ActionType.SET_HA_LINKED && payload.isLinked === true) {
       yield put(setHaGrade(Ear.RIGHT, hearingAidState.grade[Ear.LEFT]))
+      yield put(
+        setDirectionalityValue(
+          Ear.RIGHT,
+          controlsState.directionalityValue[Ear.LEFT]
+        )
+      )
     } else if (hearingAidState.isLinked === true && payload.ear === Ear.LEFT) {
       if (type === ActionType.SET_HA_GRADE) {
         yield put(setHaGrade(Ear.RIGHT, payload.grade))
+      } else if (type === ActionType.SET_DIRECTIONALITY_VALUE) {
+        yield put(setDirectionalityValue(Ear.RIGHT, payload.value))
       }
     }
   }

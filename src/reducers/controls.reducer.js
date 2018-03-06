@@ -1,4 +1,6 @@
-import { ActionType, PlaybackState } from 'src/constants.js'
+import { set } from 'lodash/fp'
+
+import { ActionType, Ear, PlaybackState } from 'src/constants.js'
 
 const initialState = {
   playbackState: PlaybackState.PAUSED,
@@ -11,7 +13,10 @@ const initialState = {
   isPerformanceModeEnabled: false,
   headRadius: 0.0875,
   isDirectionalityEnabled: true,
-  directionalityValue: 0,
+  directionalityValue: {
+    [Ear.LEFT]: 0,
+    [Ear.RIGHT]: 0,
+  },
 }
 
 export default function(state = initialState, { type, payload }) {
@@ -31,7 +36,7 @@ export default function(state = initialState, { type, payload }) {
     return { ...state, isDirectionalityEnabled: payload.isEnabled }
   }
   if (type === ActionType.SET_DIRECTIONALITY_VALUE) {
-    return { ...state, directionalityValue: payload.value }
+    return set(['directionalityValue', payload.ear], payload.value, state)
   }
   if (type === ActionType.SET_MASK_VOLUME) {
     return { ...state, maskVolume: payload.volume }

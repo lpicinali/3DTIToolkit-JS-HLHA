@@ -25,9 +25,9 @@ export const setDirectionalityEnabled = isEnabled => ({
   payload: { isEnabled },
 })
 
-export const setDirectionalityValue = value => ({
+export const setDirectionalityValue = (ear, value) => ({
   type: ActionType.SET_DIRECTIONALITY_VALUE,
-  payload: { value },
+  payload: { ear, value },
 })
 
 export const setMaskVolume = volume => ({

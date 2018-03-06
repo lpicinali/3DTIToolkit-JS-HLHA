@@ -22,10 +22,6 @@ const LinkToggle = styled(Toggle)`
   margin: 24px 0 32px;
 `
 
-const DirectionalityWrapper = styled.div`
-  width: 130px;
-`
-
 /**
  * Hearing Aid Simulator Container
  */
@@ -101,6 +97,9 @@ class HearingAidSimulatorContainer extends Component {
           </Pane>
         </PaneSet>
 
+        <H3>Directionality</H3>
+        <DirectionalityContainer />
+
         <H3>Hearing aid quantisation</H3>
         <div>
           <Toggle
@@ -134,11 +133,6 @@ class HearingAidSimulatorContainer extends Component {
           value={hearingAidNumNoiseBits}
           formatDisplayValue={value => `${value} bits`}
         />
-
-        <DirectionalityWrapper>
-          <H3>Directionality</H3>
-          <DirectionalityContainer />
-        </DirectionalityWrapper>
       </div>
     )
   }
