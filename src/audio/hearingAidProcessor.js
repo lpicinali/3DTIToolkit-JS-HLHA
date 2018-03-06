@@ -7,6 +7,7 @@ import {
 } from '3dti-toolkit'
 
 import {
+  Ear,
   HearingLossGrade,
   QuantisationStep,
   SimulatorType,
@@ -84,13 +85,13 @@ const setEnabled = enabled => {
 }
 
 // Set band gains
-const setGains = gains => {
+const setGains = (ear, gains) => {
   const gainsVector = new FloatVector()
   gainsVector.resize(gains.length, 0)
   gains.forEach((gain, i) => gainsVector.set(i, gain))
 
   has.SetDynamicEqualizerUsingFig6(
-    T_ear.BOTH,
+    ear === Ear.LEFT ? T_ear.LEFT : T_ear.RIGHT,
     gainsVector,
     dBs_SPL_for_0_dBs_fs
   )

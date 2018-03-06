@@ -149,7 +149,7 @@ function* applySimulatorPresets() {
     if (type === ActionType.SET_HL_GRADE) {
       engine.setHearingLossPreset(payload.ear, payload.grade)
     } else if (type === ActionType.SET_HA_GRADE) {
-      engine.setHearingAidPreset(payload.grade)
+      engine.setHearingAidPreset(payload.ear, payload.grade)
     }
   }
 }
@@ -202,12 +202,12 @@ function* applyAidNoiseBits() {
 
 function* makeAidFollowLoss() {
   while (true) {
-    const { payload: { grade } } = yield take(ActionType.SET_HL_GRADE)
+    const { payload: { ear, grade } } = yield take(ActionType.SET_HL_GRADE)
 
     const allGrades = values(HearingLossGrade)
-    const currentAidPreset = yield select(state => state.ha.grade)
+    const currentAidPreset = yield select(state => state.ha.grade[ear])
     if (allGrades.indexOf(grade) < allGrades.indexOf(currentAidPreset)) {
-      yield put(setHaGrade(grade))
+      yield put(setHaGrade(ear, grade))
     }
   }
 }

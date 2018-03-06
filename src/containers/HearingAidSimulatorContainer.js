@@ -15,7 +15,7 @@ import HearingLossGradeSelector from 'src/components/HearingLossGradeSelector.js
 import Slider from 'src/components/Slider.js'
 import Toggle from 'src/components/Toggle.js'
 import DirectionalityContainer from 'src/containers/DirectionalityContainer.js'
-import { H2, H3, Label } from 'src/styles/elements.js'
+import { H2, H3, Label, Pane, PaneSet } from 'src/styles/elements.js'
 
 const DirectionalityWrapper = styled.div`
   width: 130px;
@@ -27,8 +27,8 @@ const DirectionalityWrapper = styled.div`
 class HearingAidSimulatorContainer extends Component {
   static propTypes = {
     isEnabled: PropTypes.bool.isRequired,
-    grade: CustomPropTypes.grade.isRequired,
-    hearingLossGrade: CustomPropTypes.grade.isRequired,
+    grade: CustomPropTypes.earGrades.isRequired,
+    hearingLossGrade: CustomPropTypes.earGrades.isRequired,
     hearingAidNumNoiseBits: PropTypes.number.isRequired,
     isQuantisationBeforeEnabled: PropTypes.bool.isRequired,
     isQuantisationAfterEnabled: PropTypes.bool.isRequired,
@@ -51,21 +51,40 @@ class HearingAidSimulatorContainer extends Component {
     } = this.props
 
     const allGrades = values(HearingLossGrade)
-    const enabledGrades = allGrades.slice(
-      0,
-      allGrades.indexOf(hearingLossGrade) + 1
-    )
+    const enabledGrades = {
+      [Ear.LEFT]: allGrades.slice(
+        0,
+        allGrades.indexOf(hearingLossGrade[Ear.LEFT]) + 1
+      ),
+      [Ear.RIGHT]: allGrades.slice(
+        0,
+        allGrades.indexOf(hearingLossGrade[Ear.RIGHT]) + 1
+      ),
+    }
 
     return (
       <div>
         <H2>Hearing Aid Simulator</H2>
 
         <H3>Set the hearing aid to compensate for a specific loss level</H3>
-        <HearingLossGradeSelector
-          grade={grade}
-          enabledGrades={enabledGrades}
-          onSelect={onGradeChange}
-        />
+        <PaneSet numPanes={2}>
+          <Pane>
+            <Label>Left ear</Label>
+            <HearingLossGradeSelector
+              grade={grade[Ear.LEFT]}
+              enabledGrades={enabledGrades[Ear.LEFT]}
+              onSelect={newGrade => onGradeChange(Ear.LEFT, newGrade)}
+            />
+          </Pane>
+          <Pane>
+            <Label>Right ear</Label>
+            <HearingLossGradeSelector
+              grade={grade[Ear.RIGHT]}
+              enabledGrades={enabledGrades[Ear.RIGHT]}
+              onSelect={newGrade => onGradeChange(Ear.RIGHT, newGrade)}
+            />
+          </Pane>
+        </PaneSet>
 
         <H3>Hearing Aid Quantisation - bits</H3>
         <div>
@@ -114,13 +133,13 @@ export default connect(
   state => ({
     isEnabled: state.ha.isEnabled,
     grade: state.ha.grade,
-    hearingLossGrade: state.hl.grade[Ear.LEFT],
+    hearingLossGrade: state.hl.grade,
     isQuantisationBeforeEnabled: state.ha.isQuantisationBeforeEnabled,
     isQuantisationAfterEnabled: state.ha.isQuantisationAfterEnabled,
     hearingAidNumNoiseBits: state.ha.numNoiseBits,
   }),
   dispatch => ({
-    onGradeChange: grade => dispatch(setHaGrade(grade)),
+    onGradeChange: (ear, grade) => dispatch(setHaGrade(ear, grade)),
     onQuantisationChange: (step, isEnabled) =>
       dispatch(setQuantisationStepEnabled(step, isEnabled)),
     onNumNoiseBitsChange: numBits => dispatch(setHaNumNoiseBits(numBits)),

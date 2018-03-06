@@ -1,8 +1,8 @@
 import { ActionType } from 'src/constants.js'
 
-export const setHaGrade = grade => ({
+export const setHaGrade = (ear, grade) => ({
   type: ActionType.SET_HA_GRADE,
-  payload: { grade },
+  payload: { ear, grade },
 })
 
 export const setHaNumNoiseBits = numBits => ({
