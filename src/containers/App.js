@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import styled from 'styled-components'
 
 import store from 'src/store.js'
+import SiteFooter from 'src/components/SiteFooter.js'
 import SiteHeader from 'src/components/SiteHeader.js'
 import HearingAidSimulatorContainer from 'src/containers/HearingAidSimulatorContainer.js'
 import HearingLossSimulatorContainer from 'src/containers/HearingLossSimulatorContainer.js'
@@ -64,6 +65,8 @@ export default function App() {
             </ModuleBox>
           </ContentPane>
         </AppContent>
+
+        <SiteFooter />
       </div>
     </Provider>
   )
