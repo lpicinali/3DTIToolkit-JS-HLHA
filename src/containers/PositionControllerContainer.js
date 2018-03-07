@@ -167,15 +167,15 @@ class PositionControllerContainer extends Component {
             <PositionSetting>
               <Label>Head circumference</Label>
               <Slider
-                min={0.4}
-                max={0.7}
+                min={0.5}
+                max={0.65}
                 step={0.005}
                 value={radiusToCircumference(headRadius)}
                 onChange={circumference =>
                   onChangeHeadRadius(circumferenceToRadius(circumference))
                 }
-                minLabel="40 cm"
-                maxLabel="70 cm"
+                minLabel="50 cm"
+                maxLabel="65 cm"
                 formatDisplayValue={currentValue =>
                   `${round(100 * currentValue)} cm`
                 }
