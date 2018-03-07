@@ -157,7 +157,7 @@ class HearingAidSimulatorContainer extends Component {
           <QuantisationToggles>
             <Toggle
               isChecked={isQuantisationBeforeEnabled}
-              label="Before equalizer"
+              label="Before compensation"
               onChange={() =>
                 onQuantisationChange(
                   QuantisationStep.BEFORE,
@@ -168,7 +168,7 @@ class HearingAidSimulatorContainer extends Component {
 
             <Toggle
               isChecked={isQuantisationAfterEnabled}
-              label="After equalizer"
+              label="After compensation"
               onChange={() =>
                 onQuantisationChange(
                   QuantisationStep.AFTER,
