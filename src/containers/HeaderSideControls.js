@@ -149,7 +149,7 @@ class HeaderSideControls extends PureComponent {
                 </SettingRow>
                 <SettingRow>
                   <SettingName>Resampling step</SettingName>
-                  <SettingValue>?</SettingValue>
+                  <SettingValue>{'5°'}</SettingValue>
                 </SettingRow>
                 <SettingRow>
                   <SettingName>HRTF</SettingName>
