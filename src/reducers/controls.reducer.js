@@ -8,7 +8,7 @@ const initialState = {
     azimuth: Math.PI * 0.5,
     distance: 2,
   },
-  targetElevation: 1.6,
+  targetElevation: 0,
   targetVolume: 0.6,
   maskVolume: 1,
   isPerformanceModeEnabled: false,

@@ -77,18 +77,11 @@ function createInstance() {
     }
 
     listener = binauralApi.CreateListener(hrirsVector, 0.0875)
+    listener.SetListenerTransform(new CTransform())
     listener.EnableDirectionality(T_ear.LEFT)
     listener.EnableDirectionality(T_ear.RIGHT)
     listener.SetDirectionality_dB(T_ear.LEFT, 15)
     listener.SetDirectionality_dB(T_ear.RIGHT, 15)
-
-    // Set listener position
-    const listenerPosition = new CVector3(0, 1.6, 0)
-    const listenerTransform = new CTransform()
-    listenerTransform.SetPosition(listenerPosition)
-    listener.SetListenerTransform(listenerTransform)
-    listenerPosition.delete()
-    listenerTransform.delete()
 
     // Customized ITD is required for the HighPerformance mode to work
     listener.EnableCustomizedITD()

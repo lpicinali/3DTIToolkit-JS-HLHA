@@ -154,9 +154,12 @@ class PositionControllerContainer extends Component {
                 value={elevation}
                 onChange={onChangeElevation}
                 minLabel="-2 m"
-                maxLabel="2 m"
+                maxLabel="+2 m"
                 formatDisplayValue={currentValue =>
-                  `${roundPadded(currentValue, 1)} m`
+                  `${currentValue >= 0 ? '+' : '-'}${roundPadded(
+                    currentValue,
+                    1
+                  )} m`
                 }
               />
             </PositionSetting>
