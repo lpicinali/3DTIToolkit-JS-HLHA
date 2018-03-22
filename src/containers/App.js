@@ -1,94 +1,85 @@
 /* eslint no-unused-expressions: 0 */
-import React from 'react'
-import { Provider } from 'react-redux'
-import styled, { injectGlobal } from 'styled-components'
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import styled from 'styled-components'
 
-import store from 'src/store.js'
+import SiteFooter from 'src/components/SiteFooter.js'
+import SiteHeader from 'src/components/SiteHeader.js'
+import Disclaimer from 'src/containers/Disclaimer.js'
 import HearingAidSimulatorContainer from 'src/containers/HearingAidSimulatorContainer.js'
 import HearingLossSimulatorContainer from 'src/containers/HearingLossSimulatorContainer.js'
 import MaskingSelectorContainer from 'src/containers/MaskingSelectorContainer.js'
-import PlaybackControlsContainer from 'src/containers/PlaybackControlsContainer.js'
 import PositionControllerContainer from 'src/containers/PositionControllerContainer.js'
 import TargetSelectorContainer from 'src/containers/TargetSelectorContainer.js'
-import { BLUE } from 'src/styles/colors.js'
+import { Disablable, ModuleBox } from 'src/styles/elements.js'
+import injectGlobalStyles from 'src/styles/globals.js'
+import { GutteredElement } from 'src/styles/grid.js'
 import { MAX_WIDTH } from 'src/styles/layout.js'
 
-injectGlobal`
-  @import url('https://fonts.googleapis.com/css?family=Roboto:400,700');
+injectGlobalStyles()
 
-  html, body {
-    margin: 0;
-    padding: 0;
-  }
-
-  body {
-    font-family: 'Roboto', sans-serif;
-  }
-`
-
-const Header = styled.header`
-  padding: 16px;
-  background: ${BLUE};
-  color: #fefefe;
-`
-
-const HeaderContent = styled.div`
-  width: 100%;
-  max-width: ${MAX_WIDTH}px;
-  margin: 0 auto;
-  font-size: 12px;
-`
-
-const Heading = styled.h1`
-  margin: 0;
-  font-size: 20px;
-  line-height: 24px;
-`
-
-const AppContent = styled.div`
+const AppContent = styled(Disablable)`
   display: flex;
   width: 100%;
   max-width: ${MAX_WIDTH}px;
   margin: 0 auto;
-  padding: 24px 16px;
+  padding-bottom: 32px;
 `
 
-const ContentPane = styled.div`
-  width: 25%;
+const ContentPane = styled(GutteredElement)`
+  width: 33.333%;
 `
 
-export default function App() {
-  return (
-    <Provider store={store}>
+const MaskingModuleBox = styled(ModuleBox)`
+  margin-top: 32px;
+`
+
+class App extends PureComponent {
+  static propTypes = {
+    hasReadDisclaimer: PropTypes.bool.isRequired,
+  }
+
+  render() {
+    const { hasReadDisclaimer } = this.props
+
+    return (
       <div>
-        <Header>
-          <HeaderContent>
-            <div>3D Tune-In Toolkit Demo</div>
-            <Heading>Hearing Loss & Hearing Aid</Heading>
-          </HeaderContent>
-        </Header>
+        <SiteHeader />
 
-        <AppContent>
-          <PlaybackControlsContainer />
+        <Disclaimer isRead={hasReadDisclaimer} />
 
+        <AppContent isDisabled={hasReadDisclaimer === false}>
           <ContentPane>
-            <TargetSelectorContainer />
-            <PositionControllerContainer />
+            <ModuleBox>
+              <TargetSelectorContainer />
+
+              <PositionControllerContainer />
+            </ModuleBox>
+            <MaskingModuleBox>
+              <MaskingSelectorContainer />
+            </MaskingModuleBox>
           </ContentPane>
 
           <ContentPane>
-            <MaskingSelectorContainer />
+            <ModuleBox>
+              <HearingLossSimulatorContainer />
+            </ModuleBox>
           </ContentPane>
 
           <ContentPane>
-            <HearingLossSimulatorContainer />
-          </ContentPane>
-
-          <ContentPane>
-            <HearingAidSimulatorContainer />
+            <ModuleBox>
+              <HearingAidSimulatorContainer />
+            </ModuleBox>
           </ContentPane>
         </AppContent>
+
+        <SiteFooter />
       </div>
-    </Provider>
-  )
+    )
+  }
 }
+
+export default connect(state => ({
+  hasReadDisclaimer: state.alerts.hasReadDisclaimer,
+}))(App)

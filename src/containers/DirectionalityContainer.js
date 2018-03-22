@@ -1,35 +1,11 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import styled, { css } from 'styled-components'
 
-import { HearingLossGrade } from 'src/constants.js'
-import {
-  setDirectionalityValue,
-  setDirectionalityEnabled,
-} from 'src/actions/controls.actions.js'
+import { Ear } from 'src/constants.js'
+import { setDirectionalityValue } from 'src/actions/controls.actions.js'
 import Slider from 'src/components/Slider.js'
-import { BLACK } from 'src/styles/colors.js'
-
-const DirectionalityContainerWrapper = styled.div`
-  ${props =>
-    props.isEnablable === false &&
-    css`
-      opacity: 0.5;
-      pointer-events: none;
-    `};
-`
-
-const LeftRightLabels = styled.div`
-  display: flex;
-  color: ${BLACK};
-  font-size: 10px;
-  opacity: 0.5;
-
-  > *:first-child {
-    flex-grow: 1;
-  }
-`
+import { Disablable, Label, Pane, PaneSet } from 'src/styles/elements.js'
 
 /**
  * Directionality Container
@@ -37,48 +13,49 @@ const LeftRightLabels = styled.div`
 class DirectionalityContainer extends PureComponent {
   static propTypes = {
     isEnabled: PropTypes.bool.isRequired,
-    isEnablable: PropTypes.bool.isRequired,
-    value: PropTypes.number.isRequired,
-    onChangeEnabled: PropTypes.func.isRequired,
+    isLinked: PropTypes.bool.isRequired,
+    value: PropTypes.shape({
+      [Ear.LEFT]: PropTypes.number.isRequired,
+      [Ear.RIGHT]: PropTypes.number.isRequired,
+    }).isRequired,
     onChangeValue: PropTypes.func.isRequired,
   }
 
   render() {
-    const {
-      isEnabled,
-      isEnablable,
-      value,
-      onChangeEnabled,
-      onChangeValue,
-    } = this.props
+    const { isEnabled, isLinked, value, onChangeValue } = this.props
 
     return (
-      <DirectionalityContainerWrapper isEnablable={isEnablable}>
-        <div>
-          <label>
-            <input
-              type="checkbox"
-              checked={isEnabled && isEnablable}
-              onChange={() => onChangeEnabled(!isEnabled)}
+      <Disablable isDisabled={isEnabled === false}>
+        <PaneSet numPanes={2}>
+          <Pane>
+            <Label>Left ear</Label>
+            <Slider
+              value={value[Ear.LEFT]}
+              min={-1}
+              max={1}
+              step={0.05}
+              onChange={newValue => onChangeValue(Ear.LEFT, newValue)}
+              minLabel="Omni-directional"
+              maxLabel="Directional"
+              showValue={false}
             />
-            Enabled
-          </label>
-        </div>
+          </Pane>
 
-        <div>
-          <Slider
-            value={value}
-            min={-1}
-            max={1}
-            step={0.05}
-            onChange={onChangeValue}
-          />
-          <LeftRightLabels>
-            <span>Omni-directional</span>
-            <span>Directional</span>
-          </LeftRightLabels>
-        </div>
-      </DirectionalityContainerWrapper>
+          <Pane isDisabled={isLinked}>
+            <Label>Right ear</Label>
+            <Slider
+              value={value[Ear.RIGHT]}
+              min={-1}
+              max={1}
+              step={0.05}
+              onChange={newValue => onChangeValue(Ear.RIGHT, newValue)}
+              minLabel="Omni-directional"
+              maxLabel="Directional"
+              showValue={false}
+            />
+          </Pane>
+        </PaneSet>
+      </Disablable>
     )
   }
 }
@@ -86,11 +63,10 @@ class DirectionalityContainer extends PureComponent {
 export default connect(
   state => ({
     isEnabled: state.controls.isDirectionalityEnabled,
-    isEnablable: state.ha.grade !== HearingLossGrade.NONE,
+    isLinked: state.ha.isLinked,
     value: state.controls.directionalityValue,
   }),
   dispatch => ({
-    onChangeEnabled: isEnabled => dispatch(setDirectionalityEnabled(isEnabled)),
-    onChangeValue: value => dispatch(setDirectionalityValue(value)),
+    onChangeValue: (ear, value) => dispatch(setDirectionalityValue(ear, value)),
   })
 )(DirectionalityContainer)

@@ -4,17 +4,58 @@ import PropTypes from 'prop-types'
 import { clamp } from 'lodash'
 import { autobind } from 'core-decorators'
 import styled from 'styled-components'
+import { transparentize } from 'polished'
 
 import * as CustomPropTypes from 'src/prop-types.js'
-import { BLUE, TURQOISE, WHITESMOKE } from 'src/styles/colors.js'
+import {
+  BLACK,
+  DARK_TURQUOISE,
+  GRAY,
+  TURQUOISE,
+  WHITE_SMOKE,
+} from 'src/styles/colors.js'
 
 const StyledPositionController = styled.div`
   position: relative;
   width: ${props => props.width}px;
   height: ${props => props.height}px;
-  background-color: ${WHITESMOKE};
-  border: 1px solid ${BLUE};
+  background-color: ${WHITE_SMOKE};
+  border: 1px solid ${BLACK};
   border-radius: 100%;
+`
+
+const DistanceCircle = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  border-radius: 100%;
+  border: 1px solid ${transparentize(0.85, GRAY)};
+
+  &:nth-child(1) {
+    width: ${100 * Math.sqrt(5) / Math.sqrt(30)}%;
+    height: ${100 * Math.sqrt(5) / Math.sqrt(30)}%;
+  }
+
+  &:nth-child(2) {
+    width: ${100 * Math.sqrt(10) / Math.sqrt(30)}%;
+    height: ${100 * Math.sqrt(10) / Math.sqrt(30)}%;
+  }
+
+  &:nth-child(3) {
+    width: ${100 * Math.sqrt(15) / Math.sqrt(30)}%;
+    height: ${100 * Math.sqrt(15) / Math.sqrt(30)}%;
+  }
+
+  &:nth-child(4) {
+    width: ${100 * Math.sqrt(20) / Math.sqrt(30)}%;
+    height: ${100 * Math.sqrt(20) / Math.sqrt(30)}%;
+  }
+
+  &:nth-child(5) {
+    width: ${100 * Math.sqrt(25) / Math.sqrt(30)}%;
+    height: ${100 * Math.sqrt(25) / Math.sqrt(30)}%;
+  }
 `
 
 const HeadCircle = styled.div`
@@ -23,16 +64,16 @@ const HeadCircle = styled.div`
   left: 50%;
   width: ${props => props.size};
   height: ${props => props.size};
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: ${BLACK};
   border-radius: 100%;
   transform: translate3d(-50%, -50%, 0);
 `
 
 const SourceHandle = styled.div`
   position: absolute;
-  width: 16px;
-  height: 16px;
-  background: ${TURQOISE};
+  width: 12px;
+  height: 12px;
+  background: ${TURQUOISE};
   border-radius: 10px;
   text-indent: -9999px;
   overflow: hidden;
@@ -144,8 +185,14 @@ class PositionController extends Component {
 
     return (
       <StyledPositionController width={bounds.width} height={bounds.height}>
+        <DistanceCircle />
+        <DistanceCircle />
+        <DistanceCircle />
+        <DistanceCircle />
+        <DistanceCircle />
+
         <HeadCircle
-          size={`calc(${100 * (headRadius / 0.5) * (size / 12) / size}% + 8px)`}
+          size={`calc(${100 * (headRadius / 0.5) * (size / 12) / size}% + 6px)`}
         />
 
         {objects.map(object => (

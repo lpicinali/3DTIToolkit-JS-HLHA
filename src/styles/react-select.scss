@@ -1,0 +1,52 @@
+$black: #07404d;
+$turquoise: #04c6f1;
+$dark-gray: #5b7379;
+$dark-turquoise: #0e758c;
+$gray: #c2c8ca;
+$white: #fefefe;
+$white-smoke: #fcfcfc;
+
+// control options
+$select-input-bg: $white;
+$select-input-bg-disabled: $white-smoke;
+$select-input-bg-focus: $select-input-bg;
+$select-input-border-radius: 4px;
+$select-input-box-shadow-focus: 0 2px 4px rgba(0, 0, 0, 0.2);
+$select-input-border-width: 0;
+$select-input-height: 40px;
+$select-input-internal-height: $select-input-height;
+$select-input-placeholder: $gray; // #aaa !default;
+$select-text-color: $black;
+// $select-link-hover-color: $select-input-border-focus !default;
+$select-input-hover-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+$select-padding-vertical: 8px; // 8px !default;
+$select-padding-horizontal: 12px; // 10px !default;
+
+// menu options
+$select-menu-zindex: 1000;
+$select-menu-max-height: 320px;
+$select-menu-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+$select-option-color: $black;
+$select-option-bg: $white-smoke;
+$select-option-focused-color: $turquoise;
+$select-option-focused-bg: $white;
+$select-option-selected-color: $select-text-color !default;
+$select-option-selected-bg: $white;
+$select-option-disabled-color: $gray;
+
+@import '~react-select/scss/default.scss';
+
+.Select {
+  font-size: 14px;
+}
+
+.Select-control {
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.Select-menu-outer {
+  border: none;
+}

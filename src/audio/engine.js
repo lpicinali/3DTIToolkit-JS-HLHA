@@ -1,4 +1,3 @@
-// import decode from 'audio-decode'
 import { map } from 'lodash'
 
 import {
@@ -17,8 +16,6 @@ import {
   startNodes,
   stopNodes,
 } from 'src/audio/chain.js'
-import context from 'src/audio/context.js'
-import decode from 'src/audio/decode.js'
 import {
   setEnabled as setHearingAidEnabled,
   setGains as setHearingAidGains,
@@ -78,10 +75,10 @@ export const setComponentVolume = (id, volume) => {
   }
 }
 
-export const setComponentPosition = (id, { azimuth, distance }) => {
+export const setComponentPosition = (id, { azimuth, distance, elevation }) => {
   if (id === SonicComponent.TARGET) {
     getInstance().then(spatializer => {
-      spatializer.setSourcePosition(azimuth, distance)
+      spatializer.setSourcePosition(azimuth, distance, elevation)
     })
   }
 }
@@ -110,25 +107,25 @@ export const setDirectionalityAttenuation = (ear, attenuation) => {
   })
 }
 
-export const setHearingLossPreset = presetName => {
+export const setHearingLossPreset = (ear, presetName) => {
   const gains = presets[SimulatorType.LOSS][presetName]
 
-  setHearingLossGains(gains)
+  setHearingLossGains(ear, gains)
 }
 
-export const setFrequencySmearingPreset = preset => {
-  setHearingLossFrequencySmearingPreset(preset)
+export const setFrequencySmearingPreset = (ear, preset) => {
+  setHearingLossFrequencySmearingPreset(ear, preset)
 }
 
-export const setTemporalDistortionPreset = preset => {
-  setHearingLossTemporalDistortionPreset(preset)
+export const setTemporalDistortionPreset = (ear, preset) => {
+  setHearingLossTemporalDistortionPreset(ear, preset)
 }
 
-export const setHearingAidPreset = presetName => {
+export const setHearingAidPreset = (ear, presetName) => {
   const gains = presets[SimulatorType.LOSS][presetName]
 
   setHearingAidEnabled(presetName !== HearingLossGrade.NONE)
-  setHearingAidGains(gains)
+  setHearingAidGains(ear, gains)
 }
 
 export const setHearingAidNumNoiseBits = numBits => {

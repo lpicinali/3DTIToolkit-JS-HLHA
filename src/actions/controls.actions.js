@@ -5,6 +5,11 @@ export const setTargetPosition = position => ({
   payload: { position },
 })
 
+export const setTargetElevation = elevation => ({
+  type: ActionType.SET_TARGET_ELEVATION,
+  payload: { elevation },
+})
+
 export const setTargetVolume = volume => ({
   type: ActionType.SET_TARGET_VOLUME,
   payload: { volume },
@@ -25,9 +30,9 @@ export const setDirectionalityEnabled = isEnabled => ({
   payload: { isEnabled },
 })
 
-export const setDirectionalityValue = value => ({
+export const setDirectionalityValue = (ear, value) => ({
   type: ActionType.SET_DIRECTIONALITY_VALUE,
-  payload: { value },
+  payload: { ear, value },
 })
 
 export const setMaskVolume = volume => ({

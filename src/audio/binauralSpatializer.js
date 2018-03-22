@@ -22,12 +22,12 @@ let instancePromise = null
 let listener = null
 let source = null
 
-function setPosition(target, azimuth, distance) {
+function setPosition(target, azimuth, distance, elevation) {
   const transform = new CTransform()
 
   const x = Math.cos(azimuth) * distance
   const z = -Math.sin(azimuth) * distance
-  const position = new CVector3(x, 0, z)
+  const position = new CVector3(x, elevation, z)
 
   transform.SetPosition(position)
   target.SetSourceTransform(transform)
@@ -37,8 +37,8 @@ function setPosition(target, azimuth, distance) {
 
 function createInstance() {
   return fetchHrirsVector(hrirUrls, context).then(hrirsVector => {
-    function setSourcePosition(azimuth, distance) {
-      setPosition(source, azimuth, distance)
+    function setSourcePosition(azimuth, distance, elevation) {
+      setPosition(source, azimuth, distance, elevation)
     }
 
     function setPerformanceModeEnabled(isEnabled) {
@@ -87,7 +87,7 @@ function createInstance() {
     listener.EnableCustomizedITD()
 
     source = binauralApi.CreateSource()
-    setSourcePosition(Math.PI / 2, 2)
+    setSourcePosition(Math.PI / 2, 2, 1.6)
 
     const inputMonoBuffer = new CMonoBuffer()
     inputMonoBuffer.resize(512, 0)
@@ -121,7 +121,7 @@ function createInstance() {
     const masks = [Ear.LEFT, Ear.RIGHT].reduce((aggr, channel) => {
       const maskSource = binauralApi.CreateSource()
       const azimuth = channel === Ear.LEFT ? Math.PI : 0
-      setPosition(maskSource, azimuth, 3)
+      setPosition(maskSource, azimuth, 3, 0)
 
       const maskInputBuffer = new CMonoBuffer()
       maskInputBuffer.resize(512, 0)

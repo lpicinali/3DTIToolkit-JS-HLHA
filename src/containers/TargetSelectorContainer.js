@@ -1,14 +1,28 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { reduce } from 'lodash'
+import { map } from 'lodash'
 import { autobind } from 'core-decorators'
+import styled from 'styled-components'
 
 import { setTargetVolume } from 'src/actions/controls.actions.js'
 import { setTarget } from 'src/actions/target.actions.js'
-import ButtonGroup from 'src/components/ButtonGroup.js'
+import Select from 'src/components/Select.js'
 import VolumeSlider from 'src/components/VolumeSlider.js'
 import { H2, H3 } from 'src/styles/elements.js'
+
+const SourceWrapper = styled.div`
+  display: flex;
+  align-items: center;
+
+  > * {
+    width: 50%;
+  }
+
+  > *:not(:first-child) {
+    padding-left: 16px;
+  }
+`
 
 /**
  * Target Selector Container
@@ -40,30 +54,26 @@ class TargetSelectorContainer extends Component {
   render() {
     const { targets, target, volume, onChangeVolume } = this.props
 
-    const options = reduce(
-      targets,
-      (aggr, file) => ({
-        ...aggr,
-        [file.filename]: file.title,
-      }),
-      {}
-    )
+    const options = map(targets, ({ filename, title }) => ({
+      value: filename,
+      label: title,
+    }))
 
     return (
       <div>
         <H2>Target</H2>
 
         <H3>Source</H3>
-        <ButtonGroup
-          options={options}
-          enabledOptions={Object.keys(options)}
-          value={target}
-          isVertical
-          onSelect={this.handleSelect}
-        />
+        <SourceWrapper>
+          <Select
+            onChange={this.handleSelect}
+            options={options}
+            placeholder="Select target..."
+            value={target}
+          />
 
-        <H3>Volume</H3>
-        <VolumeSlider volume={volume} onChange={onChangeVolume} />
+          <VolumeSlider volume={volume} onChange={onChangeVolume} />
+        </SourceWrapper>
       </div>
     )
   }

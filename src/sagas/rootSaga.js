@@ -1,4 +1,4 @@
-import { call, put, select, take } from 'redux-saga/effects'
+import { all, call, put, select, take } from 'redux-saga/effects'
 import { get, reduce, values } from 'lodash'
 
 import {
@@ -9,7 +9,13 @@ import {
   SonicComponent,
 } from 'src/constants.js'
 import { cast } from 'src/utils.js'
+import { setDirectionalityValue } from 'src/actions/controls.actions.js'
 import { setHaGrade } from 'src/actions/ha.actions.js'
+import {
+  setFrequencySmearingPreset,
+  setTemporalDistortionPreset,
+  setHlGrade,
+} from 'src/actions/hl.actions.js'
 import { getFileUrl } from 'src/audio/audio-files.js'
 import {
   setMaskNode,
@@ -18,7 +24,11 @@ import {
   stopTargetNode,
 } from 'src/audio/chain.js'
 import * as engine from 'src/audio/engine.js'
-import { setQuantisationStepEnabled } from 'src/audio/hearingAidProcessor.js'
+import {
+  setEnabled as setHearingAidEnabled,
+  setQuantisationStepEnabled,
+} from 'src/audio/hearingAidProcessor.js'
+import { setEnabled as setHearingLossEnabled } from 'src/audio/hearingLossProcessor.js'
 
 function* applyPlayPause() {
   while (true) {
@@ -120,8 +130,7 @@ function* applyDirectionalityAttenuation() {
   while (true) {
     const { payload } = yield take(ActionType.SET_DIRECTIONALITY_VALUE)
     const attenuation = cast(payload.value, -1, 1, 0, 30)
-    engine.setDirectionalityAttenuation(Ear.LEFT, attenuation)
-    engine.setDirectionalityAttenuation(Ear.RIGHT, attenuation)
+    engine.setDirectionalityAttenuation(payload.ear, attenuation)
   }
 }
 
@@ -139,6 +148,20 @@ function* toggleDirectionalityEnabledFromHearingAidPreset() {
   }
 }
 
+function* applyHearingLossSimulatorEnabled() {
+  while (true) {
+    const { payload } = yield take(ActionType.SET_HL_ENABLED)
+    yield call(setHearingLossEnabled, payload.isEnabled)
+  }
+}
+
+function* applyHearingAidSimulatorEnabled() {
+  while (true) {
+    const { payload } = yield take(ActionType.SET_HA_ENABLED)
+    yield call(setHearingAidEnabled, payload.isEnabled)
+  }
+}
+
 function* applySimulatorPresets() {
   while (true) {
     const { type, payload } = yield take([
@@ -147,9 +170,9 @@ function* applySimulatorPresets() {
     ])
 
     if (type === ActionType.SET_HL_GRADE) {
-      engine.setHearingLossPreset(payload.grade)
+      engine.setHearingLossPreset(payload.ear, payload.grade)
     } else if (type === ActionType.SET_HA_GRADE) {
-      engine.setHearingAidPreset(payload.grade)
+      engine.setHearingAidPreset(payload.ear, payload.grade)
     }
   }
 }
@@ -158,26 +181,85 @@ function* applyTargetPosition() {
   while (true) {
     const { payload } = yield take(ActionType.SET_TARGET_POSITION)
     const { azimuth, distance } = payload.position
+    const elevation = yield select(state => state.controls.targetElevation)
 
-    engine.setComponentPosition(SonicComponent.TARGET, { azimuth, distance })
+    yield call(engine.setComponentPosition, SonicComponent.TARGET, {
+      azimuth,
+      distance,
+      elevation,
+    })
+  }
+}
+
+function* applyTargetElevation() {
+  while (true) {
+    const { payload: { elevation } } = yield take(
+      ActionType.SET_TARGET_ELEVATION
+    )
+    const { azimuth, distance } = yield select(
+      state => state.controls.targetPosition
+    )
+
+    yield call(engine.setComponentPosition, SonicComponent.TARGET, {
+      azimuth,
+      distance,
+      elevation,
+    })
   }
 }
 
 function* applyFrequencySmearingPresets() {
   while (true) {
-    const { payload: { preset } } = yield take(
+    const { payload: { ear, preset } } = yield take(
       ActionType.SET_HL_FREQUENCY_SMEARING_PRESET
     )
-    yield call(engine.setFrequencySmearingPreset, preset)
+    yield call(engine.setFrequencySmearingPreset, ear, preset)
   }
 }
 
 function* applyTemporalDistortionPresets() {
   while (true) {
-    const { payload: { preset } } = yield take(
+    const { payload: { ear, preset } } = yield take(
       ActionType.SET_HL_TEMPORAL_DISTORTION_PRESET
     )
-    yield call(engine.setTemporalDistortionPreset, preset)
+    yield call(engine.setTemporalDistortionPreset, ear, preset)
+  }
+}
+
+function* mirrorLinkedHearingLossSettings() {
+  while (true) {
+    const { type, payload } = yield take([
+      ActionType.SET_HL_LINKED,
+      ActionType.SET_HL_GRADE,
+      ActionType.SET_HL_FREQUENCY_SMEARING_PRESET,
+      ActionType.SET_HL_TEMPORAL_DISTORTION_PRESET,
+    ])
+
+    const hearingLossState = yield select(state => state.hl)
+
+    if (type === ActionType.SET_HL_LINKED && payload.isLinked === true) {
+      yield put(setHlGrade(Ear.RIGHT, hearingLossState.grade[Ear.LEFT]))
+      yield put(
+        setFrequencySmearingPreset(
+          Ear.RIGHT,
+          hearingLossState.frequencySmearingPreset[Ear.LEFT]
+        )
+      )
+      yield put(
+        setTemporalDistortionPreset(
+          Ear.RIGHT,
+          hearingLossState.temporalDistortionPreset[Ear.LEFT]
+        )
+      )
+    } else if (hearingLossState.isLinked === true && payload.ear === Ear.LEFT) {
+      if (type === ActionType.SET_HL_GRADE) {
+        yield put(setHlGrade(Ear.RIGHT, payload.grade))
+      } else if (type === ActionType.SET_HL_FREQUENCY_SMEARING_PRESET) {
+        yield put(setFrequencySmearingPreset(Ear.RIGHT, payload.preset))
+      } else if (type === ActionType.SET_HL_TEMPORAL_DISTORTION_PRESET) {
+        yield put(setTemporalDistortionPreset(Ear.RIGHT, payload.preset))
+      }
+    }
   }
 }
 
@@ -200,14 +282,45 @@ function* applyAidNoiseBits() {
   }
 }
 
+function* mirrorLinkedHearingAidSettings() {
+  while (true) {
+    const { type, payload } = yield take([
+      ActionType.SET_HA_LINKED,
+      ActionType.SET_HA_GRADE,
+      ActionType.SET_DIRECTIONALITY_VALUE,
+    ])
+
+    const [hearingAidState, controlsState] = yield all([
+      select(state => state.ha),
+      select(state => state.controls),
+    ])
+
+    if (type === ActionType.SET_HA_LINKED && payload.isLinked === true) {
+      yield put(setHaGrade(Ear.RIGHT, hearingAidState.grade[Ear.LEFT]))
+      yield put(
+        setDirectionalityValue(
+          Ear.RIGHT,
+          controlsState.directionalityValue[Ear.LEFT]
+        )
+      )
+    } else if (hearingAidState.isLinked === true && payload.ear === Ear.LEFT) {
+      if (type === ActionType.SET_HA_GRADE) {
+        yield put(setHaGrade(Ear.RIGHT, payload.grade))
+      } else if (type === ActionType.SET_DIRECTIONALITY_VALUE) {
+        yield put(setDirectionalityValue(Ear.RIGHT, payload.value))
+      }
+    }
+  }
+}
+
 function* makeAidFollowLoss() {
   while (true) {
-    const { payload: { grade } } = yield take(ActionType.SET_HL_GRADE)
+    const { payload: { ear, grade } } = yield take(ActionType.SET_HL_GRADE)
 
     const allGrades = values(HearingLossGrade)
-    const currentAidPreset = yield select(state => state.ha.grade)
+    const currentAidPreset = yield select(state => state.ha.grade[ear])
     if (allGrades.indexOf(grade) < allGrades.indexOf(currentAidPreset)) {
-      yield put(setHaGrade(grade))
+      yield put(setHaGrade(ear, grade))
     }
   }
 }
@@ -222,12 +335,17 @@ export default function* rootSaga() {
     applyDirectionalityEnabled(),
     applyDirectionalityAttenuation(),
     toggleDirectionalityEnabledFromHearingAidPreset(),
+    applyHearingLossSimulatorEnabled(),
+    applyHearingAidSimulatorEnabled(),
     applySimulatorPresets(),
     applyTargetPosition(),
+    applyTargetElevation(),
     applyFrequencySmearingPresets(),
     applyTemporalDistortionPresets(),
+    mirrorLinkedHearingLossSettings(),
     applyQuantisationStepEnabled(),
     applyAidNoiseBits(),
+    mirrorLinkedHearingAidSettings(),
     makeAidFollowLoss(),
   ]
 }

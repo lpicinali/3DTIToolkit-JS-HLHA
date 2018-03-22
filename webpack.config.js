@@ -1,9 +1,11 @@
 const path = require('path')
+const webpack = require('webpack')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
   entry: ['babel-polyfill', path.resolve('./src/index.js')],
   output: {
-    path: path.resolve(__dirname, 'public/assets/js'),
+    path: path.resolve('./public/assets/js'),
     publicPath: '/assets/js',
     filename: 'app.js',
     sourceMapFilename: '[file].map',
@@ -13,6 +15,15 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.s?css$/,
+        use: [
+          { loader: 'style-loader' },
+          { loader: 'css-loader' },
+          { loader: 'sass-loader' },
+        ],
       },
     ],
   },
@@ -24,5 +35,10 @@ module.exports = {
     },
     extensions: ['.js', '.json'],
   },
-  plugins: [],
+  plugins: [
+    new UglifyJsPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('production'),
+    }),
+  ],
 }

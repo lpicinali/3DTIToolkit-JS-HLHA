@@ -11,15 +11,14 @@ module.exports = Object.assign({}, config, {
     'webpack/hot/only-dev-server',
     path.resolve('./src/index.dev.js'),
   ],
-  plugins: config.plugins.concat([
+  plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
-  ]),
+  ],
   devServer: {
     contentBase: path.join(__dirname, 'public'),
     compress: true,
     port: 8261,
-    hot: true,
     historyApiFallback: {
       index: 'index.html',
     },
