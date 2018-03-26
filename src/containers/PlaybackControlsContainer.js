@@ -48,14 +48,14 @@ class PlaybackControlsContainer extends Component {
         onClick={() => onStateChange(PlaybackState.PAUSED)}
       >
         <PauseIcon />
-        <ButtonLabel>Playing</ButtonLabel>
+        <ButtonLabel>Pause</ButtonLabel>
       </PlaybackControlButton>
     ) : (
       <PlaybackControlButton
         onClick={() => onStateChange(PlaybackState.PLAYING)}
       >
         <PlayIcon />
-        <ButtonLabel>Paused</ButtonLabel>
+        <ButtonLabel>Play</ButtonLabel>
       </PlaybackControlButton>
     )
   }
