@@ -29,6 +29,7 @@ import {
   setQuantisationStepEnabled,
 } from 'src/audio/hearingAidProcessor.js'
 import { setEnabled as setHearingLossEnabled } from 'src/audio/hearingLossProcessor.js'
+import presetSagas from 'src/sagas/presets.sagas.js'
 
 function* applyPlayPause() {
   while (true) {
@@ -326,7 +327,7 @@ function* makeAidFollowLoss() {
 }
 
 export default function* rootSaga() {
-  yield [
+  yield all([
     applyPlayPause(),
     applyComponentSource(),
     applyComponentVolume(),
@@ -347,5 +348,6 @@ export default function* rootSaga() {
     applyAidNoiseBits(),
     mirrorLinkedHearingAidSettings(),
     makeAidFollowLoss(),
-  ]
+    presetSagas(),
+  ])
 }

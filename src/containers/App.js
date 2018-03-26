@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import SiteFooter from 'src/components/SiteFooter.js'
 import SiteHeader from 'src/components/SiteHeader.js'
 import Disclaimer from 'src/containers/Disclaimer.js'
+import GlobalPresetSelector from 'src/containers/GlobalPresetSelector.js'
 import HearingAidSimulatorContainer from 'src/containers/HearingAidSimulatorContainer.js'
 import HearingLossSimulatorContainer from 'src/containers/HearingLossSimulatorContainer.js'
 import MaskingSelectorContainer from 'src/containers/MaskingSelectorContainer.js'
@@ -48,6 +49,10 @@ class App extends PureComponent {
         <SiteHeader />
 
         <Disclaimer isRead={hasReadDisclaimer} />
+
+        <div style={{ width: '100%' }}>
+          <GlobalPresetSelector />
+        </div>
 
         <AppContent isDisabled={hasReadDisclaimer === false}>
           <ContentPane>
