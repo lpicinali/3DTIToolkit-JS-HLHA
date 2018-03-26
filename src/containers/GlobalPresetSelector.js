@@ -1,11 +1,16 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import styled from 'styled-components'
 import { keys, values } from 'lodash'
 
 import { GlobalPreset } from 'src/constants.js'
 import { setGlobalPreset } from 'src/actions/presets.actions.js'
 import Select from 'src/components/Select.js'
+
+const WideSelect = styled(Select)`
+  min-width: 280px;
+`
 
 /**
  * Global Preset Selector
@@ -20,7 +25,8 @@ class GlobalPresetSelector extends PureComponent {
     const { preset, onChange } = this.props
 
     return (
-      <Select
+      <WideSelect
+        scope="Preset"
         value={preset}
         placeholder="Choose a preset..."
         options={[

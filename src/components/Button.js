@@ -50,20 +50,22 @@ class Button extends Component {
     isActive: PropTypes.bool,
     onClick: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired,
+    className: PropTypes.string,
   }
 
   static defaultProps = {
     isEnabled: true,
     isActive: false,
+    className: '',
   }
 
   render() {
-    const { isEnabled, isActive, onClick, children } = this.props
+    const { isEnabled, isActive, onClick, children, className } = this.props
 
     return (
       <StyledButton
         disabled={isEnabled === false}
-        className="Button"
+        className={className}
         onClick={onClick}
         isActive={isActive}
       >

@@ -7,21 +7,14 @@ import * as Icon from 'react-feather'
 
 import { PlaybackState } from 'src/constants.js'
 import { setPlaybackState } from 'src/actions/controls.actions.js'
+import Button from 'src/components/Button.js'
 import { TURQUOISE } from 'src/styles/colors.js'
 
-const PlaybackControlButton = styled.button`
+const PlaybackControlButton = styled(Button)`
   display: flex;
   align-items: center;
-  margin: 0;
-  padding: 0;
-  background: transparent;
-  border: 0;
-  outline: none;
-  cursor: pointer;
-
-  &:hover {
-    color: ${TURQUOISE};
-  }
+  padding: 12px 24px;
+  font-size: 16px;
 `
 
 const PlayIcon = styled(Icon.PlayCircle)`
@@ -36,7 +29,6 @@ const ButtonLabel = styled.span`
   display: block;
   flex-grow: 1;
   margin-left: 8px;
-  font-size: 14px;
 `
 
 /**

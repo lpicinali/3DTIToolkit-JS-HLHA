@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
-import HeaderSideControls from 'src/containers/HeaderSideControls.js'
 import { BLACK, GRAY, TURQUOISE } from 'src/styles/colors.js'
 import { A } from 'src/styles/elements.js'
 import { GutteredElement } from 'src/styles/grid.js'
@@ -10,7 +9,9 @@ import { MAX_WIDTH } from 'src/styles/layout.js'
 const Header = styled.header`
   padding-top: 32px;
   padding-bottom: 24px;
+  background: linear-gradient(to bottom right, #fdfdfd, #fafafa);
   border-top: 2px solid ${TURQUOISE};
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 `
 
 const HeaderContent = styled.div`
@@ -72,9 +73,7 @@ class SiteHeader extends PureComponent {
             </Prologue>
           </HeadingArea>
 
-          <HeaderSideArea>
-            <HeaderSideControls />
-          </HeaderSideArea>
+          <HeaderSideArea />
         </HeaderContent>
       </Header>
     )

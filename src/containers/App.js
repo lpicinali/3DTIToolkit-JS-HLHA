@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 
+import SettingsInfoToggle from 'src/components/SettingsInfoToggle.js'
 import SiteFooter from 'src/components/SiteFooter.js'
 import SiteHeader from 'src/components/SiteHeader.js'
 import Disclaimer from 'src/containers/Disclaimer.js'
@@ -11,14 +12,34 @@ import GlobalPresetSelector from 'src/containers/GlobalPresetSelector.js'
 import HearingAidSimulatorContainer from 'src/containers/HearingAidSimulatorContainer.js'
 import HearingLossSimulatorContainer from 'src/containers/HearingLossSimulatorContainer.js'
 import MaskingSelectorContainer from 'src/containers/MaskingSelectorContainer.js'
+import PlaybackControlsContainer from 'src/containers/PlaybackControlsContainer.js'
 import PositionControllerContainer from 'src/containers/PositionControllerContainer.js'
 import TargetSelectorContainer from 'src/containers/TargetSelectorContainer.js'
 import { Disablable, ModuleBox } from 'src/styles/elements.js'
 import injectGlobalStyles from 'src/styles/globals.js'
-import { GutteredElement } from 'src/styles/grid.js'
+import { GridContainer, GutteredElement } from 'src/styles/grid.js'
 import { MAX_WIDTH } from 'src/styles/layout.js'
 
 injectGlobalStyles()
+
+const ControlsArea = styled(GridContainer.withComponent('aside'))`
+  margin-top: 24px;
+  margin-bottom: 24px;
+`
+
+const ControlsAreaContent = styled(GutteredElement)`
+  display: flex;
+  align-items: center;
+`
+
+const ControlsAreaComponent = styled.div`
+  flex-shrink: 1;
+  margin-left: 16px;
+`
+
+const ControlsAreaPlaybackComponent = styled.div`
+  flex-grow: 1;
+`
 
 const AppContent = styled(Disablable)`
   display: flex;
@@ -50,9 +71,20 @@ class App extends PureComponent {
 
         <Disclaimer isRead={hasReadDisclaimer} />
 
-        <div style={{ width: '100%' }}>
-          <GlobalPresetSelector />
-        </div>
+        <ControlsArea>
+          <ControlsAreaContent>
+            <ControlsAreaPlaybackComponent>
+              <PlaybackControlsContainer />
+            </ControlsAreaPlaybackComponent>
+
+            <ControlsAreaComponent>
+              <GlobalPresetSelector />
+            </ControlsAreaComponent>
+            <ControlsAreaComponent>
+              <SettingsInfoToggle />
+            </ControlsAreaComponent>
+          </ControlsAreaContent>
+        </ControlsArea>
 
         <AppContent isDisabled={hasReadDisclaimer === false}>
           <ContentPane>
