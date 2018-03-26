@@ -9,7 +9,7 @@ const initialState = {
     }),
     {}
   ),
-  selected: null,
+  selected: audioFiles[SonicComponent.MASK][0].title,
 }
 
 export default function(state = initialState, { type, payload }) {

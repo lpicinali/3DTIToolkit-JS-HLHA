@@ -44,6 +44,23 @@ function* applyPlayPause() {
 }
 
 function* applyComponentSource() {
+  // Load initial sources
+  const [targetState, maskingState] = yield all([
+    select(state => state.target),
+    select(state => state.masking),
+  ])
+
+  yield call(engine.setTargetSource, getFileUrl(targetState.selected))
+  yield call(engine.setMaskSource, {
+    [Ear.LEFT]: getFileUrl(
+      maskingState.masks[maskingState.selected].filename[Ear.LEFT]
+    ),
+    [Ear.RIGHT]: getFileUrl(
+      maskingState.masks[maskingState.selected].filename[Ear.RIGHT]
+    ),
+  })
+
+  // Listen to changes
   while (true) {
     const { type, payload } = yield take([
       ActionType.SET_TARGET,
