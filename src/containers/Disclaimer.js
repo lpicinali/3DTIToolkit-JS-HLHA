@@ -12,7 +12,7 @@ import { MAX_WIDTH } from 'src/styles/layout.js'
 const DisclaimerWrapper = styled.div`
   width: 66.6667%;
   max-width: ${MAX_WIDTH}px;
-  margin: 0 auto 40px;
+  margin: 24px auto 40px;
 
   ${H3} {
     margin-top: 0;

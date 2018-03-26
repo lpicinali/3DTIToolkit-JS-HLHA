@@ -9,6 +9,7 @@ import { WHITE_SMOKE } from 'src/styles/colors.js'
 import 'src/styles/react-select.scss'
 
 const SelectWrapper = styled.div`
+  position: relative;
   display: flex;
 
   ${props =>

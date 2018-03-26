@@ -72,18 +72,20 @@ class App extends PureComponent {
         <Disclaimer isRead={hasReadDisclaimer} />
 
         <ControlsArea>
-          <ControlsAreaContent>
-            <ControlsAreaPlaybackComponent>
-              <PlaybackControlsContainer />
-            </ControlsAreaPlaybackComponent>
+          <Disablable isDisabled={hasReadDisclaimer === false}>
+            <ControlsAreaContent>
+              <ControlsAreaPlaybackComponent>
+                <PlaybackControlsContainer />
+              </ControlsAreaPlaybackComponent>
 
-            <ControlsAreaComponent>
-              <GlobalPresetSelector />
-            </ControlsAreaComponent>
-            <ControlsAreaComponent>
-              <SettingsInfoToggle />
-            </ControlsAreaComponent>
-          </ControlsAreaContent>
+              <ControlsAreaComponent>
+                <GlobalPresetSelector />
+              </ControlsAreaComponent>
+              <ControlsAreaComponent>
+                <SettingsInfoToggle />
+              </ControlsAreaComponent>
+            </ControlsAreaContent>
+          </Disablable>
         </ControlsArea>
 
         <AppContent isDisabled={hasReadDisclaimer === false}>

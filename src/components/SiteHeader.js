@@ -7,6 +7,8 @@ import { GutteredElement } from 'src/styles/grid.js'
 import { MAX_WIDTH } from 'src/styles/layout.js'
 
 const Header = styled.header`
+  position: relative;
+  z-index: 1000;
   padding-top: 32px;
   padding-bottom: 24px;
   background: linear-gradient(to bottom right, #fdfdfd, #fafafa);
