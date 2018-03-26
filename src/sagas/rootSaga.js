@@ -229,36 +229,41 @@ function* applyTemporalDistortionPresets() {
 
 function* mirrorLinkedHearingLossSettings() {
   while (true) {
-    const { type, payload } = yield take([
+    const { type, payload, isPresetEffect } = yield take([
       ActionType.SET_HL_LINKED,
       ActionType.SET_HL_GRADE,
       ActionType.SET_HL_FREQUENCY_SMEARING_PRESET,
       ActionType.SET_HL_TEMPORAL_DISTORTION_PRESET,
     ])
 
-    const hearingLossState = yield select(state => state.hl)
+    if (isPresetEffect !== true) {
+      const hearingLossState = yield select(state => state.hl)
 
-    if (type === ActionType.SET_HL_LINKED && payload.isLinked === true) {
-      yield put(setHlGrade(Ear.RIGHT, hearingLossState.grade[Ear.LEFT]))
-      yield put(
-        setFrequencySmearingPreset(
-          Ear.RIGHT,
-          hearingLossState.frequencySmearingPreset[Ear.LEFT]
+      if (type === ActionType.SET_HL_LINKED && payload.isLinked === true) {
+        yield put(setHlGrade(Ear.RIGHT, hearingLossState.grade[Ear.LEFT]))
+        yield put(
+          setFrequencySmearingPreset(
+            Ear.RIGHT,
+            hearingLossState.frequencySmearingPreset[Ear.LEFT]
+          )
         )
-      )
-      yield put(
-        setTemporalDistortionPreset(
-          Ear.RIGHT,
-          hearingLossState.temporalDistortionPreset[Ear.LEFT]
+        yield put(
+          setTemporalDistortionPreset(
+            Ear.RIGHT,
+            hearingLossState.temporalDistortionPreset[Ear.LEFT]
+          )
         )
-      )
-    } else if (hearingLossState.isLinked === true && payload.ear === Ear.LEFT) {
-      if (type === ActionType.SET_HL_GRADE) {
-        yield put(setHlGrade(Ear.RIGHT, payload.grade))
-      } else if (type === ActionType.SET_HL_FREQUENCY_SMEARING_PRESET) {
-        yield put(setFrequencySmearingPreset(Ear.RIGHT, payload.preset))
-      } else if (type === ActionType.SET_HL_TEMPORAL_DISTORTION_PRESET) {
-        yield put(setTemporalDistortionPreset(Ear.RIGHT, payload.preset))
+      } else if (
+        hearingLossState.isLinked === true &&
+        payload.ear === Ear.LEFT
+      ) {
+        if (type === ActionType.SET_HL_GRADE) {
+          yield put(setHlGrade(Ear.RIGHT, payload.grade))
+        } else if (type === ActionType.SET_HL_FREQUENCY_SMEARING_PRESET) {
+          yield put(setFrequencySmearingPreset(Ear.RIGHT, payload.preset))
+        } else if (type === ActionType.SET_HL_TEMPORAL_DISTORTION_PRESET) {
+          yield put(setTemporalDistortionPreset(Ear.RIGHT, payload.preset))
+        }
       }
     }
   }
@@ -285,30 +290,35 @@ function* applyAidNoiseBits() {
 
 function* mirrorLinkedHearingAidSettings() {
   while (true) {
-    const { type, payload } = yield take([
+    const { type, payload, isPresetEffect } = yield take([
       ActionType.SET_HA_LINKED,
       ActionType.SET_HA_GRADE,
       ActionType.SET_DIRECTIONALITY_VALUE,
     ])
 
-    const [hearingAidState, controlsState] = yield all([
-      select(state => state.ha),
-      select(state => state.controls),
-    ])
+    if (isPresetEffect !== true) {
+      const [hearingAidState, controlsState] = yield all([
+        select(state => state.ha),
+        select(state => state.controls),
+      ])
 
-    if (type === ActionType.SET_HA_LINKED && payload.isLinked === true) {
-      yield put(setHaGrade(Ear.RIGHT, hearingAidState.grade[Ear.LEFT]))
-      yield put(
-        setDirectionalityValue(
-          Ear.RIGHT,
-          controlsState.directionalityValue[Ear.LEFT]
+      if (type === ActionType.SET_HA_LINKED && payload.isLinked === true) {
+        yield put(setHaGrade(Ear.RIGHT, hearingAidState.grade[Ear.LEFT]))
+        yield put(
+          setDirectionalityValue(
+            Ear.RIGHT,
+            controlsState.directionalityValue[Ear.LEFT]
+          )
         )
-      )
-    } else if (hearingAidState.isLinked === true && payload.ear === Ear.LEFT) {
-      if (type === ActionType.SET_HA_GRADE) {
-        yield put(setHaGrade(Ear.RIGHT, payload.grade))
-      } else if (type === ActionType.SET_DIRECTIONALITY_VALUE) {
-        yield put(setDirectionalityValue(Ear.RIGHT, payload.value))
+      } else if (
+        hearingAidState.isLinked === true &&
+        payload.ear === Ear.LEFT
+      ) {
+        if (type === ActionType.SET_HA_GRADE) {
+          yield put(setHaGrade(Ear.RIGHT, payload.grade))
+        } else if (type === ActionType.SET_DIRECTIONALITY_VALUE) {
+          yield put(setDirectionalityValue(Ear.RIGHT, payload.value))
+        }
       }
     }
   }
@@ -316,12 +326,15 @@ function* mirrorLinkedHearingAidSettings() {
 
 function* makeAidFollowLoss() {
   while (true) {
-    const { payload: { ear, grade } } = yield take(ActionType.SET_HL_GRADE)
+    const action = yield take(ActionType.SET_HL_GRADE)
+    const { payload: { ear, grade }, isPresetEffect } = action
 
-    const allGrades = values(HearingLossGrade)
-    const currentAidPreset = yield select(state => state.ha.grade[ear])
-    if (allGrades.indexOf(grade) < allGrades.indexOf(currentAidPreset)) {
-      yield put(setHaGrade(ear, grade))
+    if (isPresetEffect !== true) {
+      const allGrades = values(HearingLossGrade)
+      const currentAidPreset = yield select(state => state.ha.grade[ear])
+      if (allGrades.indexOf(grade) < allGrades.indexOf(currentAidPreset)) {
+        yield put(setHaGrade(ear, grade))
+      }
     }
   }
 }
