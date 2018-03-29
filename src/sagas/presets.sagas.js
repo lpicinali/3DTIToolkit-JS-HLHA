@@ -135,13 +135,13 @@ function* applyPresets() {
       )
     }
 
-    if (preset === GlobalPreset.SEVERE_HEARING_LOSS_WITH_DISTORTION) {
+    if (preset === GlobalPreset.MODERATE_HEARING_LOSS_WITH_DISTORTION) {
       yield put(markAsPresetEffect(setHlEnabled(true)))
       yield put(
-        markAsPresetEffect(setHlGrade(Ear.LEFT, HearingLossGrade.SEVERE))
+        markAsPresetEffect(setHlGrade(Ear.LEFT, HearingLossGrade.MODERATE))
       )
       yield put(
-        markAsPresetEffect(setHlGrade(Ear.RIGHT, HearingLossGrade.SEVERE))
+        markAsPresetEffect(setHlGrade(Ear.RIGHT, HearingLossGrade.MODERATE))
       )
       yield put(
         markAsPresetEffect(
@@ -155,12 +155,12 @@ function* applyPresets() {
       )
       yield put(
         markAsPresetEffect(
-          setTemporalDistortionPreset(Ear.LEFT, HearingLossGrade.MODERATE)
+          setTemporalDistortionPreset(Ear.LEFT, HearingLossGrade.NONE)
         )
       )
       yield put(
         markAsPresetEffect(
-          setTemporalDistortionPreset(Ear.RIGHT, HearingLossGrade.MODERATE)
+          setTemporalDistortionPreset(Ear.RIGHT, HearingLossGrade.NONE)
         )
       )
 
@@ -169,14 +169,14 @@ function* applyPresets() {
 
     if (
       preset ===
-      GlobalPreset.SEVERE_HEARING_LOSS_WITH_DISTORTION_AND_HEARING_AID
+      GlobalPreset.MODERATE_HEARING_LOSS_WITH_DISTORTION_AND_HEARING_AID
     ) {
       yield put(markAsPresetEffect(setHlEnabled(true)))
       yield put(
-        markAsPresetEffect(setHlGrade(Ear.LEFT, HearingLossGrade.SEVERE))
+        markAsPresetEffect(setHlGrade(Ear.LEFT, HearingLossGrade.MODERATE))
       )
       yield put(
-        markAsPresetEffect(setHlGrade(Ear.RIGHT, HearingLossGrade.SEVERE))
+        markAsPresetEffect(setHlGrade(Ear.RIGHT, HearingLossGrade.MODERATE))
       )
       yield put(
         markAsPresetEffect(
@@ -190,21 +190,21 @@ function* applyPresets() {
       )
       yield put(
         markAsPresetEffect(
-          setTemporalDistortionPreset(Ear.LEFT, HearingLossGrade.MODERATE)
+          setTemporalDistortionPreset(Ear.LEFT, HearingLossGrade.NONE)
         )
       )
       yield put(
         markAsPresetEffect(
-          setTemporalDistortionPreset(Ear.RIGHT, HearingLossGrade.MODERATE)
+          setTemporalDistortionPreset(Ear.RIGHT, HearingLossGrade.NONE)
         )
       )
 
       yield put(markAsPresetEffect(setHaEnabled(true)))
       yield put(
-        markAsPresetEffect(setHaGrade(Ear.LEFT, HearingLossGrade.SEVERE))
+        markAsPresetEffect(setHaGrade(Ear.LEFT, HearingLossGrade.MODERATE))
       )
       yield put(
-        markAsPresetEffect(setHaGrade(Ear.RIGHT, HearingLossGrade.SEVERE))
+        markAsPresetEffect(setHaGrade(Ear.RIGHT, HearingLossGrade.MODERATE))
       )
       yield put(
         markAsPresetEffect(

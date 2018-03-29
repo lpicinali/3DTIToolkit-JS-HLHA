@@ -86,13 +86,13 @@ class GlobalPresetSelector extends PureComponent {
               label: 'Mild hearing loss with hearing aid',
             },
             {
-              value: GlobalPreset.SEVERE_HEARING_LOSS_WITH_DISTORTION,
-              label: 'Severe hearing loss with distortion',
+              value: GlobalPreset.MODERATE_HEARING_LOSS_WITH_DISTORTION,
+              label: 'Moderate hearing loss with distortion',
             },
             {
               value:
-                GlobalPreset.SEVERE_HEARING_LOSS_WITH_DISTORTION_AND_HEARING_AID,
-              label: 'Severe hearing loss with distortion and hearing aid',
+                GlobalPreset.MODERATE_HEARING_LOSS_WITH_DISTORTION_AND_HEARING_AID,
+              label: 'Moderate hearing loss with distortion and hearing aid',
             },
           ]}
           onChange={onChange}
