@@ -6,6 +6,7 @@ import haReducer from 'src/reducers/ha.reducer.js'
 import hlReducer from 'src/reducers/hl.reducer.js'
 import maskingReducer from 'src/reducers/masking.reducer.js'
 import presetsReducer from 'src/reducers/presets.reducer.js'
+import prompterReducer from 'src/reducers/prompter.reducer.js'
 import targetReducer from 'src/reducers/target.reducer.js'
 
 export default combineReducers({
@@ -15,5 +16,6 @@ export default combineReducers({
   hl: hlReducer,
   masking: maskingReducer,
   presets: presetsReducer,
+  prompter: prompterReducer,
   target: targetReducer,
 })

@@ -28,6 +28,9 @@ export const ActionType = {
   SET_PLAYBACK_STATE: 'SET_PLAYBACK_STATE',
 
   SET_GLOBAL_PRESET: 'SET_GLOBAL_PRESET',
+
+  ADD_PROMPT: 'ADD_PROMPT',
+  RESOLVE_PROMPT: 'RESOLVE_PROMPT',
 }
 
 export const AudioFileType = {
@@ -66,6 +69,12 @@ export const QuantisationStep = {
 export const PlaybackState = {
   PAUSED: 'PAUSED',
   PLAYING: 'PLAYING',
+}
+
+export const PromptStatus = {
+  UNRESOLVED: 'UNRESOLVED',
+  REJECTED: 'REJECTED',
+  RESOLVED: 'RESOLVED',
 }
 
 export const SimulatorType = {

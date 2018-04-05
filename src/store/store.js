@@ -3,8 +3,8 @@ import { applyMiddleware, createStore } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import createSagaMiddleware from 'redux-saga'
 
-import rootReducer from 'src/reducers/rootReducer'
-import rootSaga from 'src/sagas/rootSaga'
+import rootReducer from 'src/reducers/rootReducer.js'
+import rootSaga from 'src/sagas/rootSaga.js'
 import createPersistorEnhancer from 'src/store/createPersistorEnhancer.js'
 
 const logger = store => next => action => {
@@ -13,9 +13,9 @@ const logger = store => next => action => {
     const result = next(action)
     console.log('State after action:', store.getState())
     return result
-  } else {
-    return next(action)
   }
+
+  return next(action)
 }
 
 const sagaMiddleware = createSagaMiddleware()

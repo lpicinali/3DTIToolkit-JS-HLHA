@@ -14,6 +14,7 @@ import HearingLossSimulatorContainer from 'src/containers/HearingLossSimulatorCo
 import MaskingSelectorContainer from 'src/containers/MaskingSelectorContainer.js'
 import PlaybackControlsContainer from 'src/containers/PlaybackControlsContainer.js'
 import PositionControllerContainer from 'src/containers/PositionControllerContainer.js'
+import Prompter from 'src/containers/Prompter.js'
 import TargetSelectorContainer from 'src/containers/TargetSelectorContainer.js'
 import { Disablable, ModuleBox } from 'src/styles/elements.js'
 import injectGlobalStyles from 'src/styles/globals.js'
@@ -114,6 +115,8 @@ class App extends PureComponent {
         </AppContent>
 
         <SiteFooter />
+
+        <Prompter />
       </div>
     )
   }

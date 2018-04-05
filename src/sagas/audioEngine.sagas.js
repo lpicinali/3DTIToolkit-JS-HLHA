@@ -1,21 +1,28 @@
 import { all, call, put, select, take } from 'redux-saga/effects'
-import { get, reduce, values } from 'lodash'
+import { get, reduce, some, values } from 'lodash'
 
 import {
   ActionType,
   Ear,
   HearingLossGrade,
   PlaybackState,
+  PromptStatus,
   SonicComponent,
 } from 'src/constants.js'
 import { cast } from 'src/utils.js'
 import { setDirectionalityValue } from 'src/actions/controls.actions.js'
-import { setHaGrade, setHaLinked } from 'src/actions/ha.actions.js'
+import {
+  setHaEnabled,
+  setHaGrade,
+  setHaLinked,
+} from 'src/actions/ha.actions.js'
 import {
   setFrequencySmearingPreset,
   setTemporalDistortionPreset,
   setHlGrade,
+  setHlEnabled,
 } from 'src/actions/hl.actions.js'
+import { addPrompt } from 'src/actions/prompter.actions.js'
 import { getFileUrl } from 'src/audio/audio-files.js'
 import {
   setMaskNode,
@@ -29,6 +36,28 @@ import {
   setQuantisationStepEnabled,
 } from 'src/audio/hearingAidProcessor.js'
 import { setEnabled as setHearingLossEnabled } from 'src/audio/hearingLossProcessor.js'
+
+/**
+ * Helpers
+ */
+
+function* promptToResolveUnsafeAction() {
+  const prompt = {
+    text:
+      `You are about to apply Hearing Aid settings that are more aggressive than their Heaing Loss counterparts. This action might result in very loud audio levels, which can cause damage to your hearing, especially if you are wearing headphones.` +
+      `\n\n` +
+      `We strongly recommend that you always keep Hearing Aid Simulator settings at a lower level or grade than the Hearing Loss Simulator.` +
+      `\n\n` +
+      `What do you want to do?`,
+    rejectLabel: `Stay safe and go back`,
+    resolveLabel: `Proceed, I know what I'm doing`,
+  }
+  yield put(addPrompt(prompt))
+}
+
+/**
+ * Sagas
+ */
 
 function* applyPlayPause() {
   while (true) {
@@ -168,14 +197,48 @@ function* toggleDirectionalityEnabledFromHearingAidPreset() {
 function* applyHearingLossSimulatorEnabled() {
   while (true) {
     const { payload } = yield take(ActionType.SET_HL_ENABLED)
-    yield call(setHearingLossEnabled, payload.isEnabled)
+    const hearingAidState = yield select(state => state.ha)
+
+    const isUnsafeDisableHlAction =
+      payload.isEnabled === false &&
+      hearingAidState.isEnabled === true &&
+      some(hearingAidState.grade, grade => grade !== HearingLossGrade.NONE)
+
+    if (isUnsafeDisableHlAction === true) {
+      yield call(promptToResolveUnsafeAction)
+      const { payload: { status } } = yield take(ActionType.RESOLVE_PROMPT)
+
+      if (status === PromptStatus.REJECTED) {
+        yield put(setHlEnabled(!payload.isEnabled))
+      } else {
+        yield call(setHearingLossEnabled, payload.isEnabled)
+      }
+    } else {
+      yield call(setHearingLossEnabled, payload.isEnabled)
+    }
   }
 }
 
 function* applyHearingAidSimulatorEnabled() {
   while (true) {
     const { payload } = yield take(ActionType.SET_HA_ENABLED)
-    yield call(setHearingAidEnabled, payload.isEnabled)
+
+    const hearingLossState = yield select(state => state.hl)
+    const isUnsafeEnableHaAction =
+      payload.isEnabled === true && hearingLossState.isEnabled === false
+
+    if (isUnsafeEnableHaAction === true) {
+      yield call(promptToResolveUnsafeAction)
+      const { payload: { status } } = yield take(ActionType.RESOLVE_PROMPT)
+
+      if (status === PromptStatus.REJECTED) {
+        yield put(setHaEnabled(!payload.isEnabled))
+      } else {
+        yield call(setHearingAidEnabled, payload.isEnabled)
+      }
+    } else {
+      yield call(setHearingAidEnabled, payload.isEnabled)
+    }
   }
 }
 
@@ -284,7 +347,9 @@ function* mirrorLinkedHearingLossSettings() {
         type === ActionType.SET_HL_LINKED &&
         payload.isLinked === false
       ) {
-        // Disable linking of HA when linking of HL is turned off
+        // Disable linking of HA when linking of HL is turned off.
+        // This prevents most scenarios where hearing aid settings
+        // would cause loud audio levels.
         const isHearingAidLinked = yield select(state => state.ha.isLinked)
         if (isHearingAidLinked === true) {
           yield put(setHaLinked(false))

@@ -59,6 +59,7 @@
     "react-dom": "^15.5.4",
     "react-feather": "^1.0.8",
     "react-hot-loader": "next",
+    "react-markdown": "^3.3.0",
     "react-motion-ui-pack": "^0.10.3",
     "react-redux": "^5.0.4",
     "react-select": "^1.2.1",
@@ -70,6 +71,7 @@
     "style-loader": "^0.20.2",
     "styled-components": "^2.0.1",
     "uglifyjs-webpack-plugin": "^1.2.2",
+    "uuid": "^3.2.1",
     "webpack": "^2.5.1",
     "webpack-dev-server": "^2.4.5"
   }
