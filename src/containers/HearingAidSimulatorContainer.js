@@ -61,6 +61,7 @@ class HearingAidSimulatorContainer extends Component {
     isEnabled: PropTypes.bool.isRequired,
     onEnabledChange: PropTypes.func.isRequired,
     isLinked: PropTypes.bool.isRequired,
+    isLinkingAvailable: PropTypes.bool.isRequired,
     onLinkedChange: PropTypes.func.isRequired,
     grade: CustomPropTypes.earGrades.isRequired,
     hearingLossGrade: CustomPropTypes.earGrades.isRequired,
@@ -79,6 +80,7 @@ class HearingAidSimulatorContainer extends Component {
       isEnabled,
       onEnabledChange,
       isLinked,
+      isLinkingAvailable,
       onLinkedChange,
       grade,
       hearingLossGrade,
@@ -116,11 +118,13 @@ class HearingAidSimulatorContainer extends Component {
         <H2>Hearing aid simulator</H2>
 
         <Disablable isDisabled={isEnabled === false}>
-          <LinkToggle
-            isChecked={isLinked}
-            onChange={onLinkedChange}
-            label="Link left and right ear"
-          />
+          <Disablable isDisabled={isLinkingAvailable === false}>
+            <LinkToggle
+              isChecked={isLinked}
+              onChange={onLinkedChange}
+              label="Link left and right ear"
+            />
+          </Disablable>
 
           <H3>Set the hearing aid to compensate for a specific loss level</H3>
           <PaneSet numPanes={2}>
@@ -196,6 +200,7 @@ export default connect(
   state => ({
     isEnabled: state.ha.isEnabled,
     isLinked: state.ha.isLinked,
+    isLinkingAvailable: state.hl.isLinked,
     grade: state.ha.grade,
     hearingLossGrade: state.hl.grade,
     isDirectionalityEnabled: state.controls.isDirectionalityEnabled,

@@ -10,7 +10,7 @@ import {
 } from 'src/constants.js'
 import { cast } from 'src/utils.js'
 import { setDirectionalityValue } from 'src/actions/controls.actions.js'
-import { setHaGrade } from 'src/actions/ha.actions.js'
+import { setHaGrade, setHaLinked } from 'src/actions/ha.actions.js'
 import {
   setFrequencySmearingPreset,
   setTemporalDistortionPreset,
@@ -279,6 +279,15 @@ function* mirrorLinkedHearingLossSettings() {
           yield put(setFrequencySmearingPreset(Ear.RIGHT, payload.preset))
         } else if (type === ActionType.SET_HL_TEMPORAL_DISTORTION_PRESET) {
           yield put(setTemporalDistortionPreset(Ear.RIGHT, payload.preset))
+        }
+      } else if (
+        type === ActionType.SET_HL_LINKED &&
+        payload.isLinked === false
+      ) {
+        // Disable linking of HA when linking of HL is turned off
+        const isHearingAidLinked = yield select(state => state.ha.isLinked)
+        if (isHearingAidLinked === true) {
+          yield put(setHaLinked(false))
         }
       }
     }
