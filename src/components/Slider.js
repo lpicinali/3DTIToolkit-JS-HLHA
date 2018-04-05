@@ -15,12 +15,14 @@ const StyledSlider = styled(ReactSlider)`
   position: relative;
   height: 12px;
   padding: 4px 0;
+  cursor: pointer;
 
   ${props =>
     props.disabled &&
     css`
       opacity: 0.5;
       pointer-events: none;
+      cursor: default;
     `};
 `
 
