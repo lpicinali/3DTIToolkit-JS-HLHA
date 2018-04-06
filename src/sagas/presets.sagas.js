@@ -235,7 +235,10 @@ function* resetPresetOnAnyChange() {
     ])
 
     if (action.isPresetEffect !== true) {
-      yield put(setGlobalPreset(GlobalPreset.NONE))
+      const currentPreset = yield select(state => state.presets.preset)
+      if (currentPreset !== GlobalPreset.NONE) {
+        yield put(setGlobalPreset(GlobalPreset.NONE))
+      }
     }
   }
 }
