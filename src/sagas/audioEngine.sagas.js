@@ -44,7 +44,7 @@ import { setEnabled as setHearingLossEnabled } from 'src/audio/hearingLossProces
 function* promptToResolveUnsafeAction() {
   const prompt = {
     text:
-      `You are about to apply Hearing Aid settings that are more aggressive than their Heaing Loss counterparts. This action might result in very loud audio levels, which can cause damage to your hearing, especially if you are wearing headphones.` +
+      `You are about to apply Hearing Aid settings that are more "aggressive" than their Heaing Loss counterparts. This action might result in very loud audio levels, which can cause damage to your hearing, especially if you are wearing headphones.` +
       `\n\n` +
       `We strongly recommend that you always keep Hearing Aid Simulator settings at a lower level or grade than the Hearing Loss Simulator.` +
       `\n\n` +
