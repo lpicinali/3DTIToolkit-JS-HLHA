@@ -35,7 +35,7 @@ class DirectionalityContainer extends PureComponent {
               max={1}
               step={0.05}
               onChange={newValue => onChangeValue(Ear.LEFT, newValue)}
-              minLabel="Omni-directional"
+              minLabel="Omni"
               maxLabel="Directional"
               showValue={false}
             />
@@ -49,7 +49,7 @@ class DirectionalityContainer extends PureComponent {
               max={1}
               step={0.05}
               onChange={newValue => onChangeValue(Ear.RIGHT, newValue)}
-              minLabel="Omni-directional"
+              minLabel="Omni"
               maxLabel="Directional"
               showValue={false}
             />
