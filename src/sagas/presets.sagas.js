@@ -1,4 +1,4 @@
-import { all, put, take } from 'redux-saga/effects'
+import { all, put, select, take } from 'redux-saga/effects'
 
 import {
   ActionType,
