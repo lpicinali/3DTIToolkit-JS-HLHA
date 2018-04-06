@@ -227,6 +227,8 @@ function* applyHearingAidSimulatorEnabled() {
     const isUnsafeEnableHaAction =
       payload.isEnabled === true && hearingLossState.isEnabled === false
 
+    let shouldToggleHearingAid = false
+
     if (isUnsafeEnableHaAction === true) {
       yield call(promptToResolveUnsafeAction)
       const { payload: { status } } = yield take(ActionType.RESOLVE_PROMPT)
@@ -234,10 +236,26 @@ function* applyHearingAidSimulatorEnabled() {
       if (status === PromptStatus.REJECTED) {
         yield put(setHaEnabled(!payload.isEnabled))
       } else {
-        yield call(setHearingAidEnabled, payload.isEnabled)
+        shouldToggleHearingAid = true
       }
     } else {
-      yield call(setHearingAidEnabled, payload.isEnabled)
+      shouldToggleHearingAid = true
+    }
+
+    if (shouldToggleHearingAid === true) {
+      // The NONE presets still applies an audible filtering, so we need
+      // to only enable the toolkit simulator for any of the other settings
+      const haGrades = yield select(state => state.ha.grade)
+      yield call(
+        setHearingAidEnabled,
+        Ear.LEFT,
+        payload.isEnabled && haGrades[Ear.LEFT] !== HearingLossGrade.NONE
+      )
+      yield call(
+        setHearingAidEnabled,
+        Ear.RIGHT,
+        payload.isEnabled && haGrades[Ear.RIGHT] !== HearingLossGrade.NONE
+      )
     }
   }
 }
@@ -252,7 +270,15 @@ function* applySimulatorPresets() {
     if (type === ActionType.SET_HL_GRADE) {
       engine.setHearingLossPreset(payload.ear, payload.grade)
     } else if (type === ActionType.SET_HA_GRADE) {
-      engine.setHearingAidPreset(payload.ear, payload.grade)
+      yield call(engine.setHearingAidPreset, payload.ear, payload.grade)
+
+      // The NONE presets still applies an audible filtering, so we need
+      // to only enable the toolkit simulator for any of the other settings
+      yield call(
+        setHearingAidEnabled,
+        payload.ear,
+        payload.grade !== HearingLossGrade.NONE
+      )
     }
   }
 }

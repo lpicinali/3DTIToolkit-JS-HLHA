@@ -1,10 +1,6 @@
 import { map } from 'lodash'
 
-import {
-  HearingLossGrade,
-  SimulatorType,
-  SonicComponent,
-} from 'src/constants.js'
+import { SimulatorType, SonicComponent } from 'src/constants.js'
 import { fetchAudioBuffer } from 'src/utils.js'
 import { getInstance } from 'src/audio/binauralSpatializer.js'
 import {
@@ -17,7 +13,6 @@ import {
   stopNodes,
 } from 'src/audio/chain.js'
 import {
-  setEnabled as setHearingAidEnabled,
   setGains as setHearingAidGains,
   setNumNoiseBits,
 } from 'src/audio/hearingAidProcessor.js'
@@ -123,8 +118,6 @@ export const setTemporalDistortionPreset = (ear, preset) => {
 
 export const setHearingAidPreset = (ear, presetName) => {
   const gains = presets[SimulatorType.LOSS][presetName]
-
-  setHearingAidEnabled(presetName !== HearingLossGrade.NONE)
   setHearingAidGains(ear, gains)
 }
 

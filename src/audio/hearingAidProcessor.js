@@ -34,15 +34,13 @@ has.Setup(
 )
 
 has.Reset(T_ear.BOTH)
-has.EnableHearingAidSimulation(T_ear.BOTH)
+has.DisableHearingAidSimulation(T_ear.BOTH)
 // has.EnableNormalization(T_ear.BOTH)
 has.DisableQuantizationBeforeEqualizer()
 has.DisableQuantizationAfterEqualizer()
 has.SetQuantizationBits(12)
 has.GetDynamicEqualizer(T_ear.LEFT).EnableLevelsInterpolation()
 has.GetDynamicEqualizer(T_ear.RIGHT).EnableLevelsInterpolation()
-
-let isEnabled = false
 
 let f = 0
 
@@ -56,14 +54,6 @@ outputBuffers.Resize(512, 0)
 const hearingAidProcessor = context.createScriptProcessor(512, 2, 2)
 hearingAidProcessor.onaudioprocess = audioProcessingEvent => {
   const { inputBuffer, outputBuffer } = audioProcessingEvent
-
-  if (isEnabled === false) {
-    for (let i = 0; i < 512; i++) {
-      outputBuffer.getChannelData(0)[i] = inputBuffer.getChannelData(0)[i]
-      outputBuffer.getChannelData(1)[i] = inputBuffer.getChannelData(1)[i]
-    }
-    return
-  }
 
   for (let i = 0; i < inputBuffer.getChannelData(0).length; i++) {
     inputBuffers.Set(T_ear.LEFT, i, inputBuffer.getChannelData(0)[i])
@@ -81,8 +71,14 @@ hearingAidProcessor.onaudioprocess = audioProcessingEvent => {
 }
 
 // Enabled state
-const setEnabled = newIsEnabled => {
-  isEnabled = newIsEnabled
+const setEnabled = (ear, isEnabled) => {
+  const toolkitEar = ear === Ear.LEFT ? T_ear.LEFT : T_ear.RIGHT
+
+  if (isEnabled === true) {
+    has.EnableHearingAidSimulation(toolkitEar)
+  } else {
+    has.DisableHearingAidSimulation(toolkitEar)
+  }
 }
 
 // Set band gains
