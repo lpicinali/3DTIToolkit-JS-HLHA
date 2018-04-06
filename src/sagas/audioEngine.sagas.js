@@ -256,6 +256,16 @@ function* applyHearingAidSimulatorEnabled() {
         Ear.RIGHT,
         payload.isEnabled && haGrades[Ear.RIGHT] !== HearingLossGrade.NONE
       )
+
+      // Toggle directionality accordingly, since this is part of the same
+      // fronted module in the UI
+      const isDirectionalityEnabled = yield select(
+        state => state.controls.isDirectionalityEnabled
+      )
+      yield call(
+        engine.setDirectionalityEnabled,
+        isDirectionalityEnabled && payload.isEnabled
+      )
     }
   }
 }
