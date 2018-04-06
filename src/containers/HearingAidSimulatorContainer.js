@@ -151,7 +151,7 @@ class HearingAidSimulatorContainer extends Component {
             <DirectionalityToggle
               isChecked={isDirectionalityEnabled}
               onChange={onDirectionalityEnabledChange}
-              label={isEnabled ? 'On' : 'Off'}
+              label={isDirectionalityEnabled ? 'On' : 'Off'}
               labelPosition={LabelPosition.BEFORE}
             />
           </DirectionalityHeader>
