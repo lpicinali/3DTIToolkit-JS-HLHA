@@ -15,8 +15,8 @@ const initialState = {
   headRadius: 0.0875,
   isDirectionalityEnabled: true,
   directionalityValue: {
-    [Ear.LEFT]: 0,
-    [Ear.RIGHT]: 0,
+    [Ear.LEFT]: -1,
+    [Ear.RIGHT]: -1,
   },
 }
 

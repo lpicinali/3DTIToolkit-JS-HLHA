@@ -80,8 +80,8 @@ function createInstance() {
     listener.SetListenerTransform(new CTransform())
     listener.EnableDirectionality(T_ear.LEFT)
     listener.EnableDirectionality(T_ear.RIGHT)
-    listener.SetDirectionality_dB(T_ear.LEFT, 15)
-    listener.SetDirectionality_dB(T_ear.RIGHT, 15)
+    listener.SetDirectionality_dB(T_ear.LEFT, 0)
+    listener.SetDirectionality_dB(T_ear.RIGHT, 0)
 
     // Customized ITD is required for the HighPerformance mode to work
     listener.EnableCustomizedITD()
