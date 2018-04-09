@@ -71,13 +71,11 @@ hearingAidProcessor.onaudioprocess = audioProcessingEvent => {
 }
 
 // Enabled state
-const setEnabled = (ear, isEnabled) => {
-  const toolkitEar = ear === Ear.LEFT ? T_ear.LEFT : T_ear.RIGHT
-
+const setEnabled = isEnabled => {
   if (isEnabled === true) {
-    has.EnableHearingAidSimulation(toolkitEar)
+    has.EnableHearingAidSimulation(T_ear.BOTH)
   } else {
-    has.DisableHearingAidSimulation(toolkitEar)
+    has.DisableHearingAidSimulation(T_ear.BOTH)
   }
 }
 

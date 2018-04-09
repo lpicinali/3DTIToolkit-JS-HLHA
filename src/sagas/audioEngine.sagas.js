@@ -229,19 +229,7 @@ function* applyHearingAidSimulatorEnabled() {
     }
 
     if (shouldToggleHearingAid === true) {
-      // The NONE presets still applies an audible filtering, so we need
-      // to only enable the toolkit simulator for any of the other settings
-      const haGrades = yield select(state => state.ha.grade)
-      yield call(
-        setHearingAidEnabled,
-        Ear.LEFT,
-        payload.isEnabled && haGrades[Ear.LEFT] !== HearingLossGrade.NONE
-      )
-      yield call(
-        setHearingAidEnabled,
-        Ear.RIGHT,
-        payload.isEnabled && haGrades[Ear.RIGHT] !== HearingLossGrade.NONE
-      )
+      yield call(setHearingAidEnabled, payload.isEnabled)
 
       // Toggle directionality accordingly, since this is part of the same
       // fronted module in the UI
@@ -267,14 +255,6 @@ function* applySimulatorPresets() {
       engine.setHearingLossPreset(payload.ear, payload.grade)
     } else if (type === ActionType.SET_HA_GRADE) {
       yield call(engine.setHearingAidPreset, payload.ear, payload.grade)
-
-      // The NONE presets still applies an audible filtering, so we need
-      // to only enable the toolkit simulator for any of the other settings
-      yield call(
-        setHearingAidEnabled,
-        payload.ear,
-        payload.grade !== HearingLossGrade.NONE
-      )
     }
   }
 }
