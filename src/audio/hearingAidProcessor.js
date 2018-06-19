@@ -2,7 +2,7 @@ import {
   CHearingAidSim,
   EarPairBuffers,
   FloatVector,
-  ProcessHAS,
+  HearingAidSim_Process,
   T_ear,
 } from '3dti-toolkit'
 
@@ -14,6 +14,14 @@ import {
 } from 'src/constants.js'
 import context from 'src/audio/context.js'
 import presets from 'src/audio/presets.js'
+
+console.log({
+  CHearingAidSim,
+  EarPairBuffers,
+  FloatVector,
+  HearingAidSim_Process,
+  T_ear,
+})
 
 const numBands = presets[SimulatorType.LOSS][HearingLossGrade.NONE].length
 const dBs_SPL_for_0_dBs_fs = 100
@@ -60,7 +68,7 @@ hearingAidProcessor.onaudioprocess = audioProcessingEvent => {
     inputBuffers.Set(T_ear.RIGHT, i, inputBuffer.getChannelData(1)[i])
   }
 
-  ProcessHAS(has, inputBuffers, outputBuffers)
+  HearingAidSim_Process(has, inputBuffers, outputBuffers)
 
   for (let i = 0; i < 512; i++) {
     outputBuffer.getChannelData(0)[i] = outputBuffers.Get(T_ear.LEFT, i)

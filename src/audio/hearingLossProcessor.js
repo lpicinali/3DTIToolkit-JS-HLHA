@@ -2,13 +2,21 @@ import {
   CHearingLossSim,
   EarPairBuffers,
   FloatVector,
-  ProcessHLS,
+  HearingLossSim_Process,
   T_ear,
 } from '3dti-toolkit'
 
 import { Ear, HearingLossGrade, SimulatorType } from 'src/constants.js'
 import context from 'src/audio/context.js'
 import presets from 'src/audio/presets.js'
+
+console.log({
+  CHearingLossSim,
+  EarPairBuffers,
+  FloatVector,
+  HearingLossSim_Process,
+  T_ear,
+})
 
 // Hearing loss simulation instance
 const hls = new CHearingLossSim()
@@ -53,7 +61,7 @@ hearingLossProcessor.onaudioprocess = audioProcessingEvent => {
     inputBuffers.Set(T_ear.RIGHT, i, inputDataR[i])
   }
 
-  ProcessHLS(hls, inputBuffers, outputBuffers)
+  HearingLossSim_Process(hls, inputBuffers, outputBuffers)
 
   if (f % 10 === 0) {
     // console.log(outputBuffers.GetLeft().get(111))

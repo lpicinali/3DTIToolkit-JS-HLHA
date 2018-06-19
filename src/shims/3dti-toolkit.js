@@ -1,4 +1,7 @@
-export default window.Module
+/* global window */
+const toolkit = window.AudioToolkit()
+
+export default toolkit
 
 const {
   BinauralAPI,
@@ -21,9 +24,9 @@ const {
   HRIRVector,
   Logger,
   getLeftEarBuffer,
-  ProcessHLS,
-  ProcessHAS,
-} = window.Module
+  HearingLossSim_Process,
+  HearingAidSim_Process,
+} = toolkit
 
 export {
   BinauralAPI,
@@ -46,6 +49,6 @@ export {
   HRIRVector,
   Logger,
   getLeftEarBuffer,
-  ProcessHLS,
-  ProcessHAS,
+  HearingLossSim_Process,
+  HearingAidSim_Process,
 }
