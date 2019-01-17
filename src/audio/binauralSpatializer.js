@@ -1,5 +1,13 @@
 /* eslint import/prefer-default-export: 0 */
-import {
+import { map } from 'lodash'
+import { fetchHrirsVector } from '@reactify/3dti-toolkit/lib/binaural/hrir.js'
+
+import { Ear } from 'src/constants.js'
+import * as toolkit from 'src/audio/3dti-toolkit.js'
+import context from 'src/audio/context.js'
+import hrirUrls from 'src/audio/hrir-files.js'
+
+const {
   BinauralAPI,
   CMonoBuffer,
   CStereoBuffer,
@@ -8,13 +16,7 @@ import {
   HRTF_CreateFrom3dti,
   T_ear,
   TSpatializationMode,
-} from '3dti-toolkit'
-import { map } from 'lodash'
-
-import { Ear } from 'src/constants.js'
-import context from 'src/audio/context.js'
-import { fetchHrirsVector } from 'src/audio/hrir.js'
-import hrirUrls from 'src/audio/hrir-files.js'
+} = toolkit
 
 const binauralApi = new BinauralAPI()
 
@@ -37,7 +39,7 @@ function setPosition(target, azimuth, distance, elevation) {
 }
 
 function createInstance() {
-  return fetchHrirsVector(hrirUrls, context).then(hrirsVector => {
+  return fetchHrirsVector(hrirUrls, toolkit, context).then(hrirsVector => {
     function setSourcePosition(azimuth, distance, elevation) {
       setPosition(source, azimuth, distance, elevation)
     }
@@ -86,7 +88,7 @@ function createInstance() {
       }
     }
 
-    listener = binauralApi.CreateListener(hrirsVector, 0.0875)
+    listener = binauralApi.CreateListenerWithHRIRs(hrirsVector, 0.0875)
     listener.SetListenerTransform(new CTransform())
     listener.EnableDirectionality(T_ear.LEFT)
     listener.EnableDirectionality(T_ear.RIGHT)

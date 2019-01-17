@@ -1,8 +1,8 @@
 import { call, take } from 'redux-saga/effects'
 import got from 'got'
-import toolkit from '3dti-toolkit'
 
 import { ActionType } from 'src/constants.js'
+import { toolkit } from 'src/audio/3dti-toolkit.js'
 import { getInstance as getBinauralSpatializer } from 'src/audio/binauralSpatializer.js'
 
 export default function* hrtfSagas() {

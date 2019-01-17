@@ -1,27 +1,18 @@
 import {
-  CHearingAidSim,
-  EarPairBuffers,
-  FloatVector,
-  HearingAidSim_Process,
-  T_ear,
-} from '3dti-toolkit'
-
-import {
   Ear,
   HearingLossGrade,
   QuantisationStep,
   SimulatorType,
 } from 'src/constants.js'
-import context from 'src/audio/context.js'
-import presets from 'src/audio/presets.js'
-
-console.log({
+import {
   CHearingAidSim,
   EarPairBuffers,
   FloatVector,
   HearingAidSim_Process,
   T_ear,
-})
+} from 'src/audio/3dti-toolkit.js'
+import context from 'src/audio/context.js'
+import presets from 'src/audio/presets.js'
 
 const numBands = presets[SimulatorType.LOSS][HearingLossGrade.NONE].length
 const dBs_SPL_for_0_dBs_fs = 100

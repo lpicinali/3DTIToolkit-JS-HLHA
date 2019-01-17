@@ -1,7 +1,8 @@
-/* global window */
-const toolkit = window.AudioToolkit()
+import AudioToolkit from '@reactify/3dti-toolkit'
 
-export default toolkit
+export default AudioToolkit
+
+export const toolkit = AudioToolkit()
 
 const {
   BinauralAPI,

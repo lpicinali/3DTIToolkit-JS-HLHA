@@ -1,14 +1,9 @@
-/* global window */
-import toolkit from '3dti-toolkit'
-
 import { Ear } from 'src/constants.js'
 // import { analysersInput, getAnalyserData } from 'src/audio/analysers.js'
 import context from 'src/audio/context.js'
 import { getInstance as getBinauralSpatializer } from 'src/audio/binauralSpatializer.js'
 import hearingAidProcessor from 'src/audio/hearingAidProcessor.js'
 import hearingLossProcessor from 'src/audio/hearingLossProcessor.js'
-
-window.toolkit = toolkit || { nope: false }
 
 let targetNode = null
 const targetInput = context.createGain()

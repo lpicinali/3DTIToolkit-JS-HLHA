@@ -1,22 +1,13 @@
+import { Ear, HearingLossGrade, SimulatorType } from 'src/constants.js'
 import {
   CHearingLossSim,
   EarPairBuffers,
   FloatVector,
   HearingLossSim_Process,
   T_ear,
-} from '3dti-toolkit'
-
-import { Ear, HearingLossGrade, SimulatorType } from 'src/constants.js'
+} from 'src/audio/3dti-toolkit.js'
 import context from 'src/audio/context.js'
 import presets from 'src/audio/presets.js'
-
-console.log({
-  CHearingLossSim,
-  EarPairBuffers,
-  FloatVector,
-  HearingLossSim_Process,
-  T_ear,
-})
 
 // Hearing loss simulation instance
 const hls = new CHearingLossSim()
