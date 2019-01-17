@@ -1,11 +1,17 @@
-import { call, take } from 'redux-saga/effects'
+import { call, fork, put, take } from 'redux-saga/effects'
 import got from 'got'
 
 import { ActionType } from 'src/constants.js'
+import { setHrtf } from 'src/actions/hrtf.actions.js'
 import { toolkit } from 'src/audio/3dti-toolkit.js'
 import { getInstance as getBinauralSpatializer } from 'src/audio/binauralSpatializer.js'
 
-export default function* hrtfSagas() {
+function* initialiseDefaultHrtf() {
+  yield call(getBinauralSpatializer)
+  yield put(setHrtf('3DTI_HRTF_IRC1053_512s_44100Hz.3dti-hrtf'))
+}
+
+function* doSetHrtfs() {
   while (true) {
     const { payload: { hrtfFilename } } = yield take(ActionType.SET_HRTF)
 
@@ -41,4 +47,9 @@ export default function* hrtfSagas() {
       console.log(err)
     }
   }
+}
+
+export default function* hrtfSagas() {
+  yield fork(initialiseDefaultHrtf)
+  yield fork(doSetHrtfs)
 }
