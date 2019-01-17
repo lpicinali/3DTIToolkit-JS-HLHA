@@ -4,6 +4,7 @@ import alertsReducer from 'src/reducers/alerts.reducer.js'
 import controlsReducer from 'src/reducers/controls.reducer.js'
 import haReducer from 'src/reducers/ha.reducer.js'
 import hlReducer from 'src/reducers/hl.reducer.js'
+import hrtfReducer from 'src/reducers/hrtf.reducer.js'
 import maskingReducer from 'src/reducers/masking.reducer.js'
 import presetsReducer from 'src/reducers/presets.reducer.js'
 import prompterReducer from 'src/reducers/prompter.reducer.js'
@@ -14,6 +15,7 @@ export default combineReducers({
   controls: controlsReducer,
   ha: haReducer,
   hl: hlReducer,
+  hrtf: hrtfReducer,
   masking: maskingReducer,
   presets: presetsReducer,
   prompter: prompterReducer,

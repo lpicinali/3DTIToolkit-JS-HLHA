@@ -11,6 +11,7 @@ import Disclaimer from 'src/containers/Disclaimer.js'
 import GlobalPresetSelector from 'src/containers/GlobalPresetSelector.js'
 import HearingAidSimulatorContainer from 'src/containers/HearingAidSimulatorContainer.js'
 import HearingLossSimulatorContainer from 'src/containers/HearingLossSimulatorContainer.js'
+import HrtfSelector from 'src/containers/HrtfSelector.js'
 import MaskingSelectorContainer from 'src/containers/MaskingSelectorContainer.js'
 import PlaybackControlsContainer from 'src/containers/PlaybackControlsContainer.js'
 import PositionControllerContainer from 'src/containers/PositionControllerContainer.js'
@@ -79,6 +80,9 @@ class App extends PureComponent {
                 <PlaybackControlsContainer />
               </ControlsAreaPlaybackComponent>
 
+              <ControlsAreaComponent>
+                <HrtfSelector />
+              </ControlsAreaComponent>
               <ControlsAreaComponent>
                 <GlobalPresetSelector />
               </ControlsAreaComponent>

@@ -5,6 +5,7 @@ import {
   CStereoBuffer,
   CTransform,
   CVector3,
+  HRTF_CreateFrom3dti,
   T_ear,
   TSpatializationMode,
 } from '3dti-toolkit'
@@ -73,6 +74,15 @@ function createInstance() {
         listener.SetDirectionality_dB(T_ear.LEFT, attenuation)
       } else if (ear === Ear.RIGHT) {
         listener.SetDirectionality_dB(T_ear.RIGHT, attenuation)
+      }
+    }
+
+    function setHrtf(virtualHrtfFilePath) {
+      try {
+        const success = HRTF_CreateFrom3dti(virtualHrtfFilePath, listener)
+        return success
+      } catch (err) {
+        return false
       }
     }
 
@@ -168,6 +178,7 @@ function createInstance() {
       setHeadRadius,
       setDirectionalityEnabled,
       setDirectionalityAttenuation,
+      setHrtf,
     }
   })
 }

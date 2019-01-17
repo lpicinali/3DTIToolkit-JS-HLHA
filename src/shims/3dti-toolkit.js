@@ -26,6 +26,7 @@ const {
   getLeftEarBuffer,
   HearingLossSim_Process,
   HearingAidSim_Process,
+  HRTF_CreateFrom3dti,
 } = toolkit
 
 export {
@@ -51,4 +52,5 @@ export {
   getLeftEarBuffer,
   HearingLossSim_Process,
   HearingAidSim_Process,
+  HRTF_CreateFrom3dti,
 }
