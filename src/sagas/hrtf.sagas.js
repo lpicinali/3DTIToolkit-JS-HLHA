@@ -11,7 +11,7 @@ import { getInstance as getBinauralSpatializer } from 'src/audio/binauralSpatial
 
 function* initialiseDefaultHrtf() {
   yield call(getBinauralSpatializer)
-  yield put(setHrtf('3DTI_HRTF_IRC1053_512s_44100Hz.3dti-hrtf'))
+  yield put(setHrtf('3DTI_HRTF_IRC1053_256s_44100Hz.3dti-hrtf'))
 }
 
 function* doSetHrtfs() {
