@@ -15,7 +15,7 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        exclude: /node_modules/,
+        exclude: [/node_modules/, /3dti_AudioToolkit_JavaScript/],
       },
       {
         test: /\.s?css$/,
