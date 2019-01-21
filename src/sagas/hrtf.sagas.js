@@ -1,5 +1,8 @@
 import { call, fork, put, take } from 'redux-saga/effects'
-import got from 'got'
+import {
+  fetchHrtfFile,
+  registerHrtf,
+} from '@reactify/3dti-toolkit/lib/binaural/hrtf.js'
 
 import { ActionType } from 'src/constants.js'
 import { setHrtf } from 'src/actions/hrtf.actions.js'
@@ -15,32 +18,16 @@ function* doSetHrtfs() {
   while (true) {
     const { payload: { hrtfFilename } } = yield take(ActionType.SET_HRTF)
 
-    const hrtfFileUrl = `/assets/hrtf/${hrtfFilename}`
-    const hrtfResponse = yield call(got, hrtfFileUrl, { encoding: null })
-    const hrtfBuffer = hrtfResponse.body
-
-    const virtualHrtfFilePath = `/${hrtfFilename}`
-
     try {
-      yield call(
-        toolkit.FS_createDataFile,
-        '/',
+      const hrtfData = yield call(fetchHrtfFile, `/assets/hrtf/${hrtfFilename}`)
+      const virtualHrtfFilePath = yield call(
+        registerHrtf,
+        toolkit,
         hrtfFilename,
-        hrtfBuffer,
-        true,
-        true,
-        true
+        hrtfData
       )
-    } catch (err) {
-      if (err.code !== 'EEXIST') {
-        console.log('Could not mount virtual HRTF file:')
-        console.error(err)
-      }
-    }
 
-    const binauralApi = yield call(getBinauralSpatializer)
-
-    try {
+      const binauralApi = yield call(getBinauralSpatializer)
       yield call(binauralApi.setHrtf, virtualHrtfFilePath)
     } catch (err) {
       console.log('Could not set HRTF:')
