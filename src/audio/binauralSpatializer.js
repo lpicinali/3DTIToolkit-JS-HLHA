@@ -2,7 +2,7 @@
 import { map } from 'lodash'
 
 import { Ear } from 'src/constants.js'
-import * as toolkit from 'src/audio/3dti-toolkit.js'
+import { toolkit } from 'src/audio/3dti-toolkit.js'
 import context from 'src/audio/context.js'
 
 const {
