@@ -5,6 +5,11 @@ export const setDisclaimerRead = isRead => ({
   payload: { isRead },
 })
 
+export const setHrtfInfoDismissed = isDismissed => ({
+  type: ActionType.SET_HRTF_INFO_DISMISSED,
+  payload: { isDismissed },
+})
+
 export const setPresetInfoDismissed = isDismissed => ({
   type: ActionType.SET_PRESET_INFO_DISMISSED,
   payload: { isDismissed },
