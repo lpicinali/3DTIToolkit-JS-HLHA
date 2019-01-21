@@ -4,10 +4,11 @@ import { connect } from 'react-redux'
 import styled from 'styled-components'
 
 import { setHrtf } from 'src/actions/hrtf.actions.js'
+import hrtfFiles from 'src/audio/hrtf-files.js'
 import Select from 'src/components/Select.js'
 
 const WideSelect = styled(Select)`
-  min-width: 320px;
+  min-width: 200px;
 `
 
 const HrtfSelectorContainer = styled.div``
@@ -28,20 +29,10 @@ class HrtfSelector extends PureComponent {
   render() {
     const { hrtfFilename, onSelect } = this.props
 
-    const options = [
-      {
-        label: '3DTI_HRTF_IRC1008_128s_44100Hz.3dti-hrtf',
-        value: '3DTI_HRTF_IRC1008_128s_44100Hz.3dti-hrtf',
-      },
-      {
-        label: '3DTI_HRTF_IRC1031_256s_44100Hz.3dti-hrtf',
-        value: '3DTI_HRTF_IRC1031_256s_44100Hz.3dti-hrtf',
-      },
-      {
-        label: '3DTI_HRTF_IRC1053_512s_44100Hz.3dti-hrtf',
-        value: '3DTI_HRTF_IRC1053_512s_44100Hz.3dti-hrtf',
-      },
-    ]
+    const options = hrtfFiles.map(hrtfFile => ({
+      value: hrtfFile.filename,
+      label: hrtfFile.label,
+    }))
 
     return (
       <HrtfSelectorContainer>
