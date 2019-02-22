@@ -58,6 +58,12 @@ getBinauralSpatializer().then(spatializer => {
   volume.connect(context.destination)
 })
 
+export const getMasterVolume = () => volume.gain.value
+
+export const setMasterVolume = newVolume => {
+  volume.gain.value = newVolume
+}
+
 export const createNode = audioBuffer => {
   const node = context.createBufferSource()
   node.buffer = audioBuffer

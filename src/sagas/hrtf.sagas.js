@@ -8,6 +8,7 @@ import { ActionType } from 'src/constants.js'
 import { setHrtf } from 'src/actions/hrtf.actions.js'
 import { toolkit } from 'src/audio/3dti-toolkit.js'
 import { getInstance as getBinauralSpatializer } from 'src/audio/binauralSpatializer.js'
+import { getMasterVolume, setMasterVolume } from 'src/audio/chain.js'
 
 function* initialiseDefaultHrtf() {
   yield call(getBinauralSpatializer)
@@ -16,7 +17,12 @@ function* initialiseDefaultHrtf() {
 
 function* doSetHrtfs() {
   while (true) {
-    const { payload: { hrtfFilename } } = yield take(ActionType.SET_HRTF)
+    const {
+      payload: { hrtfFilename },
+    } = yield take(ActionType.SET_HRTF)
+
+    const masterVolume = yield call(getMasterVolume)
+    yield call(setMasterVolume, 0)
 
     try {
       const hrtfData = yield call(fetchHrtfFile, `/assets/hrtf/${hrtfFilename}`)
@@ -33,6 +39,8 @@ function* doSetHrtfs() {
       console.log('Could not set HRTF:')
       console.log(err)
     }
+
+    yield call(setMasterVolume, masterVolume)
   }
 }
 
