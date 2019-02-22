@@ -34,3 +34,7 @@ export function roundPadded(number, precision = 0) {
   const str = String(rounded)
   return /\./.test(str) === true ? str : `${str}.${'0'.repeat(precision)}`
 }
+
+export function wait(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}

@@ -31,6 +31,10 @@ class ContainerDimensionsWithScrollUpdates extends Component {
   componentDidMount() {
     const { scrollTarget } = this.props
 
+    // This functionality is dependant on a scroll being triggered
+    // whenever elements above or to the left of it are removed.
+    //
+    // See alerts.sagas.js
     scrollTarget.addEventListener('scroll', () => {
       this.setState(
         {
