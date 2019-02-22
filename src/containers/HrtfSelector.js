@@ -114,7 +114,11 @@ class HrtfSelector extends PureComponent {
 
             <TooltipBox>
               <HrtfTooltipHeading>Using HRTFs</HrtfTooltipHeading>
-              <P>Here you choose different HRTFs.</P>
+              <P>
+                Here you choose between different head-related transfer
+                functions, or HRTFs. An HRTF determines how an ear receives a
+                sound from a certain point in space.
+              </P>
               <Button onClick={onDismissTooltip}>Got it</Button>
             </TooltipBox>
           </HrtfTooltip>
