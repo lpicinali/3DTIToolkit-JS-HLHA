@@ -25,7 +25,7 @@ const HrtfSelectorContainer = styled.div`
 `
 
 const WideSelect = styled(Select)`
-  min-width: 200px;
+  min-width: 100px;
 `
 
 const HrtfTooltipBackdrop = styled.div`
