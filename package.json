@@ -30,7 +30,7 @@
     "prettier": "^1.6.1"
   },
   "dependencies": {
-    "@reactify/3dti-toolkit": "^0.7.1",
+    "@reactify/3dti-toolkit": "^0.7.3",
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.3",
     "babel-loader": "^7.0.0",
