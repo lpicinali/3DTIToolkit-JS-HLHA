@@ -3,7 +3,7 @@ const express = require('express')
 const logger = require('morgan')
 
 const app = express()
-const port = process.env.PORT || 8261
+const port = process.env.PORT || 8262
 
 app.use(logger('common'))
 app.use(express.static('public'))
