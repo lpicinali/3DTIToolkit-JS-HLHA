@@ -22,7 +22,6 @@ function* doSetHrtfs() {
     } = yield take(ActionType.SET_HRTF)
 
     const masterVolume = yield call(getMasterVolume)
-    yield call(setMasterVolume, 0)
 
     try {
       const hrtfData = yield call(fetchHrtfFile, `/assets/hrtf/${hrtfFilename}`)
@@ -32,6 +31,9 @@ function* doSetHrtfs() {
         hrtfFilename,
         hrtfData
       )
+      console.log({ virtualHrtfFilePath, hrtfData })
+
+      yield call(setMasterVolume, 0)
 
       const binauralApi = yield call(getBinauralSpatializer)
       yield call(binauralApi.setHrtf, virtualHrtfFilePath)
