@@ -133,10 +133,6 @@ class SettingsInfoToggle extends PureComponent {
                 <SettingName>Resampling step</SettingName>
                 <SettingValue>{'5°'}</SettingValue>
               </SettingRow>
-              <SettingRow>
-                <SettingName>HRTF</SettingName>
-                <SettingValue>IRC_1032_C_R0195</SettingValue>
-              </SettingRow>
             </TooltipBox>
           </SettingsTooltip>
         </TooltipAnimation>
