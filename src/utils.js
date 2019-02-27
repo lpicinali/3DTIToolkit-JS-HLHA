@@ -25,7 +25,8 @@ export function cast(val, fromLower, fromUpper, toLower, toUpper) {
   }
 
   return (
-    (val - fromLower) * (toUpper - toLower) / (fromUpper - fromLower) + toLower
+    ((val - fromLower) * (toUpper - toLower)) / (fromUpper - fromLower) +
+    toLower
   )
 }
 

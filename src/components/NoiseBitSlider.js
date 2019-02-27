@@ -4,7 +4,9 @@ import styled from 'styled-components'
 
 import Slider from 'src/components/Slider.js'
 
-const NoiseBitSliderWrap = styled.div`display: flex;`
+const NoiseBitSliderWrap = styled.div`
+  display: flex;
+`
 
 /**
  * Noise Bit Slider

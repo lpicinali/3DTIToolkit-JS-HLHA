@@ -61,7 +61,9 @@ function* promptToResolveUnsafeAction() {
 
 function* applyPlayPause() {
   while (true) {
-    const { payload: { state } } = yield take(ActionType.SET_PLAYBACK_STATE)
+    const {
+      payload: { state },
+    } = yield take(ActionType.SET_PLAYBACK_STATE)
 
     if (state === PlaybackState.PLAYING) {
       engine.play()
@@ -192,7 +194,9 @@ function* applyHearingLossSimulatorEnabled() {
 
     if (isUnsafeDisableHlAction === true) {
       yield call(promptToResolveUnsafeAction)
-      const { payload: { status } } = yield take(ActionType.RESOLVE_PROMPT)
+      const {
+        payload: { status },
+      } = yield take(ActionType.RESOLVE_PROMPT)
 
       if (status === PromptStatus.REJECTED) {
         yield put(setHlEnabled(!payload.isEnabled))
@@ -217,7 +221,9 @@ function* applyHearingAidSimulatorEnabled() {
 
     if (isUnsafeEnableHaAction === true) {
       yield call(promptToResolveUnsafeAction)
-      const { payload: { status } } = yield take(ActionType.RESOLVE_PROMPT)
+      const {
+        payload: { status },
+      } = yield take(ActionType.RESOLVE_PROMPT)
 
       if (status === PromptStatus.REJECTED) {
         yield put(setHaEnabled(!payload.isEnabled))
@@ -275,9 +281,9 @@ function* applyTargetPosition() {
 
 function* applyTargetElevation() {
   while (true) {
-    const { payload: { elevation } } = yield take(
-      ActionType.SET_TARGET_ELEVATION
-    )
+    const {
+      payload: { elevation },
+    } = yield take(ActionType.SET_TARGET_ELEVATION)
     const { azimuth, distance } = yield select(
       state => state.controls.targetPosition
     )
@@ -292,18 +298,18 @@ function* applyTargetElevation() {
 
 function* applyFrequencySmearingPresets() {
   while (true) {
-    const { payload: { ear, preset } } = yield take(
-      ActionType.SET_HL_FREQUENCY_SMEARING_PRESET
-    )
+    const {
+      payload: { ear, preset },
+    } = yield take(ActionType.SET_HL_FREQUENCY_SMEARING_PRESET)
     yield call(engine.setFrequencySmearingPreset, ear, preset)
   }
 }
 
 function* applyTemporalDistortionPresets() {
   while (true) {
-    const { payload: { ear, preset } } = yield take(
-      ActionType.SET_HL_TEMPORAL_DISTORTION_PRESET
-    )
+    const {
+      payload: { ear, preset },
+    } = yield take(ActionType.SET_HL_TEMPORAL_DISTORTION_PRESET)
     yield call(engine.setTemporalDistortionPreset, ear, preset)
   }
 }
@@ -363,18 +369,18 @@ function* mirrorLinkedHearingLossSettings() {
 
 function* applyQuantisationStepEnabled() {
   while (true) {
-    const { payload: { step, isEnabled } } = yield take(
-      ActionType.SET_QUANTISATION_STEP_ENABLED
-    )
+    const {
+      payload: { step, isEnabled },
+    } = yield take(ActionType.SET_QUANTISATION_STEP_ENABLED)
     yield call(setQuantisationStepEnabled, step, isEnabled)
   }
 }
 
 function* applyAidNoiseBits() {
   while (true) {
-    const { payload: { numBits } } = yield take(
-      ActionType.SET_HA_NUM_NOISE_BITS
-    )
+    const {
+      payload: { numBits },
+    } = yield take(ActionType.SET_HA_NUM_NOISE_BITS)
 
     yield call(engine.setHearingAidNumNoiseBits, numBits)
   }
@@ -419,7 +425,10 @@ function* mirrorLinkedHearingAidSettings() {
 function* makeAidFollowLoss() {
   while (true) {
     const action = yield take(ActionType.SET_HL_GRADE)
-    const { payload: { ear, grade }, isPresetEffect } = action
+    const {
+      payload: { ear, grade },
+      isPresetEffect,
+    } = action
 
     if (isPresetEffect !== true) {
       const allGrades = values(HearingLossGrade)

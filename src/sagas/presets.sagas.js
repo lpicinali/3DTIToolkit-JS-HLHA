@@ -29,7 +29,9 @@ function markAsPresetEffect(action) {
 
 function* applyPresets() {
   while (true) {
-    const { payload: { preset } } = yield take(ActionType.SET_GLOBAL_PRESET)
+    const {
+      payload: { preset },
+    } = yield take(ActionType.SET_GLOBAL_PRESET)
 
     if (preset === GlobalPreset.MILD_HEARING_LOSS) {
       yield put(markAsPresetEffect(setHlEnabled(true)))

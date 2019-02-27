@@ -68,8 +68,9 @@ class SiteHeader extends PureComponent {
               Tune-In Toolkit is available open-source{' '}
               <A href="https://github.com/3DTune-In/3dti_AudioToolkit">
                 on GitHub
-              </A>. A more complete set of test applications and interfaces for
-              Mac and PC can be downloaded here. For more information about the
+              </A>
+              . A more complete set of test applications and interfaces for Mac
+              and PC can be downloaded here. For more information about the
               project, visit{' '}
               <A href="http://3d-tune-in.eu">http://3d-tune-in.eu</A>.
             </Prologue>

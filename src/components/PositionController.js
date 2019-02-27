@@ -35,28 +35,28 @@ const DistanceCircle = styled.div`
   border: 1px solid ${transparentize(0.85, GRAY)};
 
   &:nth-child(1) {
-    width: ${100 * Math.sqrt(5) / Math.sqrt(30)}%;
-    height: ${100 * Math.sqrt(5) / Math.sqrt(30)}%;
+    width: ${(100 * Math.sqrt(5)) / Math.sqrt(30)}%;
+    height: ${(100 * Math.sqrt(5)) / Math.sqrt(30)}%;
   }
 
   &:nth-child(2) {
-    width: ${100 * Math.sqrt(10) / Math.sqrt(30)}%;
-    height: ${100 * Math.sqrt(10) / Math.sqrt(30)}%;
+    width: ${(100 * Math.sqrt(10)) / Math.sqrt(30)}%;
+    height: ${(100 * Math.sqrt(10)) / Math.sqrt(30)}%;
   }
 
   &:nth-child(3) {
-    width: ${100 * Math.sqrt(15) / Math.sqrt(30)}%;
-    height: ${100 * Math.sqrt(15) / Math.sqrt(30)}%;
+    width: ${(100 * Math.sqrt(15)) / Math.sqrt(30)}%;
+    height: ${(100 * Math.sqrt(15)) / Math.sqrt(30)}%;
   }
 
   &:nth-child(4) {
-    width: ${100 * Math.sqrt(20) / Math.sqrt(30)}%;
-    height: ${100 * Math.sqrt(20) / Math.sqrt(30)}%;
+    width: ${(100 * Math.sqrt(20)) / Math.sqrt(30)}%;
+    height: ${(100 * Math.sqrt(20)) / Math.sqrt(30)}%;
   }
 
   &:nth-child(5) {
-    width: ${100 * Math.sqrt(25) / Math.sqrt(30)}%;
-    height: ${100 * Math.sqrt(25) / Math.sqrt(30)}%;
+    width: ${(100 * Math.sqrt(25)) / Math.sqrt(30)}%;
+    height: ${(100 * Math.sqrt(25)) / Math.sqrt(30)}%;
   }
 `
 
@@ -194,7 +194,8 @@ class PositionController extends Component {
         <DistanceCircle />
 
         <HeadCircle
-          size={`calc(${100 * (headRadius / 0.5) * (size / 12) / size}% + 6px)`}
+          size={`calc(${(100 * (headRadius / 0.5) * (size / 12)) /
+            size}% + 6px)`}
         />
 
         {objects.map(object => (
@@ -203,13 +204,11 @@ class PositionController extends Component {
             style={{
               top: `${50 -
                 50 *
-                  (Math.sin(object.azimuth) *
-                    Math.sqrt(object.distance) /
+                  ((Math.sin(object.azimuth) * Math.sqrt(object.distance)) /
                     Math.sqrt(size))}%`,
               left: `${50 +
                 50 *
-                  (Math.cos(object.azimuth) *
-                    Math.sqrt(object.distance) /
+                  ((Math.cos(object.azimuth) * Math.sqrt(object.distance)) /
                     Math.sqrt(size))}%`,
             }}
             onMouseDown={() => this.handlePress(object.id)}

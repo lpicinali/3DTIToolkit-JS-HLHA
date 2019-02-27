@@ -55,6 +55,9 @@ class Disclaimer extends PureComponent {
   }
 }
 
-export default connect(null, dispatch => ({
-  onClose: () => dispatch(setDisclaimerRead(true)),
-}))(Disclaimer)
+export default connect(
+  null,
+  dispatch => ({
+    onClose: () => dispatch(setDisclaimerRead(true)),
+  })
+)(Disclaimer)
