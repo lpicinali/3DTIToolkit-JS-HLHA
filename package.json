@@ -8,7 +8,7 @@
   },
   "main": "src/index.js",
   "scripts": {
-    "format": "prettier --single-quote --trailing-comma es5 --no-semi --write 'src/**/*.js'",
+    "format": "prettier --write 'src/**/*.js'",
     "lint": "eslint src",
     "dev": "webpack-dev-server --inline --progress --config webpack.config.dev.js",
     "heroku-postbuild": "webpack --verbose",
