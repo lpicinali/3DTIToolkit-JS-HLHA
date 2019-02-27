@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 
-import { BLACK, GRAY, TURQUOISE } from 'src/styles/colors.js'
+import { BLACK, DARK_GRAY, GRAY, TURQUOISE } from 'src/styles/colors.js'
 import { A } from 'src/styles/elements.js'
 import { GutteredElement } from 'src/styles/grid.js'
 import { MAX_WIDTH } from 'src/styles/layout.js'
@@ -25,7 +25,7 @@ const HeaderContent = styled.div`
 `
 
 const HeadingArea = styled(GutteredElement)`
-  width: 66.6667%;
+  width: 50%;
 `
 
 const Heading = styled.h1`
@@ -36,20 +36,20 @@ const Heading = styled.h1`
 `
 
 const SubHeading = styled.div`
-  color: ${GRAY};
+  color: ${DARK_GRAY};
   font-size: 14px;
-  line-height: 20px;
-`
-
-const Prologue = styled.p`
-  margin: 16px 0;
-  font-size: 14px;
-  line-height: 20px;
+  line-height: 24px;
 `
 
 const HeaderSideArea = styled(GutteredElement)`
-  width: 33.3333%;
-  margin-top: 64px;
+  width: 50%;
+`
+
+const Prologue = styled.p`
+  margin: 0 0 16px;
+  color: ${DARK_GRAY};
+  font-size: 12px;
+  line-height: 16px;
 `
 
 class SiteHeader extends PureComponent {
@@ -62,7 +62,9 @@ class SiteHeader extends PureComponent {
               Binaural Spatialisation, Hearing Loss & Hearing Aid
             </Heading>
             <SubHeading>from 3D Tune-In</SubHeading>
+          </HeadingArea>
 
+          <HeaderSideArea>
             <Prologue>
               This is a web-based interface for the 3D Tune-In Toolkit. The 3D
               Tune-In Toolkit is available open-source{' '}
@@ -74,9 +76,7 @@ class SiteHeader extends PureComponent {
               project, visit{' '}
               <A href="http://3d-tune-in.eu">http://3d-tune-in.eu</A>.
             </Prologue>
-          </HeadingArea>
-
-          <HeaderSideArea />
+          </HeaderSideArea>
         </HeaderContent>
       </Header>
     )
