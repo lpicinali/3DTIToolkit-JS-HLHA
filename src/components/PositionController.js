@@ -15,6 +15,8 @@ import {
   WHITE_SMOKE,
 } from 'src/styles/colors.js'
 
+const MIN_DISTANCE = 0.1
+
 const StyledPositionController = styled.div`
   position: relative;
   width: ${props => props.width}px;
@@ -153,7 +155,7 @@ class PositionController extends Component {
       const azimuth = Math.atan(-newZ / newX) + (newX < 0 ? Math.PI : 0)
 
       const expDistance = Math.sqrt(size) * Math.sqrt(newX ** 2 + newZ ** 2)
-      const distance = clamp(expDistance ** 2, 0.3, size)
+      const distance = clamp(expDistance ** 2, MIN_DISTANCE, size)
 
       const newPos = { azimuth, distance }
 
