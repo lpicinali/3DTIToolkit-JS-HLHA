@@ -65,7 +65,7 @@ class SiteFooter extends PureComponent {
           </EuDisclaimer>
 
           <CopyrightStatement>
-            Copyright Imperal College London 2017-2018
+            Copyright Imperal College London 2017-{new Date().getFullYear()}
           </CopyrightStatement>
         </FooterContent>
       </FooterWrapper>
