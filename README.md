@@ -1,3 +1,3 @@
 # Hearing Loss & Hearing Aid demo
 
-This application is currently hosted on HEROKU - online-toolkit.3d-tune-in.eu/ 
+This application is currently hosted on HEROKU -  [online-toolkit.3d-tune-in.eu/](online-toolkit.3d-tune-in.eu/)
